@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import {
   Mail,
   Phone,
@@ -13,35 +12,16 @@ import {
   Instagram,
 } from "lucide-react";
 import { useLocale } from "next-intl";
-
+import logo from "@/app/assets/logo.png";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-    const locale = useLocale();
+  const locale = useLocale();
 
   const quickLinks = [
     { href: "/", label: "Home" },
     { href: "/products", label: "Products" },
     { href: "/contact", label: "Contact" },
-  ];
-
-  const productCategories = [
-    {
-      href: "/products?category=laser-cutting",
-      label: locale === "en" ? "Laser Cutting" : "القطع بالليزر",
-    },
-    {
-      href: "/products?category=plasma-cutting",
-      label: locale === "en" ? "Plasma Cutting" : "القطع بالبلازما",
-    },
-    {
-      href: "/products?category=waterjet-cutting",
-      label: locale === "en" ? "Waterjet Cutting" : "القطع بالماء",
-    },
-    {
-      href: "/products?category=cnc-machines",
-      label: locale === "en" ? "CNC Machines" : "آلات CNC",
-    },
   ];
 
   const contactInfo = [
@@ -72,57 +52,42 @@ export function Footer() {
     { icon: Instagram, href: "#", label: "Instagram" },
   ];
 
+  const brandDescription =
+    locale === "en"
+      ? "Three Cuts delivers high-quality products with consistent standards, safe handling, and responsive service across KSA. We partner with businesses to ensure freshness, reliability, and on-time fulfillment."
+      : "توفر Three Cuts منتجات عالية الجودة بمعايير ثابتة وسلامة عالية وخدمة سريعة في جميع أنحاء المملكة. نعمل مع شركائنا لضمان الجودة والالتزام بالمواعيد.";
+
   return (
     <footer className="bg-gradient-to-br from-brand-secondary via-brand-neutral-dark to-brand-secondary text-white">
-      {/* Main Footer Content */}
-      <div className="container mx-auto px-4 lg:px-6 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Company Info */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-6 group">
-              <div className="relative w-12 h-12 transition-transform group-hover:scale-105">
-                <Image
-                  src="/images/logo.png"
-                  alt="Three Cuts Logo"
-                  fill
-                  className="object-contain brightness-0 invert"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold font-display">
-                  Three Cuts
-                </span>
-                <span className="text-sm text-white/70">
-                  {locale === "en" ? "Cutting Systems" : "أنظمة القطع"}
-                </span>
-              </div>
-            </Link>
-            <p className="text-white/80 text-sm leading-relaxed mb-6">
-              description
-            </p>
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <Button
-                  key={social.label}
-                  variant="ghost"
-                  size="sm"
-                  asChild
-                  className="w-10 h-10 p-0 hover:bg-white/10 hover:text-brand-accent-light transition-colors"
-                >
-                  <Link href={social.href} aria-label={social.label}>
-                    <social.icon className="h-4 w-4" />
-                  </Link>
-                </Button>
-              ))}
+      {/* Top Brand Block (centered) */}
+      <div className="container mx-auto px-4 lg:px-6 pt-12 lg:pt-16">
+        <div className="flex flex-col items-center text-center">
+          <Link href="/" className="block w-full max-w-[240px]">
+            <div className="relative h-24">
+              <Image
+                src={logo}
+                alt="Three Cuts Logo"
+                fill
+                className="object-contain brightness-0 invert transition-transform duration-300 hover:scale-105"
+              />
             </div>
-          </div>
+          </Link>
 
-          {/* Quick Links */}
-          <div>
+          <p className="text-white/80 text-sm leading-relaxed max-w-3xl">
+            {brandDescription}
+          </p>
+        </div>
+      </div>
+
+      {/* Middle Content: Links & Contact with divider */}
+      <div className="container mx-auto px-4 lg:px-6 pb-12 lg:pb-10 mt-10">
+        <div className="flex flex-col items-center sm:flex-row sm:items-stretch justify-center gap-8 sm:gap-12">
+          {/* Quick Links (left) */}
+          <div className="min-w-0 flex flex-col items-center">
             <h3 className="text-lg font-semibold font-display mb-6">
               {locale === "en" ? "Quick Links" : "روابط سريعة"}
             </h3>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex items-center gap-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -134,37 +99,54 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
 
-          {/* Products */}
-          <div>
-            <h3 className="text-lg font-semibold font-display mb-6">title</h3>
-            <ul className="flex flex-col gap-3">
-              {productCategories.map((category) => (
-                <li key={category.href}>
-                  <Link
-                    href={category.href}
-                    className="text-white/80 hover:text-brand-accent-light transition-colors text-sm"
-                  >
-                    {category.label}
-                  </Link>
-                </li>
+            {/* Socials (centered row) */}
+            <div className="flex flex-wrap items-center sm:justify-center gap-4 mt-6 sm:mt-8">
+              {socialLinks.map((social) => (
+                <Link
+                  key={social.label}
+                  href={social.href}
+                  aria-label={social.label}
+                  title={social.label}
+                  className="
+                  group
+                  w-10 h-10
+                  rounded-full
+                  border border-white/15
+                  bg-white/5
+                  backdrop-blur
+                  flex items-center justify-center
+                  transition
+                  hover:bg-white/15 hover:border-white/25
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
+                  text-white/80 hover:text-brand-accent-light
+                "
+                >
+                  <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+                  <span className="sr-only">{social.label}</span>
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-lg font-semibold font-display mb-6">title</h3>
+          {/* Divider */}
+          <div className="hidden sm:block sm:w-[1px] bg-white/40"></div>
+
+          {/* Contact Info (right) */}
+          <div className="min-w-0 flex flex-col items-center">
+            <h3 className="text-lg font-semibold font-display mb-6">
+              {locale === "en" ? "Get in touch" : "تواصل معنا"}
+            </h3>
             <ul className="flex flex-col gap-4">
               {contactInfo.map((info) => (
                 <li key={info.label}>
                   <Link
                     href={info.href}
-                    className="flex items-center gap-3 text-white/80 hover:text-brand-accent-light transition-colors text-sm group"
+                    className="group flex items-center gap-3 text-white/80 hover:text-brand-accent-light transition-colors text-sm"
+                    title={info.label}
                   >
-                    <info.icon className="h-4 w-4 text-brand-accent-red group-hover:scale-110 transition-transform" />
-                    <span>{info.label}</span>
+                    <info.icon className="h-4 w-4 text-brand-accent-red transition-transform group-hover:scale-110" />
+                    <span className="break-words">{info.label}</span>
                   </Link>
                 </li>
               ))}
@@ -178,7 +160,8 @@ export function Footer() {
         <div className="container mx-auto px-4 lg:px-6 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-white/60 text-sm text-center md:text-left">
-              © {currentYear} Three Cuts. rights
+              © {currentYear} Three Cuts.{" "}
+              {locale === "en" ? "All rights reserved." : "جميع الحقوق محفوظة."}
             </p>
             <div className="flex items-center gap-6 text-sm">
               <Link

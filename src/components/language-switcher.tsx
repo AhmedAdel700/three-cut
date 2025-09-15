@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
-import { useState } from "react";
 
 interface LanguageSwitcherProps {
   currentLocale: "en" | "ar";
@@ -13,7 +12,6 @@ export function LanguageSwitcher({
   currentLocale,
   onLocaleChange,
 }: LanguageSwitcherProps) {
-  const [isOpen, setIsOpen] = useState(false);
 
   const toggleLanguage = () => {
     const newLocale = currentLocale === "en" ? "ar" : "en";
