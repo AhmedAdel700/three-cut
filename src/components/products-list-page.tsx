@@ -214,7 +214,7 @@ export function ProductsListPage() {
                       src={product.images[0] || "/placeholder.svg"}
                       alt={locale === "en" ? product.name : product.nameAr}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-contain group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-neutral-dark/60 to-transparent" />
                     <div className="absolute top-4 left-4 flex gap-2">

@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
 import image1 from "@/app/assets/img1.png";
+import image2 from "@/app/assets/img5.png";
+import image3 from "@/app/assets/img4.png";
 
 import type { StaticImageData } from "next/image";
 
@@ -45,7 +47,7 @@ const heroSlides: HeroSlide[] = [
   },
   {
     id: 2,
-    image: image1,
+    image: image2,
     title: "Heavy-Duty Plasma Cutting",
     titleAr: "القطع بالبلازما للخدمة الشاقة",
     subtitle:
@@ -58,7 +60,7 @@ const heroSlides: HeroSlide[] = [
   },
   {
     id: 3,
-    image: image1,
+    image: image3,
     title: "Ultra-Precision Waterjet Cutting",
     titleAr: "القطع بالماء فائق الدقة",
     subtitle:
