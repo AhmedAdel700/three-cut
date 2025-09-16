@@ -1,8 +1,9 @@
-import type * as React from "react";
+"use client";
 import { Slot } from "@radix-ui/react-slot";
-import { ChevronRight, MoreHorizontal } from "lucide-react";
+import { ChevronRight, ChevronLeft, MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useLocale } from "next-intl";
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
@@ -70,6 +71,7 @@ function BreadcrumbSeparator({
   className,
   ...props
 }: React.ComponentProps<"li">) {
+  const locale = useLocale();
   return (
     <li
       data-slot="breadcrumb-separator"
@@ -78,7 +80,12 @@ function BreadcrumbSeparator({
       className={cn("[&>svg]:size-3.5 text-brand-tertiary/60", className)}
       {...props}
     >
-      {children ?? <ChevronRight />}
+      {children ??
+        (locale === "en" ? (
+          <ChevronRight className="text-white/80" />
+        ) : (
+          <ChevronLeft className="text-white/80" />
+        ))}
     </li>
   );
 }

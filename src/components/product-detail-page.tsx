@@ -17,10 +17,6 @@ import {
 import {
   ChevronLeft,
   ChevronRight,
-  Share2,
-  Download,
-  Phone,
-  Mail,
   Star,
   Zap,
   Shield,
@@ -101,9 +97,15 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
-      <section className="py-6">
-        <div className="container mx-auto px-4 lg:px-6">
+    <div
+      className="min-h-fit"
+      style={{
+        background:
+          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
+      }}
+    >
+      <section className="pt-32">
+        <div className="container mx-auto px-4 lg:px-6 flex justify-center sm:justify-start">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -130,25 +132,25 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden bg-card/50 backdrop-blur-sm">
+              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden backdrop-blur-sm">
                 <Image
                   src={product.images[currentImageIndex] || "/placeholder.svg"}
                   alt={locale === "en" ? product.name : product.nameAr}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
 
                 {product.images.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all"
+                      className="absolute left-0 xl:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white hover:bg-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all"
+                      className="absolute right-0 xl:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white hover:bg-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
                     >
                       <ChevronRight className="h-5 w-5" />
                     </button>
@@ -157,7 +159,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
 
                 {product.featured && (
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-brand-primary text-white">
+                    <Badge className="bg-white text-brand-primary">
                       <Star className="h-3 w-3 mr-1" />
                       {locale === "en" ? "Featured" : "مميز"}
                     </Badge>
@@ -173,10 +175,10 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
                       className={cn(
-                        "relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all",
+                        "relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-[3px] transition-all",
                         index === currentImageIndex
                           ? "border-brand-primary"
-                          : "border-transparent hover:border-border"
+                          : "border-transparent hover:border-brand-primary"
                       )}
                     >
                       <Image
@@ -199,7 +201,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                 <Badge className="mb-4">
                   {locale === "en" ? categoryName?.name : categoryName?.nameAr}
                 </Badge>
-                <h1 className="text-3xl lg:text-4xl font-bold font-display mb-4 bg-gradient-to-r from-brand-primary to-brand-accent-red bg-clip-text text-transparent">
+                <h1 className="text-3xl lg:text-4xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent">
                   {locale === "en" ? product.name : product.nameAr}
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed">
@@ -210,7 +212,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
               </div>
 
               {/* Features */}
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-6">
                 {features.map((feature, index) => (
                   <div
                     key={index}
@@ -229,42 +231,12 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                 ))}
               </div>
 
-              {/* Price and Actions */}
-              <div className="space-y-4">
-                <div className="text-2xl font-bold text-brand-accent-red">
-                  {product.price ||
-                    (locale === "en" ? "Contact for pricing" : "اتصل للسعر")}
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
-                    size="lg"
-                    className="flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-white font-semibold rounded-2xl"
-                  >
-                    <Phone className="h-4 w-4 mr-2" />
-                    {locale === "en" ? "Request Quote" : "طلب عرض سعر"}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="rounded-2xl bg-transparent"
-                  >
-                    <Mail className="h-4 w-4 mr-2" />
-                    {locale === "en" ? "Contact Sales" : "اتصل بالمبيعات"}
-                  </Button>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    {locale === "en" ? "Share" : "مشاركة"}
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    {locale === "en" ? "Download Brochure" : "تحميل الكتيب"}
-                  </Button>
-                </div>
-              </div>
+              <Button
+                size="lg"
+                className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-white font-semibold rounded-2xl"
+              >
+                {locale === "en" ? "Contact Sales" : "اتصل بالمبيعات"}
+              </Button>
             </div>
           </div>
 
