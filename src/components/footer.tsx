@@ -157,11 +157,19 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 lg:px-6 py-6">
+        <div className="container mx-auto py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-white/60 text-sm text-center md:text-left">
-              © {currentYear} Three Cuts.{" "}
-              {locale === "en" ? "All rights reserved." : "جميع الحقوق محفوظة."}
+              Created By{" "}
+              <Link
+                href={"https://www.be-group.com/en"}
+                target="_blank"
+                className="text-orange-400 font-semibold cursor-pointer"
+              >
+                Be Group
+              </Link>{" "}
+              © {currentYear}{" "}
+              {locale === "en" ? "All Rights Reserved." : "جميع الحقوق محفوظة."}
             </p>
             <div className="flex items-center gap-6 text-sm">
               <Link

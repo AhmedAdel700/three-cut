@@ -81,7 +81,7 @@ export function Header() {
     >
       <div className="md:container mx-auto pt-3 md:pt-0 px-4 lg:px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link href="/" className="flex items-center group">
+          <Link prefetch href="/" className="flex items-center group">
             <div className="relative w-28 h-10 lg:w-48 transition-transform group-hover:scale-105">
               <Image
                 src={logo}
@@ -96,6 +96,7 @@ export function Header() {
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <Link
+                prefetch
                 key={item.href}
                 href={item.href}
                 className={cn(
@@ -141,29 +142,35 @@ export function Header() {
       {/* Mobile Top Pop-up */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-[60] flex items-start justify-center bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-[60] flex items-start justify-center bg-black/55 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
-          onClick={() => setIsMenuOpen(false)} // click on overlay closes
+          onClick={() => setIsMenuOpen(false)}
         >
           {/* Glass sheet */}
           <div
             className={cn(
-              "mt-4 w-[92vw] max-w-md rounded-2xl border border-white/20",
-              "bg-white/10 backdrop-blur-xl shadow-2xl",
-              "transition-all duration-200 ease-out",
-              "animate-[menuIn_.2s_ease-out]"
+              // Top margin (a bit more) + safe-area breathing room
+              "mt-8 md:mt-12 w-[92vw] max-w-md",
+              // Neat rounded card with subtle border
+              "rounded-2xl border border-white/15",
+              // Glass look: more saturation for clarity + strong blur
+              "bg-white/10 backdrop-saturate-150 backdrop-blur-xl",
+              // Shadow & soft inner highlight
+              "shadow-[0_20px_50px_rgba(0,0,0,.45)]",
+              // Smooth entry
+              "transition-all duration-200 ease-out animate-[menuIn_.2s_ease-out]"
             )}
-            onClick={(e) => e.stopPropagation()} // prevent overlay close when clicking inside
+            onClick={(e) => e.stopPropagation()}
             style={{
-              // subtle frosted highlight
               boxShadow:
-                "0 10px 25px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.15)",
+                "0 18px 55px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12)",
             }}
           >
             {/* Top bar */}
-            <div className="flex items-center justify-between h-14 px-4">
+            <div className="flex items-center justify-between h-14 px-5">
               <Link
+                prefetch
                 href="/"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center"
@@ -174,32 +181,38 @@ export function Header() {
                   className="h-7 w-auto"
                 />
               </Link>
+
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 text-white hover:text-white hover:bg-white/10"
+                className="p-2 text-white hover:text-white hover:bg-white/10 rounded-full"
                 aria-label="Close menu"
               >
                 <X className="h-6 w-6" />
               </Button>
             </div>
 
-            {/* Links */}
-            <nav className="flex flex-col gap-3 px-5 pb-5">
+            {/* Hairline divider */}
+            <div className="h-px w-full bg-white/10" />
+
+            {/* Links (scrollable if long) */}
+            <nav className="max-h-[70vh] overflow-y-auto overscroll-contain px-4 py-4 flex flex-col gap-2">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch
                   onClick={() => setIsMenuOpen(false)}
                   className={cn(
-                    "text-xl font-semibold",
+                    "w-full rounded-xl px-4 py-3 transition-colors",
+                    "hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20",
                     isActive(item.href)
-                      ? "text-white"
-                      : "text-white/90 hover:text-white"
+                      ? "bg-white/15 text-white"
+                      : "text-white/90"
                   )}
                 >
-                  {item.label}
+                  <span className="text-lg font-semibold">{item.label}</span>
                 </Link>
               ))}
 
@@ -209,10 +222,10 @@ export function Header() {
                   goOtherLocale();
                   setIsMenuOpen(false);
                 }}
-                className="flex items-center gap-2 text-xl font-bold text-white/95 hover:text-white"
+                className="w-full rounded-xl px-4 py-3 text-left flex items-center justify-between text-white/95 hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/20"
                 aria-label="Switch language"
               >
-                <span>{otherLangLabel}</span>
+                <span className="text-lg font-bold">{otherLangLabel}</span>
                 <Globe className="h-6 w-6" />
               </button>
             </nav>

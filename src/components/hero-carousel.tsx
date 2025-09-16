@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
-import image1 from "@/app/assets/1.jpg"
+import image1 from "@/app/assets/img1.png";
 
 import type { StaticImageData } from "next/image";
 
@@ -76,7 +76,6 @@ export function HeroCarousel() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const locale = useLocale();
@@ -108,107 +107,106 @@ export function HeroCarousel() {
   return (
     <section
       className="relative h-screen min-h-[600px] overflow-hidden"
+      style={{
+        background: `linear-gradient(135deg,
+      #cb7a7a 0%,   /* soft light rose highlight */
+      #572222 40%, /* deep muted red */
+      #0d0d0d 100% /* rich dark base */
+    )`,
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Background Slides with Parallax */}
-      <motion.div style={{ y }} className="absolute inset-0">
-        <AnimatePresence mode="wait">
-          {heroSlides.map(
-            (slide, index) =>
-              index === currentSlide && (
-                <motion.div
-                  key={slide.id}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                  className="absolute inset-0"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand-neutral-dark/80 via-brand-neutral-dark/60 to-transparent z-10" />
-                  <Image
-                    src={slide.image || "/placeholder.svg"}
-                    alt={locale === "en" ? slide.title : slide.titleAr}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
-                  />
-                </motion.div>
-              )
-          )}
-        </AnimatePresence>
-      </motion.div>
-
       {/* Content with Enhanced Animations */}
       <motion.div
         style={{ opacity }}
         className="relative z-20 h-full flex items-center"
       >
         <div className="container mx-auto px-4 lg:px-6">
-          <div className="max-w-3xl">
-            <AnimatePresence mode="wait">
-              {heroSlides.map(
-                (slide, index) =>
-                  index === currentSlide && (
-                    <motion.div
-                      key={slide.id}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -50 }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    >
-                      <motion.h1
-                        className="text-4xl md:text-5xl lg:text-7xl font-bold font-display text-white mb-6 leading-tight"
-                        initial={{ opacity: 0, y: 30 }}
+          <div className="flex flex-col xl:flex-row items-center gap-8">
+            {/* Text on the left */}
+            <div className="max-w-2xl flex-1">
+              <AnimatePresence mode="wait">
+                {heroSlides.map(
+                  (slide, index) =>
+                    index === currentSlide && (
+                      <motion.div
+                        key={slide.id}
+                        initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
                       >
-                        <span
-                          className="text-white drop-shadow-lg"
-                          style={{
-                            textShadow:
-                              "0 0 20px rgba(242, 162, 58, 0.3), 0 2px 4px rgba(0, 0, 0, 0.5)",
-                          }}
+                        <motion.h1
+                          className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 leading-tight"
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.2 }}
                         >
                           {locale === "en" ? slide.title : slide.titleAr}
-                        </span>
-                      </motion.h1>
-                      <motion.p
-                        className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                      >
-                        {locale === "en" ? slide.subtitle : slide.subtitleAr}
-                      </motion.p>
-                      <motion.div
-                        className="flex flex-col sm:flex-row gap-4"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                      >
-                        <Button
-                          asChild
-                          size="lg"
-                          className="bg-gradient-to-r from-brand-primary to-brand-accent-red hover:from-brand-primary/90 hover:to-brand-accent-red/90 text-white font-semibold px-8 py-6 text-lg rounded-2xl shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 hover:scale-105"
+                        </motion.h1>
+                        <motion.p
+                          className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed"
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                          <a href={slide.ctaLink}>
-                            {locale === "en" ? slide.cta : slide.ctaAr}
-                          </a>
-                        </Button>
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="lg"
-                          className="border-2 border-white/30 text-white hover:bg-white hover:text-brand-neutral-dark font-semibold px-8 py-6 text-lg rounded-2xl backdrop-blur-sm transition-all duration-300 hover:scale-105 bg-transparent"
+                          {locale === "en" ? slide.subtitle : slide.subtitleAr}
+                        </motion.p>
+                        <motion.div
+                          className="flex flex-col sm:flex-row gap-4"
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.6 }}
                         >
-                          <Link href="/contact">title</Link>
-                        </Button>
+                          <Button asChild size="lg" className="btn-primary">
+                            <a href={slide.ctaLink}>
+                              {locale === "en" ? slide.cta : slide.ctaAr}
+                            </a>
+                          </Button>
+
+                          <Button
+                            asChild
+                            variant="outline"
+                            size="lg"
+                            className="btn-outline"
+                          >
+                            <Link href="/contact">Contact Us</Link>
+                          </Button>
+                        </motion.div>
                       </motion.div>
-                    </motion.div>
-                  )
-              )}
-            </AnimatePresence>
+                    )
+                )}
+              </AnimatePresence>
+            </div>
+            {/* Image on the right */}
+            <div className="flex-1 flex justify-center overflow-visible">
+              <AnimatePresence mode="wait">
+                {heroSlides.map(
+                  (slide, index) =>
+                    index === currentSlide && (
+                      <motion.div
+                        key={slide.id}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -50 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="shrink-0"
+                      >
+                        <Image
+                          src={slide.image || "/placeholder.svg"}
+                          alt={locale === "en" ? slide.title : slide.titleAr}
+                          width={720}
+                          height={500}
+                          sizes="(min-width:1280px) 720px, (min-width:640px) 620px, 520px"
+                          className="w-[520px] sm:w-[620px] xl:w-[720px] h-auto max-w-none object-contain shrink-0 select-none pointer-events-none"
+                          priority={index === 0}
+                        />
+                      </motion.div>
+                    )
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -216,29 +214,29 @@ export function HeroCarousel() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110"
+        className="hidden xl:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110"
         aria-label="Previous slide"
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110"
+        className="hidden xl:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110"
         aria-label="Next slide"
       >
         <ChevronRight className="h-6 w-6" />
       </button>
 
-      {/* Pagination Dots */}
+      {/* Pagination Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
             className={cn(
-              "w-3 h-3 rounded-full transition-all duration-300",
+              "h-1 w-8 rounded-sm transition-all duration-300",
               index === currentSlide
-                ? "bg-white scale-125"
+                ? "bg-white scale-110"
                 : "bg-white/40 hover:bg-white/60"
             )}
             aria-label={`Go to slide ${index + 1}`}
