@@ -206,7 +206,7 @@ export function ProductsPreview() {
 
         {/* CTA */}
         <ScrollReveal>
-          <div className="grid place-items-center">
+          <div className="grid place-items-center -mt-5 lg:-mt-10">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 asChild

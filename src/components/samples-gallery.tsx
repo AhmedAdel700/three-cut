@@ -5,15 +5,17 @@ import Image, { StaticImageData } from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { X, ZoomIn, Play } from "lucide-react";
+import { X, ZoomIn, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { cn } from "@/lib/utils";
 import { useLocale } from "next-intl";
-import image from "@/app/assets/1.jpg";
+import image1 from "@/app/assets/sample1.webp";
+import image2 from "@/app/assets/sample2.webp";
+import image3 from "@/app/assets/sample3.webp";
+
 interface SampleItem {
   id: number;
-  type: "image" | "video";
   src: string | StaticImageData;
   thumbnail: string | StaticImageData;
   title: string;
@@ -27,78 +29,77 @@ interface SampleItem {
 const sampleItems: SampleItem[] = [
   {
     id: 1,
-    type: "image",
-    src: image,
-    thumbnail: image,
-    title: "Precision Laser Cut Components",
-    titleAr: "مكونات مقطوعة بالليزر بدقة",
+    src: image1,
+    thumbnail: image1,
+    title: "Stainless Steel Nameplate (Laser-cut)",
+    titleAr: "لوحة اسم من الستانلس (مقطوعة بالليزر)",
     category: "Laser Cutting",
     categoryAr: "القطع بالليزر",
     description:
-      "High-precision automotive parts cut with fiber laser technology",
-    descriptionAr: "قطع غيار السيارات عالية الدقة مقطوعة بتقنية الليزر الليفي",
+      "Laser-cut stainless steel nameplate with deburred edges and clean internal corners.",
+    descriptionAr:
+      "لوحة اسم من الستانلس مقطوعة بالليزر بحواف مصقولة وزوايا داخلية نظيفة.",
   },
   {
     id: 2,
-    type: "image",
-    src: image,
-    thumbnail: image,
-    title: "Heavy-Duty Plasma Cutting",
-    titleAr: "القطع بالبلازما للخدمة الشاقة",
+    src: image2,
+    thumbnail: image2,
+    title: "Thick Steel Bracket (Plasma-cut)",
+    titleAr: "حامل فولاذي سميك (مقطوع بالبلازما)",
     category: "Plasma Cutting",
     categoryAr: "القطع بالبلازما",
-    description: "Thick steel plates cut with high-amperage plasma system",
-    descriptionAr: "ألواح فولاذية سميكة مقطوعة بنظام البلازما عالي الأمبير",
+    description:
+      "Heavy-duty bracket cut from thick plate, suitable for industrial fixtures.",
+    descriptionAr: "حامل قوي مقطوع من صفيحة سميكة، مناسب للتجهيزات الصناعية.",
   },
   {
     id: 3,
-    type: "image",
-    src: image,
-    thumbnail: image,
-    title: "Waterjet Precision Samples",
-    titleAr: "عينات دقة القطع بالماء",
+    src: image3,
+    thumbnail: image3,
+    title: "Marble Inlay Sample (Waterjet)",
+    titleAr: "عينة تطعيم رخام (مقطوعة بالماء)",
     category: "Waterjet Cutting",
     categoryAr: "القطع بالماء",
     description:
-      "Complex geometries achieved with ultra-high pressure waterjet",
-    descriptionAr: "أشكال هندسية معقدة تم تحقيقها بالقطع بالماء عالي الضغط",
+      "Precision waterjet-cut marble inlay demonstrating tight fits and smooth edges.",
+    descriptionAr:
+      "تطعيم رخام مقطوع بدقة بالماء يظهر انطباقًا محكمًا وحوافًا ملساء.",
   },
   {
     id: 4,
-    type: "image",
-    src: image,
-    thumbnail: image,
-    title: "Advanced Control Systems",
-    titleAr: "أنظمة التحكم المتقدمة",
-    category: "Technology",
+    src: image3,
+    thumbnail: image3,
+    title: "Decorative Metal Screen Panel",
+    titleAr: "لوح معدني ديكوري مُفرّغ",
+    category: "Laser Cutting",
     categoryAr: "التكنولوجيا",
-    description: "State-of-the-art CNC control panels for precision operation",
-    descriptionAr: "لوحات تحكم CNC متطورة للتشغيل الدقيق",
+    description: "Laser-perforated decorative panel for interiors and façades.",
+    descriptionAr: "لوح ديكوري مُفرّغ بالليزر للاستخدامات الداخلية والواجهات.",
   },
   {
     id: 5,
-    type: "image",
-    src: image,
-    thumbnail: image,
-    title: "Industrial Cutting Tables",
-    titleAr: "طاولات القطع الصناعية",
+    src: image1,
+    thumbnail: image2,
+    title: "Acrylic Signage Letters",
+    titleAr: "حروف إعلانية من الأكريليك",
     category: "Equipment",
     categoryAr: "المعدات",
     description:
-      "Heavy-duty cutting tables designed for high-volume production",
-    descriptionAr: "طاولات قطع للخدمة الشاقة مصممة للإنتاج عالي الحجم",
+      "CNC-cut acrylic letters with polished edges for premium signage.",
+    descriptionAr:
+      "حروف أكريليك مقطوعة بالـ CNC بحواف مصقولة ليافطات عالية الجودة.",
   },
   {
     id: 6,
-    type: "image",
-    src: image,
-    thumbnail: image,
-    title: "Waterjet Cutting Head Detail",
-    titleAr: "تفاصيل رأس القطع بالماء",
+    src: image1,
+    thumbnail: image1,
+    title: "Composite Gasket (Waterjet-cut)",
+    titleAr: "جوان مركّب (مقطوع بالماء)",
     category: "Components",
     categoryAr: "المكونات",
-    description: "Close-up view of precision waterjet cutting head assembly",
-    descriptionAr: "عرض مقرب لتجميع رأس القطع بالماء الدقيق",
+    description:
+      "Waterjet-cut gasket from composite sheet for sealing applications.",
+    descriptionAr: "جوان مقطوع بالماء من خامة مركّبة لتطبيقات العزل والإحكام.",
   },
 ];
 
@@ -121,7 +122,6 @@ export function SamplesGallery() {
       id: "waterjet-cutting",
       name: locale === "en" ? "Waterjet Cutting" : "القطع بالماء",
     },
-    { id: "technology", name: locale === "en" ? "Technology" : "التكنولوجيا" },
   ];
 
   const filteredItems =
@@ -154,17 +154,36 @@ export function SamplesGallery() {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-secondary/10 to-background">
+    <section
+      className="px-4 py-16 lg:py-24 relative overflow-hidden border-t"
+      style={{
+        background:
+          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
+      }}
+    >
       <div className="container mx-auto px-4 lg:px-6">
         {/* Header */}
-        <ScrollReveal className="text-center mb-16">
-          <h2 className="text-3xl lg:text-5xl font-bold font-display mb-6 bg-gradient-to-r from-brand-primary to-brand-accent-red bg-clip-text text-transparent">
-            {locale === "en" ? "Samples of Our Work" : "عينات من أعمالنا"}
+        <ScrollReveal className="text-center mb-16 flex flex-col gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-center gap-3"
+          >
+            <Sparkles className="h-5 w-5 text-brand-accent-red" />
+            <span className="text-brand-accent-light uppercase tracking-wider text-[12px] font-semibold">
+              Samples of Our Work
+            </span>
+            <Sparkles className="h-5 w-5 text-brand-accent-red" />
+          </motion.div>
+          <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight text-center">
+            Precision Cutting Samples
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {locale === "en"
-              ? "Explore our portfolio of precision cutting projects showcasing the quality and capabilities of our advanced cutting systems."
-              : "استكشف محفظة مشاريع القطع الدقيقة التي تعرض جودة وقدرات أنظمة القطع المتقدمة لدينا."}
+              ? "Explore material and product samples cut on our CNC/laser/waterjet systems—real parts, ready for use."
+              : "استكشف عينات مواد ومنتجات مقطوعة بأنظمة CNC والليزر والقطع بالماء — قطع حقيقية جاهزة للاستخدام."}
           </p>
         </ScrollReveal>
 
@@ -215,22 +234,16 @@ export function SamplesGallery() {
                     src={item.thumbnail || "/placeholder.svg"}
                     alt={locale === "en" ? item.title : item.titleAr}
                     fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="object-contain group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-neutral-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    {item.type === "video" ? (
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <Play className="h-8 w-8 text-white ml-1" />
-                      </div>
-                    ) : (
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <ZoomIn className="h-8 w-8 text-white" />
-                      </div>
-                    )}
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <ZoomIn className="h-8 w-8 text-white" />
+                    </div>
                   </motion.div>
                   <div className="absolute top-4 left-4">
                     <Badge className="bg-brand-primary/90 text-white">
@@ -240,7 +253,7 @@ export function SamplesGallery() {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-lg font-bold font-display mb-2 group-hover:text-brand-primary transition-colors">
+                  <h3 className="text-lg font-bold font-display">
                     {locale === "en" ? item.title : item.titleAr}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
