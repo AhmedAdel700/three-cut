@@ -201,7 +201,7 @@ export function HeroCarousel() {
                           width={720}
                           height={500}
                           sizes="(min-width:1280px) 720px, (min-width:640px) 620px, 520px"
-                          className="w-[520px] sm:w-[620px] xl:w-[720px] h-auto max-w-none object-contain shrink-0 select-none pointer-events-none"
+                          className="w-[425px] sm:w-[620px] xl:w-[720px] h-auto max-w-none object-contain shrink-0 select-none pointer-events-none"
                           priority={index === 0}
                         />
                       </motion.div>

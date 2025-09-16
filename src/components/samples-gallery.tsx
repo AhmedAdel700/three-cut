@@ -135,9 +135,7 @@ export function SamplesGallery() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1 },
     },
   };
 
@@ -187,7 +185,7 @@ export function SamplesGallery() {
           </p>
         </ScrollReveal>
 
-        {/* Filter Buttons with Animation */}
+        {/* Filter Buttons */}
         <ScrollReveal
           className="flex flex-wrap justify-center gap-3 mb-12"
           delay={0.2}
@@ -215,20 +213,25 @@ export function SamplesGallery() {
           ))}
         </ScrollReveal>
 
-        {/* Gallery Grid with Enhanced Animations */}
+        {/* Gallery Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          key={filter} // Re-animate when filter changes
+          key={filter} // re-animate when filter changes
         >
           {filteredItems.map((item) => (
-            <motion.div key={item.id} variants={itemVariants}>
+            <motion.div
+              key={item.id}
+              variants={itemVariants}
+              className="h-full"
+            >
               <Card
-                className="group cursor-pointer overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm"
+                className="h-full flex flex-col group cursor-pointer overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm"
                 onClick={() => setSelectedItem(item)}
               >
+                {/* Media */}
                 <div className="relative h-64 overflow-hidden">
                   <Image
                     src={item.thumbnail || "/placeholder.svg"}
@@ -252,20 +255,23 @@ export function SamplesGallery() {
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-lg font-bold font-display">
-                    {locale === "en" ? item.title : item.titleAr}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {locale === "en" ? item.description : item.descriptionAr}
-                  </p>
+                {/* Content */}
+                <div className="p-6 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-lg font-bold font-display mb-2">
+                      {locale === "en" ? item.title : item.titleAr}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                      {locale === "en" ? item.description : item.descriptionAr}
+                    </p>
+                  </div>
                 </div>
               </Card>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Enhanced Lightbox Modal */}
+        {/* Lightbox Modal */}
         <AnimatePresence>
           {selectedItem && (
             <motion.div
