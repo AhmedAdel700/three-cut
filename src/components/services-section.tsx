@@ -29,7 +29,7 @@ export function ServicesSection() {
 
   return (
     <section
-      className="py-16 lg:py-24 relative overflow-hidden"
+      className="py-16 lg:py-24 relative overflow-hidden border-t"
       style={{
         background:
           "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",

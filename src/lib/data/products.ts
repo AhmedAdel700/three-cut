@@ -1,5 +1,8 @@
 import image from "@/app/assets/1.jpg";
 import { StaticImageData } from "next/image";
+import productImage1 from "@/app/assets/img2.png";
+import productImage2 from "@/app/assets/img3.png";
+import productImage3 from "@/app/assets/img4.png";
 
 export interface Product {
   id: string;
@@ -38,7 +41,7 @@ export const mockProducts: Product[] = [
       "آلة قطع بالليزر عالية الدقة للتطبيقات الصناعية مع ميزات الأتمتة المتقدمة.",
     category: "laser-cutting",
     categoryAr: "القطع بالليزر",
-    images: [image, image, image],
+    images: [productImage1, productImage1, productImage1],
     specifications: {
       "Cutting Area": "1500mm x 3000mm",
       "Laser Power": "6kW Fiber Laser",
@@ -74,7 +77,7 @@ export const mockProducts: Product[] = [
       "نظام قطع بالبلازما للخدمة الشاقة للمواد السميكة مع جودة قطع استثنائية.",
     category: "plasma-cutting",
     categoryAr: "القطع بالبلازما",
-    images: [image, image, image],
+    images: [productImage2, productImage2, productImage2],
     specifications: {
       "Cutting Area": "2000mm x 4000mm",
       "Plasma Power": "200A",
@@ -109,7 +112,7 @@ export const mockProducts: Product[] = [
       "نظام قطع بالماء فائق الدقة للأشكال المعقدة والمواد الغريبة.",
     category: "waterjet-cutting",
     categoryAr: "القطع بالماء",
-    images: [image, image, image],
+    images: [productImage3, productImage3, productImage3],
     specifications: {
       "Cutting Area": "1200mm x 2400mm",
       Pressure: "4150 bar",

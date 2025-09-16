@@ -97,3 +97,21 @@
     scroll-behavior: smooth;
   }
 }
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #7c3030;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0201019c;
+}
