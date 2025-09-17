@@ -9,32 +9,32 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  Send,
-  Building,
-  Users,
-  Headphones,
-  ExternalLink,
-} from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send, ExternalLink } from "lucide-react";
 import { useLocale } from "next-intl";
-
-// ✅ Sonner (Toaster)
 import { Toaster, toast } from "sonner";
+import { Link } from "@/navigations";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Please enter a valid phone number"),
-  company: z.string().optional(),
-  subject: z.string().min(5, "Subject must be at least 5 characters"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
-
 type ContactFormData = z.infer<typeof contactFormSchema>;
+
+// --- Location (Cairo / Nasr City) ---
+const THREE_CUTS_COORDS = { lat: 30.0510877, lng: 31.3494897 };
+const THREE_CUTS_PLACE_URL =
+  "https://www.google.com/maps/place/Three+cuts+For+CNC+Machines/@30.051088,31.34949,12z/data=!4m6!3m5!1s0x14583fc9ae990c0b:0xb62c714b690f3d78!8m2!3d30.0510877!4d31.3494897!16s%2Fg%2F11fsnwqss3?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDkxNC4wIKXMDSoASAFQAw%3D%3D";
+
+const buildMapsEmbed = (locale: string) =>
+  `https://www.google.com/maps?q=${THREE_CUTS_COORDS.lat},${THREE_CUTS_COORDS.lng}&hl=${locale}&z=16&output=embed`;
+const buildMapsDirections = () =>
+  `https://www.google.com/maps/dir/?api=1&destination=${THREE_CUTS_COORDS.lat},${THREE_CUTS_COORDS.lng}`;
+
+// Reusable: remove focus outline/ring entirely
+const noFocus =
+  "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0";
 
 export function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,37 +45,26 @@ export function ContactPage() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
-  });
+  } = useForm<ContactFormData>({ resolver: zodResolver(contactFormSchema) });
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-
     try {
-      const response = await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
-      if (response.ok) {
-        // ✅ Sonner success toast
-        toast.success("Successe Titele hcnage it later", {
-          description:
-            locale === "en"
-              ? "We'll get back to you within 24 hours."
-              : "سنعاود الاتصال بك خلال 24 ساعة.",
-        });
-        reset();
-      } else {
-        throw new Error("Failed to send message");
-      }
-    } catch (error) {
-      // ✅ Sonner error toast
-      toast.error("error title change it later", {
+      if (!res.ok) throw new Error("Failed");
+      toast.success("Success", {
+        description:
+          locale === "en"
+            ? "We'll get back to you within 24 hours."
+            : "سنعاود الاتصال بك خلال 24 ساعة.",
+      });
+      reset();
+    } catch {
+      toast.error("Error", {
         description:
           locale === "en"
             ? "Please try again or contact us directly."
@@ -86,16 +75,17 @@ export function ContactPage() {
     }
   };
 
+  // subtle dotted texture for depth
   const dotPatternStyle = {
-    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fillRule='evenodd'%3E%3Cg fill='%23ffffff' fillOpacity='0.08'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
   };
 
   const contactInfo = [
     {
       icon: Phone,
       title: locale === "en" ? "Phone" : "الهاتف",
-      details: ["+966 11 234 5678", "+966 11 234 5679"],
-      action: "tel:+966112345678",
+      details: ["+20 111 234 5678", "+20 112 345 6789"],
+      action: "tel:+201112345678",
     },
     {
       icon: Mail,
@@ -107,12 +97,11 @@ export function ContactPage() {
       icon: MapPin,
       title: locale === "en" ? "Address" : "العنوان",
       details: [
-        locale === "en" ? "Industrial District" : "المنطقة الصناعية",
         locale === "en"
-          ? "Riyadh 12345, Saudi Arabia"
-          : "الرياض 12345، المملكة العربية السعودية",
+          ? "Al Sarag Mall - Administrative Building 3 - Entrance 5, Nasr City, Cairo Governorate 11765, Egypt"
+          : "السراج مول - المبنى الإدارى 3 - مدخل 5، مدينة نصر، محافظة القاهرة 11765، مصر",
       ],
-      action: "https://maps.google.com/?q=Riyadh+Industrial+District",
+      action: THREE_CUTS_PLACE_URL,
     },
     {
       icon: Clock,
@@ -126,191 +115,146 @@ export function ContactPage() {
     },
   ];
 
-  const departments = [
-    {
-      icon: Building,
-      title: locale === "en" ? "Sales Department" : "قسم المبيعات",
-      description:
-        locale === "en"
-          ? "Get quotes and product information"
-          : "احصل على عروض الأسعار ومعلومات المنتجات",
-      contact: "sales@threecuts.com",
-    },
-    {
-      icon: Headphones,
-      title: locale === "en" ? "Technical Support" : "الدعم الفني",
-      description:
-        locale === "en"
-          ? "24/7 technical assistance and maintenance"
-          : "المساعدة الفنية والصيانة على مدار الساعة",
-      contact: "support@threecuts.com",
-    },
-    {
-      icon: Users,
-      title: locale === "en" ? "Customer Service" : "خدمة العملاء",
-      description:
-        locale === "en"
-          ? "General inquiries and customer support"
-          : "الاستفسارات العامة ودعم العملاء",
-      contact: "service@threecuts.com",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
-      {/* ✅ Sonner Toaster (kept non-invasive) */}
+    <div className="h-fit border-b">
       <Toaster richColors position="top-right" />
 
-      {/* Hero Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-r from-brand-secondary via-brand-neutral-dark to-brand-secondary text-white relative overflow-hidden">
+      {/* Hero Section (UNCHANGED) */}
+      <section
+        className="pt-16 lg:py-24 text-white relative overflow-hidden border-b"
+        style={{
+          background:
+            "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
+        }}
+      >
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={dotPatternStyle}></div>
+          <div className="absolute inset-0" style={dotPatternStyle} />
         </div>
-
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
           <div className="text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold font-display mb-6">
-              contact title
+            <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
+              {locale === "en" ? "Contact Us" : "تواصل معنا"}
             </h1>
             <p className="text-lg lg:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
               {locale === "en"
-                ? "Ready to enhance your industrial operations? Get in touch with our experts to discuss your cutting system requirements."
-                : "مستعد لتحسين عملياتك الصناعية؟ تواصل مع خبرائنا لمناقشة متطلبات نظام القطع الخاص بك."}
+                ? "Ready to enhance your industrial operations? Get in touch with our experts."
+                : "مستعد لتحسين عملياتك الصناعية؟ تواصل مع خبرائنا."}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Content */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 lg:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold font-display">
+      {/* Content */}
+      <section
+        className="py-16"
+        style={{
+          background:
+            "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
+        }}
+      >
+        <div className="container mx-auto px-4 lg:px-6 w-full">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 xl:gap-12">
+            {/* Form */}
+            <div className="xl:col-span-2">
+              <Card className="border border-brand-tertiary/40 bg-brand-neutral-light/5 backdrop-blur-sm shadow-xl shadow-black/10 !p-0 !pb-6">
+                <CardHeader className="border-b border-white/5 bg-gradient-to-r from-brand-primary/50 to-brand-tertiary/30 rounded-t-2xl py-3">
+                  <CardTitle className="text-2xl font-bold font-display text-brand-neutral-white">
                     {locale === "en" ? "Send us a Message" : "أرسل لنا رسالة"}
                   </CardTitle>
-                  <p className="text-muted-foreground">
+                  <p className="text-brand-neutral-light/80">
                     {locale === "en"
                       ? "Fill out the form below and we'll get back to you within 24 hours."
                       : "املأ النموذج أدناه وسنعاود الاتصال بك خلال 24 ساعة."}
                   </p>
                 </CardHeader>
-                <CardContent>
+
+                <CardContent className="pt-6">
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="name">conatct name *</Label>
+                        <Label
+                          htmlFor="name"
+                          className="text-brand-neutral-light"
+                        >
+                          {locale === "en" ? "Name" : "الاسم"} *
+                        </Label>
                         <Input
                           id="name"
                           {...register("name")}
-                          className="rounded-2xl"
                           placeholder={
                             locale === "en" ? "Your full name" : "اسمك الكامل"
                           }
+                          className={`rounded-2xl bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
                         />
                         {errors.name && (
-                          <p className="text-sm text-destructive">
+                          <p className="text-sm text-brand-accent-light">
                             {errors.name.message}
                           </p>
                         )}
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="email">conatct email *</Label>
+                        <Label
+                          htmlFor="email"
+                          className="text-brand-neutral-light"
+                        >
+                          {locale === "en" ? "Email" : "البريد الإلكتروني"} *
+                        </Label>
                         <Input
                           id="email"
                           type="email"
                           {...register("email")}
-                          className="rounded-2xl"
-                          placeholder={
-                            locale === "en"
-                              ? "your.email@company.com"
-                              : "your.email@company.com"
-                          }
+                          placeholder="your.email@company.com"
+                          className={`rounded-2xl bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
                         />
                         {errors.email && (
-                          <p className="text-sm text-destructive">
+                          <p className="text-sm text-brand-accent-light">
                             {errors.email.message}
                           </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">conatct phone *</Label>
-                        <Input
-                          id="phone"
-                          {...register("phone")}
-                          className="rounded-2xl"
-                          placeholder={
-                            locale === "en"
-                              ? "+966 XX XXX XXXX"
-                              : "+966 XX XXX XXXX"
-                          }
-                        />
-                        {errors.phone && (
-                          <p className="text-sm text-destructive">
-                            {errors.phone.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="company">
-                          {locale === "en" ? "Company" : "الشركة"} (
-                          {locale === "en" ? "Optional" : "اختياري"})
-                        </Label>
-                        <Input
-                          id="company"
-                          {...register("company")}
-                          className="rounded-2xl"
-                          placeholder={
-                            locale === "en" ? "Your company name" : "اسم شركتك"
-                          }
-                        />
-                      </div>
-                    </div>
-
                     <div className="space-y-2">
-                      <Label htmlFor="subject">
-                        {locale === "en" ? "Subject" : "الموضوع"} *
+                      <Label
+                        htmlFor="phone"
+                        className="text-brand-neutral-light"
+                      >
+                        {locale === "en" ? "Phone" : "الهاتف"} *
                       </Label>
                       <Input
-                        id="subject"
-                        {...register("subject")}
-                        className="rounded-2xl"
-                        placeholder={
-                          locale === "en"
-                            ? "What can we help you with?"
-                            : "كيف يمكننا مساعدتك؟"
-                        }
+                        id="phone"
+                        {...register("phone")}
+                        placeholder="+20 XXX XXX XXXX"
+                        className={`rounded-2xl bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
                       />
-                      {errors.subject && (
-                        <p className="text-sm text-destructive">
-                          {errors.subject.message}
+                      {errors.phone && (
+                        <p className="text-sm text-brand-accent-light">
+                          {errors.phone.message}
                         </p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">contact message *</Label>
+                      <Label
+                        htmlFor="message"
+                        className="text-brand-neutral-light"
+                      >
+                        {locale === "en" ? "Message" : "الرسالة"} *
+                      </Label>
                       <Textarea
                         id="message"
-                        {...register("message")}
                         rows={6}
-                        className="rounded-2xl resize-none"
+                        {...register("message")}
                         placeholder={
                           locale === "en"
-                            ? "Please provide details about your requirements, including the type of cutting system you're interested in, materials you'll be working with, and any specific features you need."
-                            : "يرجى تقديم تفاصيل حول متطلباتك، بما في ذلك نوع نظام القطع الذي تهتم به، والمواد التي ستعمل معها، وأي ميزات محددة تحتاجها."
+                            ? "How can we help you?"
+                            : "كيف يمكننا مساعدتك؟"
                         }
+                        className={`rounded-2xl resize-none bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
                       />
                       {errors.message && (
-                        <p className="text-sm text-destructive">
+                        <p className="text-sm text-brand-accent-light">
                           {errors.message.message}
                         </p>
                       )}
@@ -320,7 +264,7 @@ export function ContactPage() {
                       type="submit"
                       size="lg"
                       disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-brand-primary to-brand-accent-orange hover:from-brand-primary/90 hover:to-brand-accent-orange/90 text-white font-semibold rounded-2xl"
+                      className="w-full rounded-2xl font-semibold text-white bg-gradient-to-r from-brand-tertiary to-brand-accent-red hover:from-brand-tertiary/90 hover:to-brand-accent-red/90"
                     >
                       {isSubmitting ? (
                         <div className="flex items-center gap-2">
@@ -330,7 +274,7 @@ export function ContactPage() {
                       ) : (
                         <>
                           <Send className="h-4 w-4 mr-2" />
-                          Submit
+                          {locale === "en" ? "Submit" : "إرسال"}
                         </>
                       )}
                     </Button>
@@ -339,34 +283,36 @@ export function ContactPage() {
               </Card>
             </div>
 
-            {/* Contact Information */}
-            <div className="space-y-6">
-              {/* Contact Details */}
-              <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-xl font-bold font-display">
+            {/* Info */}
+            <>
+              <Card className="border border-brand-tertiary/40 bg-brand-primary/40 backdrop-blur-sm shadow-lg shadow-black/20 !p-0 !pb-4">
+                <CardHeader className="border-b border-white/5 pt-4 pb-3">
+                  <CardTitle className="text-xl font-bold font-display text-brand-neutral-white">
                     {locale === "en"
                       ? "Contact Information"
                       : "معلومات الاتصال"}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  {contactInfo.map((info, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-brand-primary to-brand-accent-orange rounded-xl flex items-center justify-center flex-shrink-0">
+
+                <CardContent className="space-y-6 pt-6">
+                  {contactInfo.map((info, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-tertiary to-brand-accent-red flex items-center justify-center">
                         <info.icon className="h-6 w-6 text-white" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold mb-2">{info.title}</h3>
-                        {info.details.map((detail, detailIndex) => (
+                        <h3 className="font-semibold text-brand-neutral-white mb-2">
+                          {info.title}
+                        </h3>
+                        {info.details.map((detail, j) => (
                           <p
-                            key={detailIndex}
-                            className="text-sm text-muted-foreground mb-1"
+                            key={j}
+                            className="text-sm text-brand-neutral-light/80 mb-1"
                           >
                             {info.action ? (
-                              <a
+                              <Link
                                 href={info.action}
-                                className="hover:text-brand-primary transition-colors"
+                                className="hover:text-brand-accent-light transition-colors"
                                 target={
                                   info.action.startsWith("http")
                                     ? "_blank"
@@ -382,7 +328,7 @@ export function ContactPage() {
                                 {info.action.startsWith("http") && (
                                   <ExternalLink className="h-3 w-3 ml-1 inline" />
                                 )}
-                              </a>
+                              </Link>
                             ) : (
                               detail
                             )}
@@ -393,77 +339,78 @@ export function ContactPage() {
                   ))}
                 </CardContent>
               </Card>
-
-              {/* Departments */}
-              <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-xl font-bold font-display">
-                    {locale === "en" ? "Departments" : "الأقسام"}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {departments.map((dept, index) => (
-                    <div
-                      key={index}
-                      className="p-4 rounded-xl bg-secondary/50 hover:bg-secondary/70 transition-colors"
-                    >
-                      <div className="flex items-start gap-3">
-                        <dept.icon className="h-5 w-5 text-brand-primary flex-shrink-0 mt-1" />
-                        <div className="flex-1">
-                          <h3 className="font-semibold mb-1">{dept.title}</h3>
-                          <p className="text-sm text-muted-foreground mb-2">
-                            {dept.description}
-                          </p>
-                          <a
-                            href={`mailto:${dept.contact}`}
-                            className="text-sm text-brand-primary hover:underline"
-                          >
-                            {dept.contact}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
+            </>
           </div>
 
-          {/* Map Section */}
-          <div className="mt-16">
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden">
+          {/* Map */}
+          <div className="mt-8 xl:mt-12">
+            <Card className="border border-brand-tertiary/40 bg-brand-neutral-light/5 backdrop-blur-sm overflow-hidden shadow-xl shadow-black/10 rounded-2xl !p-0">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold font-display text-center">
+                <CardTitle className="text-2xl font-bold font-display text-brand-neutral-white text-center pt-5">
                   {locale === "en" ? "Visit Our Location" : "زر موقعنا"}
                 </CardTitle>
-                <p className="text-muted-foreground text-center">
+                <p className="text-brand-neutral-light/80 text-center">
                   {locale === "en"
-                    ? "Find us in the heart of Riyadh's industrial district"
-                    : "تجدنا في قلب المنطقة الصناعية بالرياض"}
+                    ? "Find us in Nasr City, Cairo Governorate, Egypt"
+                    : "تجدنا في مدينة نصر، محافظة القاهرة، مصر"}
                 </p>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="relative h-96 bg-secondary/20">
-                  {/* Static Map Placeholder */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand-secondary/20 to-brand-primary/20">
-                    <div className="text-center">
-                      <MapPin className="h-16 w-16 text-brand-primary mx-auto mb-4" />
-                      <h3 className="text-xl font-bold font-display mb-2">
-                        {locale === "en"
-                          ? "Three Cuts Location"
-                          : "موقع ثري كتس"}
-                      </h3>
-                      <p className="text-muted-foreground mb-4">
-                        {locale === "en"
-                          ? "Industrial District, Riyadh, Saudi Arabia"
-                          : "المنطقة الصناعية، الرياض، المملكة العربية السعودية"}
-                      </p>
+
+              <CardContent className="!p-0">
+                <div className="relative h-[28rem]">
+                  <iframe
+                    title={
+                      locale === "en" ? "Three Cuts Location" : "موقع ثري كتس"
+                    }
+                    src={buildMapsEmbed(locale)}
+                    className="absolute inset-0 w-full h-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
+                </div>
+
+                {/* Footer with address + buttons (moved here per request) */}
+                <div className="p-6 border-t border-brand-tertiary/40 bg-brand-primary/60">
+                  <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
+                    <div className="flex-1 flex items-start gap-3">
+                      <MapPin className="h-5 w-5 mt-1 text-brand-accent-light flex-shrink-0" />
+                      <div className="text-brand-neutral-white">
+                        <p className="font-semibold">
+                          {locale === "en"
+                            ? "Three cuts For CNC Machines"
+                            : "ثري كتس لماكينات CNC"}
+                        </p>
+                        <p className="text-xs sm:text-sm opacity-90">
+                          {locale === "en"
+                            ? "Al Sarag Mall - Administrative Building 3 - Entrance 5, Nasr City, Cairo Governorate 11765, Egypt"
+                            : "السراج مول - المبنى الإدارى 3 - مدخل 5، مدينة نصر، محافظة القاهرة 11765، مصر"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3">
                       <Button
                         asChild
-                        className="bg-gradient-to-r from-brand-primary to-brand-accent-orange hover:from-brand-primary/90 hover:to-brand-accent-orange/90 text-white font-semibold rounded-2xl"
+                        variant="secondary"
+                        className="rounded-xl bg-brand-tertiary text-white hover:bg-brand-tertiary/90 border-0"
                       >
-                        <a
-                          href="https://maps.google.com/?q=Riyadh+Industrial+District"
+                        <Link
+                          href={buildMapsDirections()}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {locale === "en" ? "Directions" : "الاتجاهات"}
+                          <ExternalLink className="h-4 w-4 ml-2" />
+                        </Link>
+                      </Button>
+
+                      <Button
+                        asChild
+                        className="rounded-xl bg-brand-accent-red hover:bg-brand-accent-red/90 text-white"
+                      >
+                        <Link
+                          href={THREE_CUTS_PLACE_URL}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -471,7 +418,7 @@ export function ContactPage() {
                             ? "Open in Google Maps"
                             : "فتح في خرائط جوجل"}
                           <ExternalLink className="h-4 w-4 ml-2" />
-                        </a>
+                        </Link>
                       </Button>
                     </div>
                   </div>
