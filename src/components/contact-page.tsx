@@ -128,7 +128,7 @@ export function ContactPage() {
         }}
       >
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={dotPatternStyle} />
+          <div className="absolute inset-0" style={dotPatternStyle} />npm ru
         </div>
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
           <div className="text-center">
