@@ -87,7 +87,7 @@ export function Header() {
               src={logo}
               alt="Three Cuts Logo"
               priority
-              className="block h-8 lg:h-10 w-auto object-contain"
+              className="block h-8 lg:h-10 w-auto object-contain drop-shadow-[0_0_0.8px_white]"
             />
           </Link>
 
