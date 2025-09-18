@@ -161,13 +161,13 @@ export function SamplesGallery() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-3"
+            className="flex items-center justify-center gap-4"
           >
-            <Sparkles className="h-5 w-5 text-brand-accent-red" />
-            <span className="text-brand-accent-light uppercase tracking-wider text-[12px] font-semibold">
+            <Sparkles className="h-7 w-7 text-brand-accent-red" />
+            <span className="text-white uppercase tracking-wider text-base font-semibold">
               Samples of Our Work
             </span>
-            <Sparkles className="h-5 w-5 text-brand-accent-red" />
+            <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
           <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight text-center">
             Precision Cutting Samples

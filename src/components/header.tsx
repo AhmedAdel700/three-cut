@@ -63,6 +63,8 @@ export function Header() {
 
   const navItems = [
     { href: "/", label: locale === "ar" ? "الرئيسية" : "Home" },
+    { href: "/about", label: locale === "ar" ? "حولنا" : "About" },
+    { href: "/services", label: locale === "ar" ? "الخدمات" : "Services" },
     { href: "/products", label: locale === "ar" ? "المنتجات" : "Products" },
     { href: "/contact", label: locale === "ar" ? "تواصل" : "Contact" },
   ];

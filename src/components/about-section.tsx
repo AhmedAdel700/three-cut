@@ -71,13 +71,13 @@ export function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-3 mb-6"
+            className="flex items-center justify-center gap-4 mb-6"
           >
-            <Sparkles className="h-6 w-6 text-brand-accent-red" />
-            <span className="text-brand-accent-light uppercase tracking-wider text-sm font-semibold">
+            <Sparkles className="h-7 w-7 text-brand-accent-red" />
+            <span className="text-white uppercase tracking-wider text-base font-semibold">
               Our Story
             </span>
-            <Sparkles className="h-6 w-6 text-brand-accent-red" />
+            <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
 
           <ScrollReveal direction="up" className="mb-12">

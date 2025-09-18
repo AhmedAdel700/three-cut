@@ -51,13 +51,13 @@ export function ServicesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center gap-3 mb-4"
+            className="flex items-center justify-center gap-4 mb-4"
           >
-            <Sparkles className="h-5 w-5 text-brand-accent-red" />
-            <span className="text-brand-accent-light uppercase tracking-wider text-[12px] font-semibold">
+            <Sparkles className="h-7 w-7 text-brand-accent-red" />
+            <span className="text-white uppercase tracking-wider text-base font-semibold">
               {locale === "en" ? "Our Services" : "خدماتنا"}
             </span>
-            <Sparkles className="h-5 w-5 text-brand-accent-red" />
+            <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
           <h2 className="text-3xl lg:text-5xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
             Precision Cutting Solutions
@@ -77,7 +77,7 @@ export function ServicesSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {services.map((service, index) => (
+          {services.slice(0, 3).map((service, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
@@ -190,11 +190,11 @@ export function ServicesSection() {
               className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold px-8 rounded-2xl"
             >
               <Link
-                href="/contact"
+                href="/services"
                 className="relative z-10 flex items-center gap-3"
               >
                 <span>
-                  {locale === "en" ? "Get Custom Solution" : "احصل على حل مخصص"}
+                  {locale === "en" ? "More Services" : "المزيد من الخدمات"}
                 </span>
               </Link>
             </Button>

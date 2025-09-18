@@ -132,7 +132,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative min-h-fit overflow-hidden pt-20 lg:pt-0"
+      className="relative min-h-fit lg:min-h-screen flex justify-center items-center max-w-full overflow-x-hidden pt-24 lg:pt-0"
       style={{
         background: `linear-gradient(135deg,
       var(--color-red-lighter) 0%,
@@ -143,7 +143,7 @@ export function HeroCarousel() {
       onMouseLeave={handleMouseLeave}
     >
       {/* Content */}
-      <div className="relative z-20 h-full flex items-center">
+      <div className="relative z-20 h-full flex items-center max-w-full">
         <div className="container mx-auto px-4 lg:px-6 w-full">
           <Carousel
             setApi={setApi}
@@ -234,7 +234,7 @@ export function HeroCarousel() {
                     </motion.div>
                     {/* Image */}
                     <motion.div
-                      className="flex-1 flex justify-center overflow-visible"
+                      className="flex-1 flex justify-center overflow-visible -mt-5 sm:-mt-22 xl:-mt-0"
                       key={`image-${slide.id}-${current}`}
                       initial={{ opacity: 0, x: isRTL ? -50 : 50 }}
                       animate={
