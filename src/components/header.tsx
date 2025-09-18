@@ -31,19 +31,16 @@ export function Header() {
     router.replace(pathname, { locale: target });
   };
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  // Header blur on scroll
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ESC to close + lock body scroll when open
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsMenuOpen(false);
@@ -81,21 +78,21 @@ export function Header() {
         backgroundColor: isScrolled ? "rgba(48, 53, 59, 0.65)" : "transparent",
       }}
     >
-      <div className="md:container mx-auto pt-3 md:pt-0 px-4 lg:px-6">
+      <div className="md:container mx-auto px-4 lg:px-6">
+        {/* Give the row a fixed height; align everything to center */}
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <Link prefetch href="/" className="flex items-center group">
-            <div className="relative w-28 h-10 lg:w-48 transition-transform group-hover:scale-105">
-              <Image
-                src={logo}
-                alt="Three Cuts Logo"
-                className="w-full h-auto"
-                priority
-              />
-            </div>
+          {/* LOGO — make image block-level and set explicit height */}
+          <Link prefetch href="/" className="flex items-center h-full">
+            <Image
+              src={logo}
+              alt="Three Cuts Logo"
+              priority
+              className="block h-8 lg:h-10 w-auto object-contain"
+            />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* DESKTOP NAV — same row height to align with logo */}
+          <nav className="hidden md:flex items-center gap-8 h-full">
             {navItems.map((item) => (
               <Link
                 prefetch
@@ -128,11 +125,11 @@ export function Header() {
             </button>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* MOBILE MENU BUTTON */}
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 text-brand-neutral-white hover:text-brand-accent-light hover:bg-white/10 bg-transparent -mt-3"
+              className="p-2 text-brand-neutral-white hover:text-brand-accent-light hover:bg-white/10 bg-transparent"
               aria-label="Open menu"
             >
               <Menu size={28} />
@@ -149,18 +146,12 @@ export function Header() {
           aria-modal="true"
           onClick={() => setIsMenuOpen(false)}
         >
-          {/* Glass sheet */}
           <div
             className={cn(
-              // Top margin (a bit more) + safe-area breathing room
               "mt-8 md:mt-12 w-[92vw] max-w-md",
-              // Neat rounded card with subtle border
               "rounded-2xl border border-white/15",
-              // Glass look: more saturation for clarity + strong blur
               "bg-white/10 backdrop-saturate-150 backdrop-blur-xl",
-              // Shadow & soft inner highlight
               "shadow-[0_20px_50px_rgba(0,0,0,.45)]",
-              // Smooth entry
               "transition-all duration-200 ease-out animate-[menuIn_.2s_ease-out]"
             )}
             onClick={(e) => e.stopPropagation()}
@@ -169,7 +160,6 @@ export function Header() {
                 "0 18px 55px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12)",
             }}
           >
-            {/* Top bar */}
             <div className="flex items-center justify-between h-14 px-5">
               <Link
                 prefetch
@@ -180,7 +170,7 @@ export function Header() {
                 <Image
                   src={logo}
                   alt="Three Cuts Logo"
-                  className="h-7 w-auto"
+                  className="block h-7 w-auto"
                 />
               </Link>
 
@@ -195,10 +185,8 @@ export function Header() {
               </Button>
             </div>
 
-            {/* Hairline divider */}
             <div className="h-px w-full bg-white/10" />
 
-            {/* Links (scrollable if long) */}
             <nav className="max-h-[70vh] overflow-y-auto overscroll-contain px-4 py-4 flex flex-col gap-2">
               {navItems.map((item) => (
                 <Link
@@ -218,7 +206,6 @@ export function Header() {
                 </Link>
               ))}
 
-              {/* Language switcher */}
               <button
                 onClick={() => {
                   goOtherLocale();
@@ -235,7 +222,6 @@ export function Header() {
         </div>
       )}
 
-      {/* tiny keyframes for pop effect */}
       <style jsx>{`
         @keyframes menuIn {
           from {
