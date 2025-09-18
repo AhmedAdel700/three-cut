@@ -120,22 +120,16 @@ export function ContactPage() {
       <Toaster richColors position="top-right" />
 
       {/* Hero Section (UNCHANGED) */}
-      <section
-        className="pt-16 lg:py-24 text-white relative overflow-hidden border-b"
-        style={{
-          background:
-            "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-        }}
-      >
+      <section className="pt-16 lg:py-24 text-brand-neutral-white relative overflow-hidden border-y section-bg">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={dotPatternStyle} />npm ru
+          <div className="absolute inset-0" style={dotPatternStyle} />
         </div>
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
               {locale === "en" ? "Contact Us" : "تواصل معنا"}
             </h1>
-            <p className="text-lg lg:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg lg:text-xl text-brand-neutral-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
               {locale === "en"
                 ? "Ready to enhance your industrial operations? Get in touch with our experts."
                 : "مستعد لتحسين عملياتك الصناعية؟ تواصل مع خبرائنا."}
@@ -145,19 +139,13 @@ export function ContactPage() {
       </section>
 
       {/* Content */}
-      <section
-        className="py-16"
-        style={{
-          background:
-            "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-        }}
-      >
+      <section className="py-16 section-bg">
         <div className="container mx-auto px-4 lg:px-6 w-full">
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 xl:gap-12">
             {/* Form */}
             <div className="xl:col-span-2">
-              <Card className="border border-brand-tertiary/40 bg-brand-neutral-light/5 backdrop-blur-sm shadow-xl shadow-black/10 !p-0 !pb-6">
-                <CardHeader className="border-b border-white/5 bg-gradient-to-r from-brand-primary/50 to-brand-tertiary/30 rounded-t-2xl py-3">
+              <Card className="border border-brand-tertiary/40 bg-black/80 backdrop-blur-sm shadow-xl shadow-black/10 !p-0 !pb-6">
+                <CardHeader className="border-b border-brand-neutral-white/5 bg-gradient-to-r from-brand-primary/50 to-brand-tertiary/30 rounded-t-2xl py-3">
                   <CardTitle className="text-2xl font-bold font-display text-brand-neutral-white">
                     {locale === "en" ? "Send us a Message" : "أرسل لنا رسالة"}
                   </CardTitle>
@@ -184,7 +172,7 @@ export function ContactPage() {
                           placeholder={
                             locale === "en" ? "Your full name" : "اسمك الكامل"
                           }
-                          className={`rounded-2xl bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
+                          className={`rounded-2xl bg-gray-800/80 text-white placeholder:text-gray-400 border-brand-accent-light/40 ${noFocus}`}
                         />
                         {errors.name && (
                           <p className="text-sm text-brand-accent-light">
@@ -205,7 +193,7 @@ export function ContactPage() {
                           type="email"
                           {...register("email")}
                           placeholder="your.email@company.com"
-                          className={`rounded-2xl bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
+                          className={`rounded-2xl bg-gray-800/80 text-white placeholder:text-gray-400 border-brand-accent-light/40 ${noFocus}`}
                         />
                         {errors.email && (
                           <p className="text-sm text-brand-accent-light">
@@ -226,7 +214,7 @@ export function ContactPage() {
                         id="phone"
                         {...register("phone")}
                         placeholder="+20 XXX XXX XXXX"
-                        className={`rounded-2xl bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
+                        className={`rounded-2xl bg-gray-800/80 text-white placeholder:text-gray-400 border-brand-accent-light/40 ${noFocus}`}
                       />
                       {errors.phone && (
                         <p className="text-sm text-brand-accent-light">
@@ -251,7 +239,7 @@ export function ContactPage() {
                             ? "How can we help you?"
                             : "كيف يمكننا مساعدتك؟"
                         }
-                        className={`rounded-2xl resize-none bg-brand-neutral-white/5 text-brand-neutral-dark placeholder:text-brand-neutral-medium border-brand-accent-light/40 ${noFocus}`}
+                        className={`rounded-2xl resize-none bg-gray-800/80 text-white placeholder:text-gray-400 border-brand-accent-light/40 ${noFocus}`}
                       />
                       {errors.message && (
                         <p className="text-sm text-brand-accent-light">
@@ -264,11 +252,11 @@ export function ContactPage() {
                       type="submit"
                       size="lg"
                       disabled={isSubmitting}
-                      className="w-full rounded-2xl font-semibold text-white bg-gradient-to-r from-brand-tertiary to-brand-accent-red hover:from-brand-tertiary/90 hover:to-brand-accent-red/90"
+                      className="w-full rounded-2xl font-semibold text-brand-neutral-white bg-gradient-to-r from-brand-tertiary to-brand-accent-red hover:from-brand-tertiary/90 hover:to-brand-accent-red/90"
                     >
                       {isSubmitting ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <div className="w-4 h-4 border-2 border-brand-neutral-white/30 border-t-brand-neutral-white rounded-full animate-spin" />
                           {locale === "en" ? "Sending..." : "جاري الإرسال..."}
                         </div>
                       ) : (
@@ -285,8 +273,8 @@ export function ContactPage() {
 
             {/* Info */}
             <>
-              <Card className="border border-brand-tertiary/40 bg-brand-primary/40 backdrop-blur-sm shadow-lg shadow-black/20 !p-0 !pb-4">
-                <CardHeader className="border-b border-white/5 pt-4 pb-3">
+              <Card className="border border-brand-tertiary/40 bg-black/80 backdrop-blur-sm shadow-lg shadow-black/20 !p-0 !pb-4">
+                <CardHeader className="border-b border-brand-neutral-white/5 pt-4 pb-3">
                   <CardTitle className="text-xl font-bold font-display text-brand-neutral-white">
                     {locale === "en"
                       ? "Contact Information"
@@ -298,7 +286,7 @@ export function ContactPage() {
                   {contactInfo.map((info, i) => (
                     <div key={i} className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-tertiary to-brand-accent-red flex items-center justify-center">
-                        <info.icon className="h-6 w-6 text-white" />
+                        <info.icon className="h-6 w-6 text-brand-neutral-white" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-brand-neutral-white mb-2">
@@ -344,7 +332,7 @@ export function ContactPage() {
 
           {/* Map */}
           <div className="mt-8 xl:mt-12">
-            <Card className="border border-brand-tertiary/40 bg-brand-neutral-light/5 backdrop-blur-sm overflow-hidden shadow-xl shadow-black/10 rounded-2xl !p-0">
+            <Card className="border border-brand-tertiary/40 bg-black/80 backdrop-blur-sm overflow-hidden shadow-xl shadow-black/10 rounded-2xl !p-0">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold font-display text-brand-neutral-white text-center pt-5">
                   {locale === "en" ? "Visit Our Location" : "زر موقعنا"}
@@ -393,7 +381,7 @@ export function ContactPage() {
                       <Button
                         asChild
                         variant="secondary"
-                        className="rounded-xl bg-brand-tertiary text-white hover:bg-brand-tertiary/90 border-0"
+                        className="rounded-xl bg-brand-tertiary text-brand-neutral-white hover:bg-brand-tertiary/90 border-0"
                       >
                         <Link
                           href={buildMapsDirections()}
@@ -407,7 +395,7 @@ export function ContactPage() {
 
                       <Button
                         asChild
-                        className="rounded-xl bg-brand-accent-red hover:bg-brand-accent-red/90 text-white"
+                        className="rounded-xl bg-brand-accent-red hover:bg-brand-accent-red/90 text-brand-neutral-white"
                       >
                         <Link
                           href={THREE_CUTS_PLACE_URL}

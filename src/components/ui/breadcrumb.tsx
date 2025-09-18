@@ -82,9 +82,9 @@ function BreadcrumbSeparator({
     >
       {children ??
         (locale === "en" ? (
-          <ChevronRight className="text-white/80" />
+          <ChevronRight className="text-brand-neutral-white/80" />
         ) : (
-          <ChevronLeft className="text-white/80" />
+          <ChevronLeft className="text-brand-neutral-white/80" />
         ))}
     </li>
   );

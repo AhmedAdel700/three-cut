@@ -28,13 +28,7 @@ export function ServicesSection() {
   };
 
   return (
-    <section
-      className="py-16 lg:py-24 relative overflow-hidden border-t"
-      style={{
-        background:
-          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-      }}
-    >
+    <section className="py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -106,7 +100,7 @@ export function ServicesSection() {
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl" />
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
                     <div className="relative w-full h-full bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl flex items-center justify-center">
-                      <service.icon className="text-white drop-shadow-lg h-8 w-8 lg:h-10 lg:w-10" />
+                      <service.icon className="text-brand-neutral-white drop-shadow-lg h-8 w-8 lg:h-10 lg:w-10" />
                     </div>
                   </motion.div>
 
@@ -137,7 +131,7 @@ export function ServicesSection() {
                       viewport={{ once: true }}
                     >
                       <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
-                      <span className="text-sm lg:text-base text-muted-foreground group-hover/feature:text-white transition-colors duration-200 font-medium">
+                      <span className="text-sm lg:text-base text-muted-foreground group-hover/feature:text-brand-neutral-white transition-colors duration-200 font-medium">
                         {feature}
                       </span>
                     </motion.div>
@@ -193,7 +187,7 @@ export function ServicesSection() {
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-white font-semibold px-8 rounded-2xl"
+              className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold px-8 rounded-2xl"
             >
               <Link
                 href="/contact"

@@ -29,15 +29,15 @@ export function ContactTeaser() {
       </div>
 
       <div className="container mx-auto px-4 lg:px-6 relative z-10">
-        <div className="text-center text-white">
+        <div className="text-center text-brand-neutral-white">
           <ScrollReveal>
-            <h2 className="text-3xl lg:text-5xl font-bold font-display mb-6 bg-gradient-to-b from-white to-brand-accent-light capitalize bg-clip-text text-transparent">
+            <h2 className="text-3xl lg:text-5xl font-bold font-display mb-6 bg-gradient-to-b from-brand-neutral-white to-brand-accent-light capitalize bg-clip-text text-transparent">
               {locale === "en" ? "Ready to Get Started?" : "مستعد للبدء؟"}
             </h2>
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <p className="text-sm md:text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-sm md:text-xl text-brand-neutral-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
               {locale === "en"
                 ? "Contact our experts today to discuss your cutting system requirements and discover how Three Cuts can enhance your industrial operations."
                 : "اتصل بخبرائنا اليوم لمناقشة متطلبات نظام القطع الخاص بك واكتشف كيف يمكن لثري كتس تحسين عملياتك الصناعية."}
@@ -54,7 +54,7 @@ export function ContactTeaser() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-white text-brand-primary hover:bg-white/90 font-semibold py-6 text-base md:text-lg rounded-2xl shadow-2xl hover:shadow-white/25 transition-all duration-300"
+                  className="bg-brand-neutral-white text-brand-primary hover:bg-brand-neutral-white/90 font-semibold py-6 text-base md:text-lg rounded-2xl shadow-2xl hover:shadow-brand-neutral-white/25 transition-all duration-300"
                 >
                   <Link href="/contact">Contact Us Now</Link>
                 </Button>

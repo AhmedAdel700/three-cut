@@ -4,7 +4,7 @@ import { mockProducts } from "@/lib/data/products";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function ProductPage({ params }: any) {
-  const product = mockProducts.find((p) => p.slug === params.slug);
+  const product = await mockProducts.find((p) => p.slug === params.slug);
 
   if (!product) {
     notFound();

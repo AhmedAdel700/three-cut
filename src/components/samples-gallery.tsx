@@ -152,13 +152,7 @@ export function SamplesGallery() {
   };
 
   return (
-    <section
-      className="px-4 py-16 lg:py-24 relative overflow-hidden border-t"
-      style={{
-        background:
-          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-      }}
-    >
+    <section className="px-4 py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
       <div className="container mx-auto px-4 lg:px-6">
         {/* Header */}
         <ScrollReveal className="text-center mb-16 flex flex-col gap-6">
@@ -203,7 +197,7 @@ export function SamplesGallery() {
                 className={cn(
                   "rounded-full px-6 transition-all duration-300",
                   filter === category.id
-                    ? "bg-gradient-to-r from-brand-primary to-brand-accent-red text-white"
+                    ? "bg-gradient-to-r from-brand-primary to-brand-accent-red text-brand-neutral-white"
                     : "hover:bg-secondary hover:scale-105"
                 )}
               >
@@ -244,12 +238,12 @@ export function SamplesGallery() {
                     className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     whileHover={{ scale: 1.1 }}
                   >
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <ZoomIn className="h-8 w-8 text-white" />
+                    <div className="w-16 h-16 bg-brand-neutral-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <ZoomIn className="h-8 w-8 text-brand-neutral-white" />
                     </div>
                   </motion.div>
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-brand-primary/90 text-white">
+                    <Badge className="bg-brand-primary/90 text-brand-neutral-white">
                       {locale === "en" ? item.category : item.categoryAr}
                     </Badge>
                   </div>
@@ -293,7 +287,7 @@ export function SamplesGallery() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setSelectedItem(null)}
-                  className="absolute -top-12 right-0 text-white hover:bg-white/10 z-10"
+                  className="absolute -top-12 right-0 text-brand-neutral-white hover:bg-brand-neutral-white/10 z-10"
                 >
                   <X className="h-6 w-6" />
                 </Button>
@@ -318,7 +312,7 @@ export function SamplesGallery() {
                   transition={{ delay: 0.2 }}
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <Badge className="bg-brand-primary text-white">
+                    <Badge className="bg-brand-primary text-brand-neutral-white">
                       {locale === "en"
                         ? selectedItem.category
                         : selectedItem.categoryAr}

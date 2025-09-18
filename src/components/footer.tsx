@@ -58,7 +58,7 @@ export function Footer() {
       : "توفر Three Cuts منتجات عالية الجودة بمعايير ثابتة وسلامة عالية وخدمة سريعة في جميع أنحاء المملكة. نعمل مع شركائنا لضمان الجودة والالتزام بالمواعيد.";
 
   return (
-    <footer className="bg-gradient-to-br from-brand-secondary via-brand-neutral-dark to-brand-secondary text-white">
+    <footer className="bg-gradient-to-br from-red-900 via-black to-red-800 text-brand-neutral-white">
       {/* Top Brand Block (centered) */}
       <div className="container mx-auto px-4 lg:px-6 pt-12 lg:pt-16">
         <div className="flex flex-col items-center text-center">
@@ -73,7 +73,7 @@ export function Footer() {
             </div>
           </Link>
 
-          <p className="text-white/80 text-sm leading-relaxed max-w-3xl">
+          <p className="text-brand-neutral-white/80 text-sm leading-relaxed max-w-3xl">
             {brandDescription}
           </p>
         </div>
@@ -92,7 +92,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white/80 hover:text-brand-accent-light transition-colors text-sm"
+                    className="text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -119,7 +119,7 @@ export function Footer() {
                   transition
                   hover:bg-white/15 hover:border-white/25
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
-                  text-white/80 hover:text-brand-accent-light
+                  text-brand-neutral-white/80 hover:text-brand-accent-light
                 "
                 >
                   <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
@@ -142,7 +142,7 @@ export function Footer() {
                 <li key={info.label}>
                   <Link
                     href={info.href}
-                    className="group flex items-center gap-3 text-white/80 hover:text-brand-accent-light transition-colors text-sm"
+                    className="group flex items-center gap-3 text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
                     title={info.label}
                   >
                     <info.icon className="h-4 w-4 text-brand-accent-red transition-transform group-hover:scale-110" />
@@ -159,7 +159,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container mx-auto py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-white/60 text-sm text-center md:text-left">
+            <p className="text-brand-neutral-white/60 text-sm text-center md:text-left">
               Created By{" "}
               <Link
                 href={"https://www.be-group.com/en"}
@@ -174,13 +174,13 @@ export function Footer() {
             <div className="flex items-center gap-6 text-sm">
               <Link
                 href="/privacy"
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
               >
                 {locale === "en" ? "Privacy Policy" : "سياسة الخصوصية"}
               </Link>
               <Link
                 href="/terms"
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
               >
                 {locale === "en" ? "Terms of Service" : "شروط الخدمة"}
               </Link>

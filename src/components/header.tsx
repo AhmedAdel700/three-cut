@@ -76,7 +76,7 @@ export function Header() {
         isScrolled ? "backdrop-blur-md" : "bg-transparent"
       )}
       style={{
-        backgroundColor: isScrolled ? "rgba(87, 34, 34, 0.65)" : "transparent",
+        backgroundColor: isScrolled ? "rgba(48, 53, 59, 0.65)" : "transparent",
       }}
     >
       <div className="md:container mx-auto pt-3 md:pt-0 px-4 lg:px-6">
@@ -130,7 +130,7 @@ export function Header() {
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 text-brand-primary hover:text-brand-secondary hover:bg-white/10 bg-transparent -mt-3"
+              className="p-2 text-brand-neutral-white hover:text-brand-accent-light hover:bg-white/10 bg-transparent -mt-3"
               aria-label="Open menu"
             >
               <Menu size={28} />

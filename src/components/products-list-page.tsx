@@ -52,15 +52,9 @@ export function ProductsListPage() {
   }, [searchQuery, selectedCategory, locale]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section
-        className="py-16 lg:py-24 text-white relative overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-        }}
-      >
+      <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
@@ -75,7 +69,7 @@ export function ProductsListPage() {
             <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
               Our Products
             </h1>
-            <p className="text-lg lg:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
               {locale === "en"
                 ? "Discover our comprehensive range of cutting-edge industrial cutting systems designed for precision, efficiency, and reliability."
                 : "اكتشف مجموعتنا الشاملة من أنظمة القطع الصناعية المتطورة المصممة للدقة والكفاءة والموثوقية."}
@@ -85,13 +79,7 @@ export function ProductsListPage() {
       </section>
 
       {/* Products Grid/List */}
-      <section
-        className="py-12"
-        style={{
-          background:
-            "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-        }}
-      >
+      <section className="py-12 section-bg border-y">
         <div className="container mx-auto px-4 lg:px-6 mb-5">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search */}
@@ -226,7 +214,7 @@ export function ProductsListPage() {
                           : product.categoryAr}
                       </Badge>
                       {product.featured && (
-                        <Badge className="bg-brand-primary text-white">
+                        <Badge className="bg-brand-primary text-brand-neutral-white">
                           <Star className="h-3 w-3 mr-1" />
                           {locale === "en" ? "Featured" : "مميز"}
                         </Badge>

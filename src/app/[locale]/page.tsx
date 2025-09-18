@@ -5,7 +5,6 @@ import { ProductsPreview } from "@/components/products-preview";
 import { SamplesGallery } from "@/components/samples-gallery";
 import { ContactTeaser } from "@/components/contact-teaser";
 import { FloatingActionButton } from "@/components/ui/floating-action-button";
-import PartnerCarousel from "@/components/PartnerCarousel";
 export default function Home() {
   return (
     <>
@@ -15,7 +14,6 @@ export default function Home() {
       <ProductsPreview />
       <SamplesGallery />
       <ContactTeaser />
-      <PartnerCarousel />
       <FloatingActionButton />
     </>
   );

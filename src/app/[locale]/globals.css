@@ -4,38 +4,55 @@
 
 :root {
   --radius: 0.625rem;
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
-  --sidebar: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 94.1%;
-  --sidebar-primary-foreground: 240 5.9% 10%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 10.6% 64.9%;
+
+  /* New Three Cuts Color Palette */
+  --color-black: #000000;
+  --color-red: #d72323;
+  --color-dark-gray: #30353b;
+  --color-light-gray: #f5eded;
+
+  /* Additional shades for better UI */
+  --color-red-dark: #b01e1e;
+  --color-red-light: #e54a4a;
+  --color-red-lighter: #f2a0a0;
+  --color-dark-gray-light: #4a5058;
+  --color-dark-gray-dark: #1f2327;
+  --color-light-gray-dark: #e8d8d8;
+  --color-light-gray-darker: #dbcbcb;
+
+  /* Theme colors mapped to new palette */
+  --background: 0 0% 0%; /* Black */
+  --foreground: 0 0% 96%; /* Light Gray */
+  --card: 0 0% 0%; /* Black */
+  --card-foreground: 0 0% 96%; /* Light Gray */
+  --popover: 0 0% 0%; /* Black */
+  --popover-foreground: 0 0% 96%; /* Light Gray */
+  --primary: 0 0% 96%; /* Light Gray */
+  --primary-foreground: 0 0% 0%; /* Black */
+  --secondary: 210 11% 22%; /* Dark Gray */
+  --secondary-foreground: 0 0% 96%; /* Light Gray */
+  --muted: 210 11% 22%; /* Dark Gray */
+  --muted-foreground: 0 0% 70%; /* Light Gray with opacity */
+  --accent: 0 70% 45%; /* Red */
+  --accent-foreground: 0 0% 96%; /* Light Gray */
+  --destructive: 0 70% 45%; /* Red */
+  --destructive-foreground: 0 0% 96%; /* Light Gray */
+  --border: 210 11% 22%; /* Dark Gray */
+  --input: 210 11% 22%; /* Dark Gray */
+  --ring: 0 70% 45%; /* Red */
+  --chart-1: 0 70% 45%; /* Red */
+  --chart-2: 210 11% 22%; /* Dark Gray */
+  --chart-3: 0 0% 96%; /* Light Gray */
+  --chart-4: 0 70% 60%; /* Red Light */
+  --chart-5: 210 11% 35%; /* Dark Gray Light */
+  --sidebar: 0 0% 0%; /* Black */
+  --sidebar-foreground: 0 0% 96%; /* Light Gray */
+  --sidebar-primary: 0 0% 96%; /* Light Gray */
+  --sidebar-primary-foreground: 0 0% 0%; /* Black */
+  --sidebar-accent: 210 11% 22%; /* Dark Gray */
+  --sidebar-accent-foreground: 0 0% 96%; /* Light Gray */
+  --sidebar-border: 210 11% 22%; /* Dark Gray */
+  --sidebar-ring: 0 70% 45%; /* Red */
 }
 
 @layer base {
@@ -43,16 +60,8 @@
     @apply border-border;
   }
   body {
-    color: #ffffff;
-    background: linear-gradient(
-      180deg,
-      #0d0d0d 0%,
-      #0e0505 20%,
-      #321414 40%,
-      #572222 60%,
-      #321414 80%,
-      #0d0d0d 100%
-    );
+    color: var(--color-light-gray);
+    background: linear-gradient(180deg, var(--color-red-dark));
     min-height: 100vh;
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
   }
@@ -64,9 +73,9 @@
   /* Override background for specific components that need lighter backgrounds */
   .card,
   .bg-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(245, 237, 237, 0.05);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(245, 237, 237, 0.1);
   }
 }
 
@@ -88,7 +97,27 @@
   }
 
   .section-bg {
-    @apply bg-[linear-gradient(180deg,#0d0d0d_0%,#0e0505_20%,#321414_40%,#572222_60%,#321414_80%,#0d0d0d_100%)];
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(31, 35, 39, 0.9) 25%,
+      rgba(48, 53, 59, 0.8) 50%,
+      rgba(31, 35, 39, 0.9) 75%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+    backdrop-filter: blur(8px);
+  }
+
+  .dark-section-bg {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(31, 35, 39, 0.9) 25%,
+      rgba(48, 53, 59, 0.8) 50%,
+      rgba(31, 35, 39, 0.9) 75%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+    backdrop-filter: blur(8px);
   }
 }
 
@@ -103,14 +132,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #7c3030;
+  background: var(--color-red-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #000;
+  background: var(--color-black);
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0201019c;
+  background: var(--color-dark-gray-dark);
 }

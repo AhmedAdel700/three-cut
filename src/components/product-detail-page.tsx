@@ -97,13 +97,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
   ];
 
   return (
-    <div
-      className="min-h-fit"
-      style={{
-        background:
-          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-      }}
-    >
+    <div className="min-h-fit section-bg">
       <section className="pt-32">
         <div className="container mx-auto px-4 lg:px-6 flex justify-center sm:justify-start">
           <Breadcrumb>
@@ -132,7 +126,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden backdrop-blur-sm">
+              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden">
                 <Image
                   src={product.images[currentImageIndex] || "/placeholder.svg"}
                   alt={locale === "en" ? product.name : product.nameAr}
@@ -144,13 +138,13 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-0 xl:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white hover:bg-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
+                      className="absolute left-0 xl:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-brand-neutral-white hover:bg-brand-neutral-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-0 xl:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white hover:bg-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
+                      className="absolute right-0 xl:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-brand-neutral-white hover:bg-brand-neutral-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
                     >
                       <ChevronRight className="h-5 w-5" />
                     </button>
@@ -159,7 +153,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
 
                 {product.featured && (
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-white text-brand-primary">
+                    <Badge className="bg-brand-neutral-white text-brand-primary">
                       <Star className="h-3 w-3 mr-1" />
                       {locale === "en" ? "Featured" : "مميز"}
                     </Badge>
@@ -219,7 +213,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                     className="flex items-start gap-3 p-4 rounded-xl bg-card/50"
                   >
                     <div className="w-10 h-10 bg-gradient-to-br from-brand-secondary to-brand-accent-red rounded-lg flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="h-5 w-5 text-white" />
+                      <feature.icon className="h-5 w-5 text-brand-neutral-white" />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">{feature.title}</h3>
@@ -233,7 +227,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
 
               <Button
                 size="lg"
-                className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-white font-semibold rounded-2xl"
+                className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-brand-neutral-white font-semibold rounded-2xl"
               >
                 {locale === "en" ? "Contact Sales" : "اتصل بالمبيعات"}
               </Button>
@@ -252,7 +246,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                     className={cn(
                       "rounded-2xl",
                       activeTab === tab.id &&
-                        "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-white"
+                        "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-brand-neutral-white"
                     )}
                   >
                     {tab.label}

@@ -1,22 +1,21 @@
 "use client";
-
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselApi,
+} from "@/components/ui/carousel";
 import image1 from "@/app/assets/img1.png";
 import image2 from "@/app/assets/img5.png";
 import image3 from "@/app/assets/img4.png";
-
 import type { StaticImageData } from "next/image";
 
 interface HeroSlide {
@@ -74,34 +73,59 @@ const heroSlides: HeroSlide[] = [
 ];
 
 export function HeroCarousel() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-
+  const [slideChanged, setSlideChanged] = useState(false);
   const locale = useLocale();
+  const isRTL = locale === "ar";
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + heroSlides.length) % heroSlides.length
-    );
-  }, []);
-
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index);
-  }, []);
+  const SLIDE_TO_CONTENT_DELAY = 0.42;
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!api) return;
 
-    const interval = setInterval(nextSlide, 5000);
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setSlideChanged(true);
+      setCurrent(api.selectedScrollSnap() + 1);
+
+      setTimeout(() => {
+        setSlideChanged(false);
+      }, SLIDE_TO_CONTENT_DELAY * 1000);
+    });
+  }, [api]);
+
+  const nextSlide = useCallback(() => {
+    if (api) api.scrollNext();
+  }, [api]);
+
+  const prevSlide = useCallback(() => {
+    if (api) api.scrollPrev();
+  }, [api]);
+
+  const goToSlide = useCallback(
+    (index: number) => {
+      if (api) api.scrollTo(index);
+    },
+    [api]
+  );
+
+  useEffect(() => {
+    if (!isAutoPlaying || !api) return;
+    const interval = setInterval(() => {
+      if (current === count) {
+        api.scrollTo(0);
+      } else {
+        nextSlide();
+      }
+    }, 5000);
+
     return () => clearInterval(interval);
-  }, [isAutoPlaying, nextSlide]);
+  }, [isAutoPlaying, api, current, count, nextSlide]);
 
   const handleMouseEnter = () => setIsAutoPlaying(false);
   const handleMouseLeave = () => setIsAutoPlaying(true);
@@ -111,89 +135,123 @@ export function HeroCarousel() {
       className="relative h-screen min-h-[600px] overflow-hidden"
       style={{
         background: `linear-gradient(135deg,
-      #cb7a7a 0%,   /* soft light rose highlight */
-      #572222 40%, /* deep muted red */
-      #0d0d0d 100% /* rich dark base */
-    )`,
+      var(--color-red-lighter) 0%,
+      var(--color-red-dark) 40%,
+      var(--color-black) 100%)`,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Content with Enhanced Animations */}
-      <motion.div
-        style={{ opacity }}
-        className="relative z-20 h-full flex items-center"
-      >
-        <div className="container mx-auto px-4 lg:px-6">
-          <div className="flex flex-col xl:flex-row items-center gap-8">
-            {/* Text on the left */}
-            <div className="max-w-2xl flex-1">
-              <AnimatePresence mode="wait">
-                {heroSlides.map(
-                  (slide, index) =>
-                    index === currentSlide && (
-                      <motion.div
-                        key={slide.id}
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+      {/* Content */}
+      <div className="relative z-20 h-full flex items-center">
+        <div className="container mx-auto px-4 lg:px-6 w-full">
+          <Carousel
+            setApi={setApi}
+            className="w-full"
+            opts={{
+              align: "center",
+              loop: true,
+              direction: isRTL ? "rtl" : "ltr",
+            }}
+          >
+            <CarouselContent>
+              {heroSlides.map((slide, index) => (
+                <CarouselItem key={slide.id}>
+                  <div className="flex flex-col xl:flex-row items-center justify-center gap-8 w-full min-h-[500px]">
+                    {/* Text */}
+                    <motion.div
+                      className="max-w-2xl flex-1 text-center xl:text-left"
+                      key={`text-${slide.id}-${current}`}
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={
+                        slideChanged
+                          ? { opacity: 0, y: 50 }
+                          : { opacity: 1, y: 0 }
+                      }
+                      transition={{
+                        duration: 0.8,
+                        ease: "easeOut",
+                        delay: slideChanged ? 0 : 0,
+                      }}
+                    >
+                      <motion.h1
+                        className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 leading-tight"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={
+                          slideChanged
+                            ? { opacity: 0, y: 30 }
+                            : { opacity: 1, y: 0 }
+                        }
+                        transition={{
+                          duration: 0.8,
+                          delay: slideChanged ? 0 : 0.05,
+                        }}
                       >
-                        <motion.h1
-                          className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 leading-tight"
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.2 }}
-                        >
-                          {locale === "en" ? slide.title : slide.titleAr}
-                        </motion.h1>
-                        <motion.p
-                          className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed"
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.4 }}
-                        >
-                          {locale === "en" ? slide.subtitle : slide.subtitleAr}
-                        </motion.p>
-                        <motion.div
-                          className="flex flex-col sm:flex-row gap-4"
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.6 }}
-                        >
-                          <Button asChild size="lg" className="btn-primary">
-                            <a href={slide.ctaLink}>
-                              {locale === "en" ? slide.cta : slide.ctaAr}
-                            </a>
-                          </Button>
-
-                          <Button
-                            asChild
-                            variant="outline"
-                            size="lg"
-                            className="btn-outline"
-                          >
-                            <Link href="/contact">Contact Us</Link>
-                          </Button>
-                        </motion.div>
-                      </motion.div>
-                    )
-                )}
-              </AnimatePresence>
-            </div>
-            {/* Image on the right */}
-            <div className="flex-1 flex justify-center overflow-visible">
-              <AnimatePresence mode="wait">
-                {heroSlides.map(
-                  (slide, index) =>
-                    index === currentSlide && (
+                        {locale === "en" ? slide.title : slide.titleAr}
+                      </motion.h1>
+                      <motion.p
+                        className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={
+                          slideChanged
+                            ? { opacity: 0, y: 30 }
+                            : { opacity: 1, y: 0 }
+                        }
+                        transition={{
+                          duration: 0.8,
+                          delay: slideChanged ? 0 : 0.1,
+                        }}
+                      >
+                        {locale === "en" ? slide.subtitle : slide.subtitleAr}
+                      </motion.p>
                       <motion.div
-                        key={slide.id}
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex flex-col sm:flex-row gap-4 justify-center xl:justify-start"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={
+                          slideChanged
+                            ? { opacity: 0, y: 30 }
+                            : { opacity: 1, y: 0 }
+                        }
+                        transition={{
+                          duration: 0.8,
+                          delay: slideChanged ? 0 : 0.15,
+                        }}
+                      >
+                        <Button asChild size="lg" className="btn-primary">
+                          <a href={slide.ctaLink}>
+                            {locale === "en" ? slide.cta : slide.ctaAr}
+                          </a>
+                        </Button>
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="lg"
+                          className="btn-outline"
+                        >
+                          <Link href="/contact">Contact Us</Link>
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                    {/* Image */}
+                    <motion.div
+                      className="flex-1 flex justify-center overflow-visible"
+                      key={`image-${slide.id}-${current}`}
+                      initial={{ opacity: 0, x: isRTL ? -50 : 50 }}
+                      animate={
+                        slideChanged
+                          ? { opacity: 0, x: isRTL ? -50 : 50 }
+                          : { opacity: 1, x: 0 }
+                      }
+                      transition={{
+                        duration: 0.8,
+                        ease: "easeOut",
+                        delay: slideChanged ? 0 : 0.08,
+                      }}
+                    >
+                      <motion.div
                         className="shrink-0"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3 }}
                       >
                         <Image
                           src={slide.image || "/placeholder.svg"}
@@ -205,31 +263,38 @@ export function HeroCarousel() {
                           priority={index === 0}
                         />
                       </motion.div>
-                    )
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
+                    </motion.div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Navigation Arrows */}
+      {/* Arrows */}
       <button
-        onClick={prevSlide}
-        className="hidden xl:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110"
+        onClick={isRTL ? nextSlide : prevSlide}
+        className={cn(
+          "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
+          isRTL ? "right-4 lg:right-8" : "left-4 lg:left-8"
+        )}
         aria-label="Previous slide"
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
       <button
-        onClick={nextSlide}
-        className="hidden xl:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110"
+        onClick={isRTL ? prevSlide : nextSlide}
+        className={cn(
+          "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
+          isRTL ? "left-4 lg:left-8" : "right-4 lg:right-8"
+        )}
         aria-label="Next slide"
       >
         <ChevronRight className="h-6 w-6" />
       </button>
 
-      {/* Pagination Indicators */}
+      {/* Dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
         {heroSlides.map((_, index) => (
           <button
@@ -237,7 +302,7 @@ export function HeroCarousel() {
             onClick={() => goToSlide(index)}
             className={cn(
               "h-1 w-8 rounded-sm transition-all duration-300",
-              index === currentSlide
+              index === current - 1
                 ? "bg-white scale-110"
                 : "bg-white/40 hover:bg-white/60"
             )}

@@ -10,17 +10,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Three Cuts brand colors using red palette - direct hex values
-        "brand-primary": "#0e0505",
-        "brand-secondary": "#321414",
-        "brand-tertiary": "#572222",
-        "brand-quaternary": "#7c3030",
-        "brand-accent-red": "#a13e3e",
-        "brand-accent-light": "#cb7a7a",
-        "brand-neutral-white": "#ffffff",
-        "brand-neutral-light": "#f5f5f6",
-        "brand-neutral-medium": "#4a4a4a",
-        "brand-neutral-dark": "#0d0d0d",
+        // Three Cuts brand colors using new palette - CSS variables
+        "brand-primary": "var(--color-black)",
+        "brand-secondary": "var(--color-dark-gray)",
+        "brand-tertiary": "var(--color-red-dark)",
+        "brand-quaternary": "var(--color-red)",
+        "brand-accent-red": "var(--color-red)",
+        "brand-accent-light": "var(--color-red-light)",
+        "brand-neutral-white": "var(--color-light-gray)",
+        "brand-neutral-light": "var(--color-light-gray)",
+        "brand-neutral-medium": "var(--color-dark-gray-light)",
+        "brand-neutral-dark": "var(--color-black)",
 
         // Standard theme colors with proper mapping
         background: "hsl(var(--background))",

@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { AnimatedCounter } from "@/components/animated-counter";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
+import { PartnerCarousel } from "./PartnerCarousel";
 
 export function AboutSection() {
   const locale = useLocale();
@@ -61,13 +62,7 @@ export function AboutSection() {
   ];
 
   return (
-    <section
-      className="py-16 lg:py-24 border-t"
-      style={{
-        background:
-          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-      }}
-    >
+    <section className="py-16 lg:py-24 border-t dark-section-bg">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-4xl mx-auto text-center">
           {/* Header */}
@@ -113,7 +108,7 @@ bg-clip-text text-transparent"
                   }}
                 >
                   <div className="w-16 h-16 bg-gradient-to-br from-brand-secondary to-brand-accent-red rounded-xl flex items-center justify-center mx-auto mb-6">
-                    <feature.icon className="h-8 w-8 text-white" />
+                    <feature.icon className="h-8 w-8 text-brand-neutral-white" />
                   </div>
                   <h3 className="font-semibold font-display text-xl mb-4">
                     {feature.title}
@@ -159,7 +154,7 @@ bg-clip-text text-transparent"
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-white font-semibold px-8 rounded-2xl"
+              className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold px-8 rounded-2xl"
             >
               <Link href="/contact">
                 {locale === "en" ? "Learn More About Us" : "تعرف أكثر عنا"}
@@ -168,6 +163,8 @@ bg-clip-text text-transparent"
           </ScrollReveal>
         </div>
       </div>
+
+      <PartnerCarousel />
     </section>
   );
 }

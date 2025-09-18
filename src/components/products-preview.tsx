@@ -40,13 +40,7 @@ export function ProductsPreview() {
   };
 
   return (
-    <section
-      className="px-4 py-16 lg:py-24 relative overflow-hidden border-t"
-      style={{
-        background:
-          "linear-gradient(180deg, #0d0d0d 0%, #0e0505 20%, #321414 40%, #572222 60%, #321414 80%, #0d0d0d 100%)",
-      }}
-    >
+    <section className="px-4 py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
       {/* Page container */}
       <div className="container mx-auto grid gap-16 lg:gap-24">
         {/* Header */}
@@ -133,7 +127,7 @@ export function ProductsPreview() {
                       }}
                       viewport={{ once: true }}
                     >
-                      <Badge className="bg-brand-primary text-white flex items-center gap-1">
+                      <Badge className="bg-brand-primary text-brand-neutral-white flex items-center gap-1">
                         <Star className="h-3 w-3" />
                         {locale === "en" ? "Featured" : "مميز"}
                       </Badge>
@@ -211,7 +205,7 @@ export function ProductsPreview() {
               <Button
                 asChild
                 size="lg"
-                className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-white font-semibold rounded-2xl"
+                className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold rounded-2xl"
               >
                 <Link href="/products" className="flex items-center gap-2">
                   <span>{locale === "en" ? "View All" : "عرض الكل"}</span>
