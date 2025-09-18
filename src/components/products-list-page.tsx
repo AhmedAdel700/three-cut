@@ -81,7 +81,7 @@ export function ProductsListPage() {
       {/* Products Grid/List */}
       <section className="py-12 section-bg border-y">
         <div className="container mx-auto px-4 lg:px-6 mb-5">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -124,7 +124,7 @@ export function ProductsListPage() {
               </Select>
 
               {/* View Mode Toggle */}
-              <div className="flex items-center gap-1 bg-secondary rounded-2xl p-1">
+              <div className="hidden lg:flex items-center gap-1 bg-secondary rounded-2xl p-1">
                 <Button
                   variant={viewMode === "grid" ? "default" : "ghost"}
                   size="sm"
@@ -188,8 +188,8 @@ export function ProductsListPage() {
                 <Card
                   key={product.id}
                   className={cn(
-                    "h-full flex flex-col group overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm",
-                    viewMode === "list" && "flex-row"
+                    "h-full min-h-[520px] flex flex-col group overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm",
+                    viewMode === "list" && "flex-row min-h-[200px]"
                   )}
                 >
                   <div

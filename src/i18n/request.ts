@@ -10,7 +10,9 @@ export default getRequestConfig(async () => {
   const raw = h.get("x-next-intl-locale") ?? "en";
   const locale = raw.toLowerCase() as (typeof locales)[number];
 
-  if (!locales.includes(locale as "en" | "ar")) notFound();
+  if (!locales.includes(locale)) {
+    notFound();
+  }
 
   const messages = Object.fromEntries(
     await Promise.all(

@@ -141,7 +141,7 @@ export function Header() {
       {/* Mobile Top Pop-up */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-[60] flex items-start justify-center bg-black/55 backdrop-blur-sm"
+          className="fixed inset-0 z-[60] min-h-screen flex items-start justify-center"
           role="dialog"
           aria-modal="true"
           onClick={() => setIsMenuOpen(false)}
@@ -150,7 +150,7 @@ export function Header() {
             className={cn(
               "mt-8 md:mt-12 w-[92vw] max-w-md",
               "rounded-2xl border border-white/25",
-              "bg-black/20 backdrop-saturate-150 backdrop-blur-xl",
+              "bg-black backdrop-saturate-150 backdrop-blur-xl",
               "shadow-[0_20px_50px_rgba(0,0,0,.45)]",
               "transition-all duration-200 ease-out animate-[menuIn_.2s_ease-out]"
             )}

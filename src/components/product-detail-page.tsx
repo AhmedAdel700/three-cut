@@ -47,15 +47,15 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3);
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-  };
+  // const nextImage = () => {
+  //   setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+  // };
 
-  const prevImage = () => {
-    setCurrentImageIndex(
-      (prev) => (prev - 1 + product.images.length) % product.images.length
-    );
-  };
+  // const prevImage = () => {
+  //   setCurrentImageIndex(
+  //     (prev) => (prev - 1 + product.images.length) % product.images.length
+  //   );
+  // };
 
   const features = [
     {

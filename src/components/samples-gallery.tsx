@@ -259,7 +259,7 @@ export function SamplesGallery() {
                   </div>
 
                   {/* Badge */}
-                  <div className="absolute top-3 left-3">
+                  <div className="absolute top-0 left-3 bg-red-500/20 rounded-lg">
                     <Badge className="bg-brand-primary/90 text-white text-xs px-2 py-0.5">
                       {locale === "en" ? item.category : item.categoryAr}
                     </Badge>
