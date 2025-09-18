@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Award, Sparkles, Users, Wrench } from "lucide-react";
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { AnimatedCounter } from "@/components/animated-counter";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
 import { PartnerCarousel } from "./PartnerCarousel";
@@ -35,29 +34,6 @@ export function AboutPage() {
         locale === "en"
           ? "From consultation to installation and ongoing maintenance"
           : "من الاستشارة إلى التركيب والصيانة المستمرة",
-    },
-  ];
-
-  const achievements = [
-    {
-      number: 500,
-      suffix: "+",
-      label: locale === "en" ? "Projects Completed" : "مشروع مكتمل",
-    },
-    {
-      number: 15,
-      suffix: "+",
-      label: locale === "en" ? "Years Experience" : "سنة خبرة",
-    },
-    {
-      number: 50,
-      suffix: "+",
-      label: locale === "en" ? "Happy Clients" : "عميل راضٍ",
-    },
-    {
-      number: 99,
-      suffix: "%",
-      label: locale === "en" ? "Success Rate" : "معدل النجاح",
     },
   ];
 
@@ -152,32 +128,6 @@ export function AboutPage() {
               </ScrollReveal>
             ))}
           </div>
-
-          {/* Achievements Section */}
-          <ScrollReveal className="mb-16">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {achievements.map((achievement, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="text-4xl lg:text-5xl font-bold text-brand-accent-red mb-2">
-                    <AnimatedCounter
-                      value={achievement.number}
-                      suffix={achievement.suffix}
-                    />
-                  </div>
-                  <p className="text-muted-foreground font-medium">
-                    {achievement.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </ScrollReveal>
 
           {/* CTA Section */}
           <ScrollReveal className="text-center">

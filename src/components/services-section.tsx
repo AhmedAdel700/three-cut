@@ -12,17 +12,17 @@ export function ServicesSection() {
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 60 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+        duration: 0.6,
+        ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
       },
     },
   };
@@ -33,13 +33,13 @@ export function ServicesSection() {
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute top-20 left-10 w-32 h-32 bg-brand-accent-red/5 rounded-full blur-xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.3, 0.2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute bottom-20 right-10 w-40 h-40 bg-brand-tertiary/5 rounded-full blur-xl"
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ scale: [1.05, 1, 1.05], opacity: [0.15, 0.25, 0.15] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
@@ -47,9 +47,9 @@ export function ServicesSection() {
         {/* Header */}
         <ScrollReveal className="text-center mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
             viewport={{ once: true }}
             className="flex items-center justify-center gap-4 mb-4"
           >
@@ -92,9 +92,9 @@ export function ServicesSection() {
                   <motion.div
                     className="relative w-16 h-16 lg:w-20 lg:h-20"
                     whileHover={{
-                      scale: 1.1,
-                      rotate: [0, -5, 5, 0],
-                      transition: { duration: 0.6, ease: "easeInOut" },
+                      scale: 1.05,
+                      rotate: [0, -2, 2, 0],
+                      transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
                     }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl" />
@@ -125,9 +125,9 @@ export function ServicesSection() {
                     <motion.div
                       key={featureIndex}
                       className="flex items-center gap-3 group/feature justify-center lg:justify-start"
-                      initial={{ opacity: 0, x: index % 2 === 1 ? 20 : -20 }}
+                      initial={{ opacity: 0, x: index % 2 === 1 ? 10 : -10 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: featureIndex * 0.1 + 0.3 }}
+                      transition={{ delay: featureIndex * 0.05 + 0.2, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                       viewport={{ once: true }}
                     >
                       <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
@@ -145,7 +145,7 @@ export function ServicesSection() {
                   className="w-px h-32 xl:h-40 bg-gradient-to-b from-transparent via-brand-accent-red/50 to-transparent"
                   initial={{ scaleY: 0 }}
                   whileInView={{ scaleY: 1 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
+                  transition={{ delay: 0.3, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                   viewport={{ once: true }}
                 />
               </div>
@@ -156,21 +156,21 @@ export function ServicesSection() {
               {/* Visual/Icon Side */}
               <div className="flex-1 flex justify-center">
                 <motion.div
-                  className="w-64 h-32 lg:w-80 lg:h-40 xl:w-96 xl:h-48 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-accent-red/10 relative overflow-hidden"
-                  whileHover={{ scale: 1.02 }}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  className="w-64 h-32 lg:w-80 lg:h-40 xl:w-96 xl:h-48 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-300 hover:shadow-xl hover:shadow-brand-accent-red/5 relative overflow-hidden"
+                  whileHover={{ scale: 1.01 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
+                  transition={{ delay: 0.2, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                   viewport={{ once: true }}
                 >
                   {/* Background gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand-accent-red/5 via-transparent to-brand-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-accent-red/5 via-transparent to-brand-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   {/* Large icon */}
-                  <service.icon className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-500 group-hover:scale-110" />
+                  <service.icon className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-300 group-hover:scale-105" />
 
                   {/* Animated border glow */}
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-sm" />
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-sm" />
                 </motion.div>
               </div>
             </motion.div>
@@ -180,8 +180,8 @@ export function ServicesSection() {
         {/* CTA Button */}
         <ScrollReveal className="text-center mt-16 lg:mt-20" delay={0.6}>
           <motion.div
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="inline-block"
           >
             <Button

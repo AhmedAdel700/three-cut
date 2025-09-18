@@ -134,7 +134,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                   className="object-contain"
                 />
 
-                {product.images.length > 1 && (
+                {/* {product.images.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
@@ -149,7 +149,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                       <ChevronRight className="h-5 w-5" />
                     </button>
                   </>
-                )}
+                )} */}
 
                 {product.featured && (
                   <div className="absolute top-4 left-4">

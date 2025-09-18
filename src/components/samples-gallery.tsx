@@ -209,53 +209,70 @@ export function SamplesGallery() {
 
         {/* Gallery Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+          className="flex flex-wrap justify-center gap-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          key={filter} // re-animate when filter changes
+          key={filter}
         >
           {filteredItems.map((item) => (
             <motion.div
               key={item.id}
               variants={itemVariants}
-              className="h-full"
+              className="h-full w-full sm:w-[48%] lg:w-[40%] xl:w-[23%] flex justify-center"
             >
               <Card
-                className="h-full flex flex-col group cursor-pointer overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm"
+                className="h-full flex flex-col group cursor-pointer overflow-hidden 
+        hover:shadow-2xl hover:shadow-brand-primary/10 
+        transition-all duration-500 hover:-translate-y-2 
+        border-border/50 bg-card/50 backdrop-blur-sm"
                 onClick={() => setSelectedItem(item)}
               >
                 {/* Media */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
                   <Image
                     src={item.thumbnail || "/placeholder.svg"}
                     alt={locale === "en" ? item.title : item.titleAr}
                     fill
-                    className="object-contain group-hover:scale-110 transition-transform duration-500"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-neutral-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    whileHover={{ scale: 1.1 }}
+
+                  {/* Gradient overlay */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent 
+            opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+                  />
+
+                  {/* Search icon overlay */}
+                  <div
+                    className="absolute inset-0 hidden xl:flex items-center justify-center 
+            opacity-0 group-hover:opacity-100 
+            transition-all duration-500 ease-in-out"
                   >
-                    <div className="w-16 h-16 bg-brand-neutral-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <ZoomIn className="h-8 w-8 text-brand-neutral-white" />
+                    <div
+                      className="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full 
+              flex items-center justify-center transform scale-90 
+              group-hover:scale-100 transition-transform duration-500 ease-in-out"
+                    >
+                      <ZoomIn className="h-6 w-6 text-white" />
                     </div>
-                  </motion.div>
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-brand-primary/90 text-brand-neutral-white">
+                  </div>
+
+                  {/* Badge */}
+                  <div className="absolute top-3 left-3">
+                    <Badge className="bg-brand-primary/90 text-white text-xs px-2 py-0.5">
                       {locale === "en" ? item.category : item.categoryAr}
                     </Badge>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-lg font-bold font-display mb-2">
+                    <h3 className="text-sm font-bold font-display mb-1">
                       {locale === "en" ? item.title : item.titleAr}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                    <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
                       {locale === "en" ? item.description : item.descriptionAr}
                     </p>
                   </div>
@@ -269,66 +286,69 @@ export function SamplesGallery() {
         <AnimatePresence>
           {selectedItem && (
             <motion.div
-              className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+              className="hidden xl:flex fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedItem(null)}
             >
               <motion.div
-                className="relative max-w-4xl max-h-[90vh] w-full"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                className="relative bg-black rounded-xl shadow-2xl w-full max-w-2xl lg:max-w-5xl max-h-[80vh] overflow-hidden"
+                initial={{ scale: 0.9, opacity: 0, y: 50 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 50 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedItem(null)}
-                  className="absolute -top-12 right-0 text-brand-neutral-white hover:bg-brand-neutral-white/10 z-10"
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-
-                <div className="relative h-[70vh] rounded-2xl overflow-hidden">
-                  <Image
-                    src={selectedItem.src || "/placeholder.svg"}
-                    alt={
-                      locale === "en"
-                        ? selectedItem.title
-                        : selectedItem.titleAr
-                    }
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-
-                <motion.div
-                  className="bg-card/95 backdrop-blur-sm rounded-2xl p-6 mt-4"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <Badge className="bg-brand-primary text-brand-neutral-white">
+                {/* Header with Close Button */}
+                <div className="flex items-center justify-between p-4 text-white">
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-brand-primary text-white">
                       {locale === "en"
                         ? selectedItem.category
                         : selectedItem.categoryAr}
                     </Badge>
                   </div>
-                  <h3 className="text-2xl font-bold font-display mb-3">
-                    {locale === "en"
-                      ? selectedItem.title
-                      : selectedItem.titleAr}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? selectedItem.description
-                      : selectedItem.descriptionAr}
-                  </p>
-                </motion.div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedItem(null)}
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
+
+                {/* Main Content - Side by side on large screens */}
+                <div className="flex flex-col lg:flex-row">
+                  {/* Image Container */}
+                  <div className="relative h-64 lg:h-80 lg:flex-1 flex items-center justify-center">
+                    <Image
+                      src={selectedItem.src || "/placeholder.svg"}
+                      alt={
+                        locale === "en"
+                          ? selectedItem.title
+                          : selectedItem.titleAr
+                      }
+                      fill
+                      className="object-contain p-4"
+                    />
+                  </div>
+
+                  {/* Content - Side by side with image on large screens */}
+                  <div className="p-4 space-y-3 lg:flex-1 lg:flex lg:flex-col lg:justify-start">
+                    <h3 className="text-lg lg:text-xl font-bold text-white">
+                      {locale === "en"
+                        ? selectedItem.title
+                        : selectedItem.titleAr}
+                    </h3>
+                    <p className="text-sm lg:text-base text-white leading-relaxed">
+                      {locale === "en"
+                        ? selectedItem.description
+                        : selectedItem.descriptionAr}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}

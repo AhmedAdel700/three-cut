@@ -13,9 +13,9 @@ import {
   CarouselItem,
   CarouselApi,
 } from "@/components/ui/carousel";
-import image1 from "@/app/assets/img1.png";
-import image2 from "@/app/assets/img5.png";
-import image3 from "@/app/assets/img4.png";
+import image1 from "@/app/assets/pc-1.png";
+import image2 from "@/app/assets/pc-2.png";
+import image3 from "@/app/assets/pc-3.png";
 import type { StaticImageData } from "next/image";
 
 interface HeroSlide {

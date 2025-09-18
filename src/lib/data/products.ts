@@ -1,8 +1,7 @@
-import image from "@/app/assets/1.jpg";
 import { StaticImageData } from "next/image";
-import productImage1 from "@/app/assets/img2.png";
-import productImage2 from "@/app/assets/img3.png";
-import productImage3 from "@/app/assets/img4.png";
+import productImage1 from "@/app/assets/pc-1.png";
+import productImage2 from "@/app/assets/pc-2.png";
+import productImage3 from "@/app/assets/pc-3.png";
 
 export interface Product {
   id: string;
