@@ -15,8 +15,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
-  ChevronLeft,
-  ChevronRight,
   Star,
   Zap,
   Shield,
