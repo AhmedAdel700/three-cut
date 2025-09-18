@@ -132,7 +132,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative h-screen min-h-[600px] overflow-hidden pt-3"
+      className="relative min-h-fit overflow-hidden pt-20 lg:pt-0"
       style={{
         background: `linear-gradient(135deg,
       var(--color-red-lighter) 0%,
