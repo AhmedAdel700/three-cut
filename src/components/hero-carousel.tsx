@@ -135,13 +135,23 @@ export function HeroCarousel() {
       className="relative min-h-fit lg:min-h-screen flex justify-center items-center max-w-full overflow-x-hidden pt-24 lg:pt-0"
       style={{
         background: `linear-gradient(135deg,
-      var(--color-red-lighter) 0%,
-      var(--color-red-dark) 40%,
-      var(--color-black) 100%)`,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(48, 53, 59, 0.9) 25%,
+      rgba(31, 35, 39, 0.95) 50%,
+      rgba(176, 30, 30, 0.1) 75%,
+      rgba(0, 0, 0, 0.98) 100%)`,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Background Pattern Overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(215, 35, 35, 0.1) 0%, transparent 50%),
+                           radial-gradient(circle at 75% 75%, rgba(48, 53, 59, 0.1) 0%, transparent 50%)`,
+        }} />
+      </div>
+      
       {/* Content */}
       <div className="relative z-20 h-full flex items-center max-w-full">
         <div className="container mx-auto px-4 lg:px-6 w-full">

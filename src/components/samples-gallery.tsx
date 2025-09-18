@@ -209,7 +209,7 @@ export function SamplesGallery() {
 
         {/* Gallery Grid */}
         <motion.div
-          className="flex flex-wrap justify-center gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -219,10 +219,10 @@ export function SamplesGallery() {
             <motion.div
               key={item.id}
               variants={itemVariants}
-              className="h-full w-full sm:w-[48%] lg:w-[40%] xl:w-[23%] flex justify-center"
+              className="h-full flex"
             >
               <Card
-                className="h-full flex flex-col group cursor-pointer overflow-hidden 
+                className="h-full w-full flex flex-col group cursor-pointer overflow-hidden 
         hover:shadow-2xl hover:shadow-brand-primary/10 
         transition-all duration-500 hover:-translate-y-2 
         border-border/50 bg-card/50 backdrop-blur-sm"
@@ -267,12 +267,12 @@ export function SamplesGallery() {
                 </div>
 
                 {/* Content */}
-                <div className="p-4 flex-1 flex flex-col justify-between">
+                <div className="p-4 flex-1 flex flex-col justify-between min-h-[100px]">
                   <div>
-                    <h3 className="text-sm font-bold font-display mb-1">
+                    <h3 className="text-sm font-bold font-display mb-2">
                       {locale === "en" ? item.title : item.titleAr}
                     </h3>
-                    <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
+                    <p className="text-muted-foreground text-xs leading-relaxed line-clamp-3">
                       {locale === "en" ? item.description : item.descriptionAr}
                     </p>
                   </div>
