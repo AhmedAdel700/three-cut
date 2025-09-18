@@ -21,7 +21,9 @@ export default function ProductPage({ params }: any) {
 }
 
 export async function generateStaticParams() {
-  return mockProducts.map((product) => ({
-    slug: product.slug,
-  }));
+  // Put your supported locales here (or import from your i18n config)
+  const locales = ["en", "ar"];
+  return locales.flatMap((locale) =>
+    mockProducts.map((product) => ({ locale, slug: product.slug }))
+  );
 }
