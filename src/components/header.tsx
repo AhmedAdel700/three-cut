@@ -87,7 +87,7 @@ export function Header() {
               src={logo}
               alt="Three Cuts Logo"
               priority
-              className="block h-8 lg:h-10 w-auto object-contain drop-shadow-[0_0_0.8px_white]"
+              className="block h-8 lg:h-10 w-auto object-contain drop-shadow-[0_0_0.9px_white]"
             />
           </Link>
 
@@ -149,8 +149,8 @@ export function Header() {
           <div
             className={cn(
               "mt-8 md:mt-12 w-[92vw] max-w-md",
-              "rounded-2xl border border-white/15",
-              "bg-white/10 backdrop-saturate-150 backdrop-blur-xl",
+              "rounded-2xl border border-white/25",
+              "bg-black/20 backdrop-saturate-150 backdrop-blur-xl",
               "shadow-[0_20px_50px_rgba(0,0,0,.45)]",
               "transition-all duration-200 ease-out animate-[menuIn_.2s_ease-out]"
             )}
@@ -170,7 +170,7 @@ export function Header() {
                 <Image
                   src={logo}
                   alt="Three Cuts Logo"
-                  className="block h-7 w-auto"
+                  className="block h-7 w-auto drop-shadow-[0_0_1px_white]"
                 />
               </Link>
 
