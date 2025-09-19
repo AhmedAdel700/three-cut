@@ -359,7 +359,7 @@ export function ContactPage() {
                 </div>
 
                 {/* Footer with address + buttons (moved here per request) */}
-                <div className="p-6 border-t border-brand-tertiary/40 bg-brand-primary/60">
+                <div className="p-4 border-t border-brand-tertiary/40 bg-brand-primary/60">
                   <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
                     <div className="flex-1 flex items-start gap-3">
                       <MapPin className="h-5 w-5 mt-1 text-brand-accent-light flex-shrink-0" />
@@ -377,11 +377,11 @@ export function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 flex-col sm:flex-row w-full lg:w-fit justify-center">
                       <Button
                         asChild
                         variant="secondary"
-                        className="rounded-xl bg-brand-tertiary text-brand-neutral-white hover:bg-brand-tertiary/90 border-0"
+                        className="rounded-xl bg-brand-tertiary text-brand-neutral-white hover:bg-brand-tertiary/90 border-0 w-full sm:w-1/2 lg:w-fit"
                       >
                         <Link
                           href={buildMapsDirections()}
@@ -389,13 +389,13 @@ export function ContactPage() {
                           rel="noopener noreferrer"
                         >
                           {locale === "en" ? "Directions" : "الاتجاهات"}
-                          <ExternalLink className="h-4 w-4 ml-2" />
+                          <ExternalLink className="h-4 w-4" />
                         </Link>
                       </Button>
 
                       <Button
                         asChild
-                        className="rounded-xl bg-brand-accent-red hover:bg-brand-accent-red/90 text-brand-neutral-white"
+                        className="rounded-xl bg-brand-accent-red hover:bg-brand-accent-red/90 text-brand-neutral-white w-full sm:w-1/2 lg:w-fit"
                       >
                         <Link
                           href={THREE_CUTS_PLACE_URL}
@@ -405,7 +405,7 @@ export function ContactPage() {
                           {locale === "en"
                             ? "Open in Google Maps"
                             : "فتح في خرائط جوجل"}
-                          <ExternalLink className="h-4 w-4 ml-2" />
+                          <ExternalLink className="h-4 w-4" />
                         </Link>
                       </Button>
                     </div>

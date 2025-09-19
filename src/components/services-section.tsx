@@ -43,9 +43,9 @@ export function ServicesSection() {
         />
       </div>
 
-      <div className="container mx-auto px-4 lg:px-6 relative z-10">
+      <div className="container mx-auto px-4 lg:px-6 relative z-10 flex flex-col gap-10 lg:gap-16">
         {/* Header */}
-        <ScrollReveal className="text-center mb-16">
+        <ScrollReveal className="text-center">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ export function ServicesSection() {
 
         {/* Alternating Rows Layout */}
         <motion.div
-          className="space-y-16 lg:space-y-20"
+          className=" flex flex-col gap-8 md:gap-12 xl:gap-20"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -86,9 +86,9 @@ export function ServicesSection() {
               } group`}
             >
               {/* Content Side */}
-              <div className="flex-1 space-y-6 text-center lg:text-left">
+              <div className="flex-1 flex flex-col gap-6 text-center lg:text-start">
                 {/* Icon and Number */}
-                <div className="flex items-center justify-center lg:justify-start gap-6 mb-6">
+                <div className="flex items-center justify-start sm:justify-center lg:justify-start gap-6">
                   <motion.div
                     className="relative w-16 h-16 lg:w-20 lg:h-20"
                     whileHover={{
@@ -110,24 +110,28 @@ export function ServicesSection() {
                 </div>
 
                 {/* Title and Description */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl lg:text-3xl xl:text-4xl font-bold font-display text-brand-accent-light transition-colors duration-300">
+                <div className="flex flex-col gap-6 w-full text-start">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold font-display text-brand-accent-light transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed text-base lg:text-lg text-gray-300 transition-colors duration-300 max-w-2xl mx-auto lg:mx-0">
+                  <p className="text-muted-foreground leading-relaxed text-sm sm:text-base lg:text-lg text-gray-300 transition-colors duration-300 max-w-2xl mx-auto lg:mx-0">
                     {service.description}
                   </p>
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {service.features.map((feature, featureIndex) => (
                     <motion.div
                       key={featureIndex}
-                      className="flex items-center gap-3 group/feature justify-center lg:justify-start"
+                      className="flex items-start gap-3 justify-start"
                       initial={{ opacity: 0, x: index % 2 === 1 ? 10 : -10 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: featureIndex * 0.05 + 0.2, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                      transition={{
+                        delay: featureIndex * 0.05 + 0.2,
+                        duration: 0.4,
+                        ease: [0.4, 0, 0.2, 1],
+                      }}
                       viewport={{ once: true }}
                     >
                       <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
@@ -142,25 +146,30 @@ export function ServicesSection() {
               {/* Visual Separator */}
               <div className="hidden lg:block">
                 <motion.div
-                  className="w-px h-32 xl:h-40 bg-gradient-to-b from-transparent via-brand-accent-red/50 to-transparent"
+                  className="w-full h-32 xl:h-40 bg-gradient-to-b from-transparent via-brand-accent-red to-transparent"
                   initial={{ scaleY: 0 }}
                   whileInView={{ scaleY: 1 }}
-                  transition={{ delay: 0.3, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                  transition={{
+                    delay: 0.3,
+                    duration: 0.5,
+                    ease: [0.4, 0, 0.2, 1],
+                  }}
                   viewport={{ once: true }}
                 />
               </div>
 
-              {/* Mobile separator */}
-              <div className="lg:hidden w-16 h-px bg-gradient-to-r from-transparent via-brand-accent-red/50 to-transparent" />
-
               {/* Visual/Icon Side */}
-              <div className="flex-1 flex justify-center">
+              <div className="flex-1 flex justify-center w-full">
                 <motion.div
-                  className="w-64 h-32 lg:w-80 lg:h-40 xl:w-96 xl:h-48 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-300 hover:shadow-xl hover:shadow-brand-accent-red/5 relative overflow-hidden"
+                  className="w-full h-44 xl:w-full xl:h-80 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-300 hover:shadow-xl hover:shadow-brand-accent-red/5 relative overflow-hidden"
                   whileHover={{ scale: 1.01 }}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                  transition={{
+                    delay: 0.2,
+                    duration: 0.4,
+                    ease: [0.4, 0, 0.2, 1],
+                  }}
                   viewport={{ once: true }}
                 >
                   {/* Background gradient overlay */}
