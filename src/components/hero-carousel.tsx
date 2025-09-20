@@ -228,9 +228,9 @@ export function HeroCarousel() {
                         }}
                       >
                         <Button asChild size="lg" className="btn-primary">
-                          <a href={slide.ctaLink}>
+                          <Link href={slide.ctaLink}>
                             {locale === "en" ? slide.cta : slide.ctaAr}
-                          </a>
+                          </Link>
                         </Button>
                         <Button
                           asChild

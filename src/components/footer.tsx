@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useLocale } from "next-intl";
 import logo from "@/app/assets/logo.png";
+import { motion } from "framer-motion";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -65,19 +66,31 @@ export function Footer() {
       <div className="container mx-auto px-4 lg:px-6 pt-12 lg:pt-16">
         <div className="flex flex-col items-center text-center">
           <Link href="/" className="block w-full max-w-[240px]">
-            <div className="relative h-24">
+            <motion.div
+              className="relative h-24"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
               <Image
                 src={logo}
                 alt="Three Cuts Logo"
                 fill
                 className="object-contain brightness-0 invert transition-transform duration-300 hover:scale-105"
               />
-            </div>
+            </motion.div>
           </Link>
 
-          <p className="text-brand-neutral-white/80 text-sm leading-relaxed max-w-3xl">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="text-brand-neutral-white/80 text-sm leading-relaxed max-w-3xl"
+          >
             {brandDescription}
-          </p>
+          </motion.p>
         </div>
       </div>
 
@@ -86,31 +99,49 @@ export function Footer() {
         <div className="flex flex-col items-center sm:flex-row sm:items-stretch justify-center gap-8 sm:gap-12">
           {/* Quick Links (left) */}
           <div className="min-w-0 flex flex-col items-center">
-            <h3 className="text-lg font-semibold font-display mb-6">
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-lg font-semibold font-display mb-6"
+            >
               {locale === "en" ? "Quick Links" : "روابط سريعة"}
-            </h3>
+            </motion.h3>
             <ul className="flex items-center gap-3">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
+              {quickLinks.map((link, idx) => (
+                <motion.li
+                  key={link.href}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                >
                   <Link
                     href={link.href}
                     className="text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
-                </li>
+                </motion.li>
               ))}
             </ul>
 
             {/* Socials (centered row) */}
             <div className="flex flex-wrap items-center sm:justify-center gap-4 mt-6 sm:mt-8">
-              {socialLinks.map((social) => (
-                <Link
+              {socialLinks.map((social, idx) => (
+                <motion.div
                   key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  title={social.label}
-                  className="
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: idx * 0.15 }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    href={social.href}
+                    aria-label={social.label}
+                    title={social.label}
+                    className="
                   group
                   w-10 h-10
                   rounded-full
@@ -123,10 +154,11 @@ export function Footer() {
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
                   text-brand-neutral-white/80 hover:text-brand-accent-light
                 "
-                >
-                  <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-                  <span className="sr-only">{social.label}</span>
-                </Link>
+                  >
+                    <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+                    <span className="sr-only">{social.label}</span>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -136,12 +168,24 @@ export function Footer() {
 
           {/* Contact Info (right) */}
           <div className="min-w-0 flex flex-col items-center">
-            <h3 className="text-lg font-semibold font-display mb-6">
+            <motion.h3
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-lg font-semibold font-display mb-6"
+            >
               {locale === "en" ? "Get in touch" : "تواصل معنا"}
-            </h3>
+            </motion.h3>
             <ul className="flex flex-col gap-4">
-              {contactInfo.map((info) => (
-                <li key={info.label}>
+              {contactInfo.map((info, idx) => (
+                <motion.li
+                  key={info.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                >
                   <Link
                     href={info.href}
                     className="group flex items-center gap-3 text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
@@ -150,7 +194,7 @@ export function Footer() {
                     <info.icon className="h-4 w-4 text-brand-accent-red transition-transform group-hover:scale-110" />
                     <span className="break-words">{info.label}</span>
                   </Link>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
@@ -158,7 +202,13 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10">
+      <motion.div
+        className="border-t border-white/10"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+      >
         <div className="container mx-auto py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-brand-neutral-white/60 text-sm text-center md:text-left">
@@ -189,7 +239,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

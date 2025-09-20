@@ -53,8 +53,8 @@ export function ContactTeaser() {
               >
                 <Button
                   asChild
-                  size="lg"
-                  className="bg-brand-neutral-white text-brand-primary hover:bg-brand-neutral-white/90 font-semibold py-6 text-base md:text-lg rounded-2xl shadow-2xl hover:shadow-brand-neutral-white/25 transition-all duration-300"
+                  size="default"
+                  className="bg-brand-neutral-white text-brand-primary hover:bg-brand-neutral-white/90 font-semibold py-5 text-base md:text-base rounded-2xl shadow-2xl hover:shadow-brand-neutral-white/25 transition-all duration-300"
                 >
                   <Link href="/contact">Contact Us Now</Link>
                 </Button>

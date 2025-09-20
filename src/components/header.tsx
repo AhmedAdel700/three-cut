@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { usePathname, useRouter } from "@/navigations";
+import { motion } from "framer-motion";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -69,7 +70,7 @@ export function Header() {
   const otherLangLabel = locale === "en" ? "العربية" : "English";
 
   return (
-    <header
+    <motion.header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 max-w-[100vw]",
         isScrolled ? "backdrop-blur-md" : "bg-transparent"
@@ -77,6 +78,10 @@ export function Header() {
       style={{
         backgroundColor: isScrolled ? "rgba(48, 53, 59, 0.65)" : "transparent",
       }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      viewport={{ once: true }}
     >
       <div className="md:container mx-auto px-4 lg:px-6">
         {/* Give the row a fixed height; align everything to center */}
@@ -234,6 +239,6 @@ export function Header() {
           }
         }
       `}</style>
-    </header>
+    </motion.header>
   );
 }
