@@ -14,13 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  Star,
-  Zap,
-  Shield,
-  Award,
-  ArrowRight,
-} from "lucide-react";
+import { Star, Zap, Shield, Award, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   mockProducts,
@@ -225,7 +219,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
 
               <Button
                 size="lg"
-                className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-brand-neutral-white font-semibold rounded-2xl"
+                className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-brand-neutral-white font-semibold rounded-2xl transition  duration-300"
               >
                 {locale === "en" ? "Contact Sales" : "اتصل بالمبيعات"}
               </Button>
