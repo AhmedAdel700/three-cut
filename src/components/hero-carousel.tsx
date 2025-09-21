@@ -146,12 +146,15 @@ export function HeroCarousel() {
     >
       {/* Background Pattern Overlay */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(215, 35, 35, 0.1) 0%, transparent 50%),
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(215, 35, 35, 0.1) 0%, transparent 50%),
                            radial-gradient(circle at 75% 75%, rgba(48, 53, 59, 0.1) 0%, transparent 50%)`,
-        }} />
+          }}
+        />
       </div>
-      
+
       {/* Content */}
       <div className="relative z-20 h-full flex items-center max-w-full">
         <div className="container mx-auto px-4 lg:px-6 w-full">

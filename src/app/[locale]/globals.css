@@ -65,7 +65,9 @@ html {
   }
   body {
     color: var(--color-light-gray);
-    background: linear-gradient(180deg, var(--color-red-dark));
+    background:
+      /* red gradient at bottom */
+      linear-gradient(180deg, var(--color-red-dark));
     min-height: 100vh;
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
   }
@@ -100,29 +102,20 @@ html {
     @apply scale-105 shadow-2xl;
   } */
 
-  .section-bg {
-    background: linear-gradient(
-      135deg,
+.section-bg,
+.dark-section-bg {
+  background:
+    /* dark overlay on top */
+    linear-gradient(135deg,
       rgba(0, 0, 0, 0.85) 0%,
       rgba(31, 35, 39, 0.9) 25%,
       rgba(48, 53, 59, 0.8) 50%,
       rgba(31, 35, 39, 0.9) 75%,
-      rgba(0, 0, 0, 0.85) 100%
-    );
-    backdrop-filter: blur(8px);
-  }
-
-  .dark-section-bg {
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.85) 0%,
-      rgba(31, 35, 39, 0.9) 25%,
-      rgba(48, 53, 59, 0.8) 50%,
-      rgba(31, 35, 39, 0.9) 75%,
-      rgba(0, 0, 0, 0.85) 100%
-    );
-    backdrop-filter: blur(8px);
-  }
+      rgba(0, 0, 0, 0.85) 100%),
+    /* red gradient at bottom */
+    linear-gradient(180deg, var(--color-red-dark));
+  background-blend-mode: normal;
+  backdrop-filter: blur(8px);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -146,4 +139,5 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-dark-gray-dark);
+}
 }

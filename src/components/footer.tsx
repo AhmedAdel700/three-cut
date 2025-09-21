@@ -68,10 +68,10 @@ export function Footer() {
           <Link href="/" className="block w-full max-w-[240px]">
             <motion.div
               className="relative h-24"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
             >
               <Image
                 src={logo}
@@ -83,10 +83,10 @@ export function Footer() {
           </Link>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-100px" }}
             className="text-brand-neutral-white/80 text-sm leading-relaxed max-w-3xl"
           >
             {brandDescription}
@@ -100,10 +100,10 @@ export function Footer() {
           {/* Quick Links (left) */}
           <div className="min-w-0 flex flex-col items-center">
             <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-50px" }}
               className="text-lg font-semibold font-display mb-6"
             >
               {locale === "en" ? "Quick Links" : "روابط سريعة"}
@@ -112,10 +112,10 @@ export function Footer() {
               {quickLinks.map((link, idx) => (
                 <motion.li
                   key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: idx * 0.05 }}
+                  viewport={{ once: true, margin: "-50px" }}
                 >
                   <Link
                     href={link.href}
@@ -132,10 +132,10 @@ export function Footer() {
               {socialLinks.map((social, idx) => (
                 <motion.div
                   key={social.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: idx * 0.15 }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: idx * 0.08 }}
+                  viewport={{ once: true, margin: "-30px" }}
                 >
                   <Link
                     href={social.href}
@@ -169,10 +169,10 @@ export function Footer() {
           {/* Contact Info (right) */}
           <div className="min-w-0 flex flex-col items-center">
             <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-50px" }}
               className="text-lg font-semibold font-display mb-6"
             >
               {locale === "en" ? "Get in touch" : "تواصل معنا"}
@@ -181,10 +181,10 @@ export function Footer() {
               {contactInfo.map((info, idx) => (
                 <motion.li
                   key={info.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: idx * 0.05 }}
+                  viewport={{ once: true, margin: "-50px" }}
                 >
                   <Link
                     href={info.href}
@@ -204,14 +204,20 @@ export function Footer() {
       {/* Bottom Bar */}
       <motion.div
         className="border-t border-white/10"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        viewport={{ once: true, margin: "-20px" }}
       >
         <div className="container mx-auto py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-brand-neutral-white/60 text-sm text-center md:text-left">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              viewport={{ once: true, margin: "-20px" }}
+              className="text-brand-neutral-white/60 text-sm text-center md:text-left"
+            >
               Created By{" "}
               <Link
                 href={"https://www.be-group.com/en"}
@@ -222,8 +228,14 @@ export function Footer() {
               </Link>{" "}
               © {currentYear}{" "}
               {locale === "en" ? "All Rights Reserved." : "جميع الحقوق محفوظة."}
-            </p>
-            <div className="flex items-center gap-6 text-sm">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              viewport={{ once: true, margin: "-20px" }}
+              className="flex items-center gap-6 text-sm"
+            >
               <Link
                 href="/privacy"
                 className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
@@ -236,7 +248,7 @@ export function Footer() {
               >
                 {locale === "en" ? "Terms of Service" : "شروط الخدمة"}
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
       </motion.div>
