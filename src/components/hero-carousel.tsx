@@ -172,7 +172,7 @@ export function HeroCarousel() {
             <CarouselContent>
               {heroSlides.map((slide, index) => (
                 <CarouselItem key={slide.id}>
-                  <div className="flex flex-col xl:flex-row items-center justify-center gap-8 w-full min-h-[500px]">
+                  <div className="flex flex-col xl:flex-row items-center justify-center gap-8 w-full min-h-[500px] lg:mt-20 xl:mt-0">
                     {/* Text */}
                     <motion.div
                       className="max-w-2xl flex-1 text-center xl:text-left"
