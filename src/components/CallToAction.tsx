@@ -89,9 +89,9 @@ export default function CallToAction() {
         whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
         whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
       >
-        <Button
+        <button
           onClick={toggleExpanded}
-          className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm"
+          className="w-14 h-14 flex justify-center items-center rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm"
           aria-label={
             isExpanded ? "Close contact options" : "Open contact options"
           }
@@ -103,10 +103,10 @@ export default function CallToAction() {
             {isExpanded ? (
               <X size={36} className="w-7 h-7" />
             ) : (
-              <MessageCircle size={36} className="w-7 h-7" />
+              <MessageCircle size={32} className="w-6 h-6" />
             )}
           </motion.div>
-        </Button>
+        </button>
       </motion.div>
     </motion.div>
   );
