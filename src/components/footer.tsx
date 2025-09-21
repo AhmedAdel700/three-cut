@@ -15,7 +15,13 @@ import logo from "@/app/assets/logo.png";
 import { motion } from "framer-motion";
 
 // X Logo Component
-const XLogo = ({ size = 20, className = "" }: { size?: number; className?: string }) => (
+const XLogo = ({
+  size = 20,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) => (
   <svg
     width={size}
     height={size}
@@ -23,7 +29,7 @@ const XLogo = ({ size = 20, className = "" }: { size?: number; className?: strin
     fill="currentColor"
     className={className}
   >
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
@@ -52,8 +58,8 @@ export function Footer() {
     },
     {
       icon: MapPin,
-      label: "Al Sarag Mall - Nasr City, Cairo Governorate 11765, Egypt",
-      href: "https://maps.google.com",
+      label: "Al Sarag Mall - Nasr City, Cairo, Egypt",
+      href: "https://www.google.com/maps/place/Three+cuts+For+CNC+Machines/@30.051088,31.34949,12z/data=!4m6!3m5!1s0x14583fc9ae990c0b:0xb62c714b690f3d78!8m2!3d30.0510877!4d31.3494897!16s%2Fg%2F11fsnwqss3?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDkxNC4wIKXMDSoASAFQAw%3D%3D",
     },
   ];
 
@@ -219,13 +225,13 @@ export function Footer() {
         viewport={{ once: true, margin: "-20px" }}
       >
         <div className="container mx-auto py-6 px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col items-center justify-center 2xl:flex-row 2xl:justify-between gap-4">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.1 }}
               viewport={{ once: true, margin: "-20px" }}
-              className="text-brand-neutral-white/60 text-sm text-center md:text-left"
+              className="text-brand-neutral-white/60 text-sm lg:text-base text-center md:text-start"
             >
               Created By{" "}
               <Link
@@ -243,7 +249,7 @@ export function Footer() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.2 }}
               viewport={{ once: true, margin: "-20px" }}
-              className="flex items-center gap-6 text-sm"
+              className="flex items-center gap-6 text-sm lg:text-base"
             >
               <Link
                 href="/privacy"

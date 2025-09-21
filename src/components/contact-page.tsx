@@ -13,7 +13,6 @@ import { Phone, Mail, MapPin, Clock, Send, ExternalLink } from "lucide-react";
 import { useLocale } from "next-intl";
 import { Toaster, toast } from "sonner";
 import { Link } from "@/navigations";
-import CallToAction from "./CallToAction";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
