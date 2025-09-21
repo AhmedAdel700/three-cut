@@ -187,7 +187,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                 <Badge className="mb-4">
                   {locale === "en" ? categoryName?.name : categoryName?.nameAr}
                 </Badge>
-                <h1 className="text-3xl lg:text-4xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent">
+                <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
                   {locale === "en" ? product.name : product.nameAr}
                 </h1>
                 <p className="text-lg text-muted-foreground leading-relaxed">

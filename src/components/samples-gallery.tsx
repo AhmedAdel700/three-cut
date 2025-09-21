@@ -155,7 +155,7 @@ export function SamplesGallery() {
     <section className="px-4 py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
       <div className="container mx-auto px-4 lg:px-6">
         {/* Header */}
-        <ScrollReveal className="text-center mb-16 flex flex-col gap-6">
+        <ScrollReveal className="text-center mb-16 flex flex-col gap-4">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export function SamplesGallery() {
             </span>
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
-          <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight text-center">
+          <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25] text-center">
             Precision Cutting Samples
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">

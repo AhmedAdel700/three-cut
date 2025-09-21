@@ -17,6 +17,7 @@ import image1 from "@/app/assets/pc-1.png";
 import image2 from "@/app/assets/pc-2.png";
 import image3 from "@/app/assets/pc-3.png";
 import type { StaticImageData } from "next/image";
+import CallToAction from "./CallToAction";
 
 interface HeroSlide {
   id: number;
@@ -144,6 +145,7 @@ export function HeroCarousel() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      <CallToAction />
       {/* Background Pattern Overlay */}
       <div className="absolute inset-0 opacity-5">
         <div

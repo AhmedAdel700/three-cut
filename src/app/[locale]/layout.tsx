@@ -45,7 +45,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} ${poppins.variable}`}>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <Header />
           {children}

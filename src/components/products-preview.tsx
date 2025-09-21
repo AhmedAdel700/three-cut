@@ -45,7 +45,7 @@ export function ProductsPreview() {
       <div className="container mx-auto grid gap-16 lg:gap-24">
         {/* Header */}
         <ScrollReveal>
-          <div className="grid place-items-center gap-6">
+          <div className="grid place-items-center gap-4">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ export function ProductsPreview() {
             </motion.div>
 
             {/* Title */}
-            <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight text-center">
+            <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25] text-center">
               {locale === "en"
                 ? "Precision Cutting Systems for Every Need"
                 : "أنظمة قطع دقيقة لكل الاحتياجات"}

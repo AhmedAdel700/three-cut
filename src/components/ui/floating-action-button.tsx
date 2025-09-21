@@ -51,7 +51,7 @@ export function FloatingActionButton({
             <Button
               onClick={scrollToTop}
               size="lg"
-              className="w-14 h-14 rounded-full bg-gradient-to-r from-brand-primary to-brand-accent-red hover:from-brand-primary/90 hover:to-brand-accent-red/90 text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300"
+              className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm"
             >
               <ArrowUp className="h-6 w-6" />
             </Button>

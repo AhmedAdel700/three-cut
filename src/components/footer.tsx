@@ -7,13 +7,25 @@ import {
   Phone,
   MapPin,
   Facebook,
-  Twitter,
   Linkedin,
   Instagram,
 } from "lucide-react";
 import { useLocale } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { motion } from "framer-motion";
+
+// X Logo Component
+const XLogo = ({ size = 20, className = "" }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -30,7 +42,7 @@ export function Footer() {
   const contactInfo = [
     {
       icon: Phone,
-      label: "+966 11 234 5678",
+      label: "+20 0128390225",
       href: "tel:+966112345678",
     },
     {
@@ -40,17 +52,14 @@ export function Footer() {
     },
     {
       icon: MapPin,
-      label:
-        locale === "en"
-          ? "Riyadh, Saudi Arabia"
-          : "الرياض، المملكة العربية السعودية",
+      label: "Al Sarag Mall - Nasr City, Cairo Governorate 11765, Egypt",
       href: "https://maps.google.com",
     },
   ];
 
   const socialLinks = [
     { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: XLogo, href: "#", label: "X" },
     { icon: Linkedin, href: "#", label: "LinkedIn" },
     { icon: Instagram, href: "#", label: "Instagram" },
   ];
@@ -167,7 +176,7 @@ export function Footer() {
           <div className="hidden sm:block sm:w-[1px] bg-white/40"></div>
 
           {/* Contact Info (right) */}
-          <div className="min-w-0 flex flex-col items-center">
+          <div className="min-w-0 flex flex-col items-center sm:items-start">
             <motion.h3
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -177,7 +186,7 @@ export function Footer() {
             >
               {locale === "en" ? "Get in touch" : "تواصل معنا"}
             </motion.h3>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-4 items-center sm:items-start">
               {contactInfo.map((info, idx) => (
                 <motion.li
                   key={info.label}
@@ -209,7 +218,7 @@ export function Footer() {
         transition={{ duration: 0.4, ease: "easeOut" }}
         viewport={{ once: true, margin: "-20px" }}
       >
-        <div className="container mx-auto py-6">
+        <div className="container mx-auto py-6 px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <motion.p
               initial={{ opacity: 0 }}

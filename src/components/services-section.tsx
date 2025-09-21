@@ -59,7 +59,7 @@ export function ServicesSection() {
             </span>
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
-          <h2 className="text-3xl lg:text-5xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
+          <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.3] mb-3">
             Precision Cutting Solutions
           </h2>
           <p className="text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">

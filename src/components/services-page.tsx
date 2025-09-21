@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
 import { services } from "@/lib/data/services";
+import CallToAction from "./CallToAction";
 
 export function ServicesPage() {
   const locale = useLocale();
@@ -30,6 +31,7 @@ export function ServicesPage() {
   return (
     <div className="min-h-screen border-b">
       {/* Hero Section */}
+      <CallToAction />
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
         <div className="absolute inset-0 opacity-10">
           <div
@@ -86,8 +88,10 @@ export function ServicesPage() {
               </span>
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
             </motion.div>
-            <h2 className="text-3xl lg:text-5xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
-              {locale === "en" ? "Precision Cutting Solutions" : "حلول القطع الدقيقة"}
+            <h2 className="text-3xl lg:text-5xl font-bold font-display mb-3  bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
+              {locale === "en"
+                ? "Precision Cutting Solutions"
+                : "حلول القطع الدقيقة"}
             </h2>
             <p className="text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {locale === "en"
@@ -113,15 +117,15 @@ export function ServicesPage() {
                 } group`}
               >
                 {/* Content Side */}
-                <div className="flex-1 space-y-6 text-center lg:text-left">
+                <div className="flex-1 flex flex-col gap-6 text-center lg:text-start">
                   {/* Icon and Number */}
-                  <div className="flex items-center justify-center lg:justify-start gap-6 mb-6">
+                  <div className="flex items-center justify-start sm:justify-center lg:justify-start gap-6">
                     <motion.div
                       className="relative w-16 h-16 lg:w-20 lg:h-20"
                       whileHover={{
-                        scale: 1.1,
-                        rotate: [0, -5, 5, 0],
-                        transition: { duration: 0.6, ease: "easeInOut" },
+                        scale: 1.05,
+                        rotate: [0, -2, 2, 0],
+                        transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
                       }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl" />
@@ -137,24 +141,28 @@ export function ServicesPage() {
                   </div>
 
                   {/* Title and Description */}
-                  <div className="space-y-4">
-                    <h3 className="text-2xl lg:text-3xl xl:text-4xl font-bold font-display text-brand-accent-light transition-colors duration-300">
+                  <div className="flex flex-col gap-6 w-full text-start">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold font-display text-brand-accent-light transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed text-base lg:text-lg text-gray-300 transition-colors duration-300 max-w-2xl mx-auto lg:mx-0">
+                    <p className="text-muted-foreground leading-relaxed text-sm sm:text-base lg:text-lg text-gray-300 transition-colors duration-300 max-w-2xl mx-auto lg:mx-0">
                       {service.description}
                     </p>
                   </div>
 
                   {/* Features Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {service.features.map((feature, featureIndex) => (
                       <motion.div
                         key={featureIndex}
-                        className="flex items-center gap-3 group/feature justify-center lg:justify-start"
-                        initial={{ opacity: 0, x: index % 2 === 1 ? 20 : -20 }}
+                        className="flex items-start gap-3 justify-start"
+                        initial={{ opacity: 0, x: index % 2 === 1 ? 10 : -10 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: featureIndex * 0.1 + 0.3 }}
+                        transition={{
+                          delay: featureIndex * 0.05 + 0.2,
+                          duration: 0.4,
+                          ease: [0.4, 0, 0.2, 1],
+                        }}
                         viewport={{ once: true }}
                       >
                         <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
@@ -169,35 +177,40 @@ export function ServicesPage() {
                 {/* Visual Separator */}
                 <div className="hidden lg:block">
                   <motion.div
-                    className="w-px h-32 xl:h-40 bg-gradient-to-b from-transparent via-brand-accent-red/50 to-transparent"
+                    className="w-full h-32 xl:h-40 bg-gradient-to-b from-transparent via-brand-accent-red to-transparent"
                     initial={{ scaleY: 0 }}
                     whileInView={{ scaleY: 1 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
+                    transition={{
+                      delay: 0.3,
+                      duration: 0.5,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
                     viewport={{ once: true }}
                   />
                 </div>
 
-                {/* Mobile separator */}
-                <div className="lg:hidden w-16 h-px bg-gradient-to-r from-transparent via-brand-accent-red/50 to-transparent" />
-
                 {/* Visual/Icon Side */}
-                <div className="flex-1 flex justify-center">
+                <div className="flex-1 flex justify-center w-full">
                   <motion.div
-                    className="w-64 h-32 lg:w-80 lg:h-40 xl:w-96 xl:h-48 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-accent-red/10 relative overflow-hidden"
-                    whileHover={{ scale: 1.02 }}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    className="w-full h-44 xl:w-full xl:h-80 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-300 hover:shadow-xl hover:shadow-brand-accent-red/5 relative overflow-hidden"
+                    whileHover={{ scale: 1.01 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
+                    transition={{
+                      delay: 0.2,
+                      duration: 0.4,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
                     viewport={{ once: true }}
                   >
                     {/* Background gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-accent-red/5 via-transparent to-brand-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-accent-red/5 via-transparent to-brand-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     {/* Large icon */}
-                    <service.icon className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-500 group-hover:scale-110" />
+                    <service.icon className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-300 group-hover:scale-105" />
 
                     {/* Animated border glow */}
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-sm" />
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-sm" />
                   </motion.div>
                 </div>
               </motion.div>
@@ -221,7 +234,9 @@ export function ServicesPage() {
                   className="relative z-10 flex items-center gap-3"
                 >
                   <span>
-                    {locale === "en" ? "Get Custom Solution" : "احصل على حل مخصص"}
+                    {locale === "en"
+                      ? "Get Custom Solution"
+                      : "احصل على حل مخصص"}
                   </span>
                 </Link>
               </Button>

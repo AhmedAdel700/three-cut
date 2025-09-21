@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
 import { PartnerCarousel } from "./PartnerCarousel";
+import CallToAction from "./CallToAction";
 
 export function AboutPage() {
   const locale = useLocale();
@@ -39,6 +40,7 @@ export function AboutPage() {
 
   return (
     <div className="min-h-screen border-b">
+      <CallToAction />
       {/* Hero Section */}
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
         <div className="absolute inset-0 opacity-10">
