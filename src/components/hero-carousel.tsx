@@ -133,7 +133,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative min-h-fit lg:min-h-screen flex justify-center items-center max-w-full overflow-x-hidden pt-24 lg:pt-0"
+      className="relative min-h-screen lg:min-h-screen flex justify-center items-center max-w-full overflow-x-hidden pt-24 lg:pt-0"
       style={{
         background: `linear-gradient(135deg,
       rgba(0, 0, 0, 0.95) 0%,
@@ -190,7 +190,7 @@ export function HeroCarousel() {
                       }}
                     >
                       <motion.h1
-                        className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 leading-tight"
+                        className="text-4xl md:text-5xl lg:text-6xl font-bold font-display text-white mb-6 leading-tight text-start"
                         initial={{ opacity: 0, y: 30 }}
                         animate={
                           slideChanged
@@ -205,7 +205,7 @@ export function HeroCarousel() {
                         {locale === "en" ? slide.title : slide.titleAr}
                       </motion.h1>
                       <motion.p
-                        className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed"
+                        className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed text-start"
                         initial={{ opacity: 0, y: 30 }}
                         animate={
                           slideChanged
@@ -232,7 +232,7 @@ export function HeroCarousel() {
                           delay: slideChanged ? 0 : 0.15,
                         }}
                       >
-                        <Button asChild size="lg" className="btn-primary">
+                        {/* <Button asChild size="lg" className="btn-primary">
                           <Link href={slide.ctaLink}>
                             {locale === "en" ? slide.cta : slide.ctaAr}
                           </Link>
@@ -244,6 +244,17 @@ export function HeroCarousel() {
                           className="btn-outline"
                         >
                           <Link href="/contact">Contact Us</Link>
+                        </Button> */}
+
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="lg"
+                          className="btn-outline"
+                        >
+                          <Link href="/about" prefetch>
+                            Read More
+                          </Link>
                         </Button>
                       </motion.div>
                     </motion.div>
@@ -274,7 +285,7 @@ export function HeroCarousel() {
                           width={720}
                           height={500}
                           sizes="(min-width:1280px) 720px, (min-width:640px) 620px, 520px"
-                          className="w-[425px] sm:w-[620px] xl:w-[720px] h-auto max-w-none object-contain shrink-0 select-none pointer-events-none"
+                          className="w-[400px] sm:w-[620px] xl:w-[720px] h-auto max-w-none object-contain shrink-0 select-none pointer-events-none"
                           priority={index === 0}
                         />
                       </motion.div>

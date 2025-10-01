@@ -104,6 +104,7 @@ export default function CallToAction() {
               <X size={36} className="w-7 h-7" />
             ) : (
               <MessageCircle size={32} className="w-6 h-6" />
+
             )}
           </motion.div>
         </button>

@@ -216,20 +216,23 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                   </div>
                 ))}
               </div>
-
-              <Button
-                size="lg"
-                className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-brand-neutral-white font-semibold rounded-2xl transition  duration-300"
-              >
-                {locale === "en" ? "Contact Sales" : "اتصل بالمبيعات"}
-              </Button>
+              <div>
+                <Link href={"/contact"} prefetch>
+                  <Button
+                    size="lg"
+                    className="w-full flex-1 bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-tertiary hover:to-brand-accent-red text-brand-neutral-white font-semibold rounded-2xl transition  duration-300"
+                  >
+                    {locale === "en" ? "Contact Sales" : "اتصل بالمبيعات"}
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Detailed Information Tabs */}
           <Card className="mb-16">
-            <CardHeader>
-              <div className="flex flex-wrap gap-2">
+            <CardHeader className="!px-0">
+              <div className="flex items-center justify-center sm:justify-start border-b border-border/50 pb-4 sm:ps-4 sm:gap-3">
                 {tabs.map((tab) => (
                   <Button
                     key={tab.id}
@@ -238,7 +241,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                     className={cn(
                       "rounded-2xl",
                       activeTab === tab.id &&
-                        "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-brand-neutral-white"
+                        "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-brand-neutral-white text-xs sm:text-sm lg:text-base"
                     )}
                   >
                     {tab.label}
@@ -259,6 +262,17 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                       ? "This cutting system represents the pinnacle of industrial cutting technology, combining precision engineering with advanced automation to deliver exceptional results in demanding manufacturing environments."
                       : "يمثل نظام القطع هذا قمة تقنية القطع الصناعية، حيث يجمع بين الهندسة الدقيقة والأتمتة المتقدمة لتقديم نتائج استثنائية في بيئات التصنيع الصعبة."}
                   </p>
+
+                  <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src="https://www.youtube.com/embed/R29G3hUiZnU?autoplay=0&rel=0"
+                      title="YouTube video"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
               )}
 
