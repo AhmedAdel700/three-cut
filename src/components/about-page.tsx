@@ -7,6 +7,9 @@ import { Link } from "@/navigations";
 import { useLocale } from "next-intl";
 import { PartnerCarousel } from "./PartnerCarousel";
 import CallToAction from "./CallToAction";
+import Image from "next/image";
+import mission from "@/app/assets/Our-Mission.jpg";
+import vision from "@/app/assets//Vision.jpg";
 
 export function AboutPage() {
   const locale = useLocale();
@@ -41,6 +44,7 @@ export function AboutPage() {
   return (
     <div className="min-h-screen border-b">
       <CallToAction />
+
       {/* Hero Section */}
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
         <div className="absolute inset-0 opacity-10">
@@ -58,14 +62,15 @@ export function AboutPage() {
               {locale === "en" ? "About Three Cuts" : "حول ثري كتس"}
             </h1>
             <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
-              Leading the Future of Industrial Cutting Systems with Precision
-              and Reliability
+              {locale === "en"
+                ? "Leading the Future of Industrial Cutting Systems with Precision and Reliability"
+                : "ريادة مستقبل أنظمة القطع الصناعية بدقة وموثوقية"}
             </p>
           </div>
         </div>
       </section>
 
-      {/* About Content Section */}
+      {/* About Content */}
       <section className="py-16 relative overflow-hidden border-t dark-section-bg">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden">
@@ -82,7 +87,7 @@ export function AboutPage() {
         </div>
 
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
-          {/* Header */}
+          {/* Our Story */}
           <ScrollReveal className="text-center mb-16">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -105,7 +110,7 @@ export function AboutPage() {
             </p>
           </ScrollReveal>
 
-          {/* Features Grid */}
+          {/* Features */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {features.map((feature, index) => (
               <ScrollReveal key={index} delay={index * 0.1} direction="up">
@@ -117,7 +122,7 @@ export function AboutPage() {
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-brand-secondary to-brand-accent-red rounded-xl flex items-center justify-center mx-auto mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-brand-secondary to-brand-accent-red rounded-xl flex items-center justify-center mb-6">
                     <feature.icon className="h-8 w-8 text-brand-neutral-white" />
                   </div>
                   <h3 className="font-semibold font-display text-xl mb-4">
@@ -131,7 +136,121 @@ export function AboutPage() {
             ))}
           </div>
 
-          {/* CTA Section */}
+          {/* Mission Section */}
+          <ScrollReveal className="relative mb-12">
+            <div className="grid md:grid-cols-2 gap-12 items-center rounded-3xl bg-card/60 border border-border/50 p-8 lg:p-12 backdrop-blur-sm shadow-xl">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative group">
+                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-secondary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
+                  <Image
+                    src={mission}
+                    alt="Our Mission"
+                    className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent-red/10 text-brand-accent-red text-sm font-medium mb-4">
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                  <span className="text-white uppercase tracking-wider text-base font-semibold">
+                    {locale === "en" ? "Mission" : "المهمة"}
+                  </span>
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
+                  {locale === "en" ? "Our Mission" : "مهمتنا"}
+                </h2>
+                <div className="space-y-4 text-base lg:text-lg">
+                  <p className="text-muted-foreground leading-relaxed">
+                    {locale === "en"
+                      ? "At Three Cuts, our mission is to revolutionize industrial cutting by delivering reliable, high-precision systems that drive productivity and performance for businesses across the globe."
+                      : "في ثري كتس، مهمتنا هي إحداث ثورة في القطع الصناعي من خلال تقديم أنظمة موثوقة وعالية الدقة تعزز الإنتاجية والأداء للشركات حول العالم."}
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {locale === "en"
+                      ? "We focus on building long-term partnerships through exceptional engineering, responsive support, and a deep understanding of our clients’ operational needs."
+                      : "نركز على بناء شراكات طويلة الأمد من خلال الهندسة الاستثنائية، والدعم السريع، وفهم عميق لاحتياجات عملائنا التشغيلية."}
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {locale === "en"
+                      ? "Every solution we provide is tailored to empower industries to perform at their best, reduce downtime, and achieve sustainable growth."
+                      : "كل حل نقدمه مصمم خصيصاً لتمكين الصناعات من الأداء بأفضل شكل، وتقليل التوقفات، وتحقيق نمو مستدام."}
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </ScrollReveal>
+
+          {/* Vision Section */}
+          <ScrollReveal className="relative mb-12">
+            <div className="grid md:grid-cols-2 gap-12 items-center rounded-3xl bg-card/60 border border-border/50 p-8 lg:p-12 backdrop-blur-sm shadow-xl">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="order-2 md:order-1"
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-tertiary/10 text-brand-tertiary text-sm font-medium mb-4">
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                  <span className="text-white uppercase tracking-wider text-base font-semibold">
+                    {locale === "en" ? "Vision" : "الرؤية"}
+                  </span>
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
+                  {locale === "en" ? "Our Vision" : "رؤيتنا"}
+                </h2>
+                <div className="space-y-4 text-base lg:text-lg">
+                  <p className="text-muted-foreground leading-relaxed">
+                    {locale === "en"
+                      ? "We envision a future where Three Cuts is synonymous with innovation, quality, and trust in the industrial cutting sector."
+                      : "نحن نتطلع إلى مستقبل تكون فيه ثري كتس مرادفاً للابتكار والجودة والثقة في قطاع القطع الصناعي."}
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {locale === "en"
+                      ? "Our goal is to set new benchmarks in sustainability, efficiency, and customer satisfaction by continuously evolving our technologies and services."
+                      : "هدفنا هو وضع معايير جديدة في الاستدامة والكفاءة ورضا العملاء من خلال التطوير المستمر لتقنياتنا وخدماتنا."}
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {locale === "en"
+                      ? "We strive to lead not only in technology but also in building a responsible and impactful industrial future for generations to come."
+                      : "نسعى إلى الريادة ليس فقط في التقنية، بل في بناء مستقبل صناعي مسؤول وذو تأثير للأجيال القادمة."}
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="order-1 md:order-2 mb-6"
+              >
+                <div className="relative group">
+                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-tertiary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
+                  <Image
+                    src={vision}
+                    alt="Our Vision"
+                    className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          </ScrollReveal>
+
+          {/* CTA */}
           <ScrollReveal className="text-center">
             <motion.div
               whileHover={{ scale: 1.04 }}
@@ -153,6 +272,7 @@ export function AboutPage() {
             </motion.div>
           </ScrollReveal>
         </div>
+
         <PartnerCarousel />
       </section>
     </div>

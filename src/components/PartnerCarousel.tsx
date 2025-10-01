@@ -32,7 +32,7 @@ export function PartnerCarousel() {
   }, [api]);
 
   return (
-    <motion.section className="pt-40" style={{ scale }}>
+    <motion.section className="pt-12" style={{ scale }}>
       <div className="container mx-auto px-4 lg:px-6">
         <motion.div
           className="text-center mb-12 flex flex-col gap-4"
