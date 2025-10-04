@@ -21,14 +21,12 @@ export interface Product {
 }
 
 export const productCategories = [
-  { id: "laser-cutting", name: "Laser Cutting", nameAr: "القطع بالليزر" },
-  { id: "plasma-cutting", name: "Plasma Cutting", nameAr: "القطع بالبلازما" },
-  { id: "waterjet-cutting", name: "Waterjet Cutting", nameAr: "القطع بالماء" },
-  { id: "cnc-machines", name: "CNC Machines", nameAr: "آلات CNC" },
-  { id: "accessories", name: "Accessories", nameAr: "الملحقات" },
+  { id: "metal", name: "Metal", nameAr: "المعادن" },
+  { id: "non-metal", name: "Non-Metal", nameAr: "غير المعدنية" },
 ];
 
 export const mockProducts: Product[] = [
+  // Metal Category Products
   {
     id: "1",
     slug: "industrial-laser-cutter-pro",
@@ -38,8 +36,8 @@ export const mockProducts: Product[] = [
       "High-precision laser cutting machine for industrial applications with advanced automation features.",
     descriptionAr:
       "آلة قطع بالليزر عالية الدقة للتطبيقات الصناعية مع ميزات الأتمتة المتقدمة.",
-    category: "laser-cutting",
-    categoryAr: "القطع بالليزر",
+    category: "metal",
+    categoryAr: "المعادن",
     images: [productImage1, productImage1, productImage1],
     specifications: {
       "Cutting Area": "1500mm x 3000mm",
@@ -74,8 +72,8 @@ export const mockProducts: Product[] = [
       "Heavy-duty plasma cutting system for thick materials with exceptional cut quality.",
     descriptionAr:
       "نظام قطع بالبلازما للخدمة الشاقة للمواد السميكة مع جودة قطع استثنائية.",
-    category: "plasma-cutting",
-    categoryAr: "القطع بالبلازما",
+    category: "metal",
+    categoryAr: "المعادن",
     images: [productImage2, productImage2, productImage2],
     specifications: {
       "Cutting Area": "2000mm x 4000mm",
@@ -102,6 +100,78 @@ export const mockProducts: Product[] = [
   },
   {
     id: "3",
+    slug: "cnc-metal-router",
+    name: "CNC Metal Router Pro",
+    nameAr: "جهاز التوجيه CNC للمعادن",
+    description:
+      "Advanced CNC routing system for precise metal cutting and engraving operations.",
+    descriptionAr:
+      "نظام توجيه CNC متقدم لعمليات قطع ونقش المعادن الدقيقة.",
+    category: "metal",
+    categoryAr: "المعادن",
+    images: [productImage3, productImage3, productImage3],
+    specifications: {
+      "Working Area": "1300mm x 2500mm",
+      "Spindle Power": "7.5kW",
+      "Max Material Thickness": "100mm",
+      "Positioning Accuracy": "±0.02mm",
+      "Spindle Speed": "24000 RPM",
+    },
+    applications: [
+      "Metal engraving",
+      "Sign making",
+      "Aerospace parts",
+      "Mold making",
+      "Prototype development",
+    ],
+    applicationsAr: [
+      "النقش على المعادن",
+      "صناعة اللافتات",
+      "قطع غيار الطيران",
+      "صناعة القوالب",
+      "تطوير النماذج",
+    ],
+    featured: true,
+  },
+  {
+    id: "4",
+    slug: "precision-sheet-cutter",
+    name: "Precision Sheet Cutter",
+    nameAr: "قاطع الألواح الدقيق",
+    description:
+      "High-speed precision cutting system for thin metal sheets with minimal waste.",
+    descriptionAr:
+      "نظام قطع دقيق عالي السرعة للألواح المعدنية الرقيقة مع الحد الأدنى من الهدر.",
+    category: "metal",
+    categoryAr: "المعادن",
+    images: [productImage1, productImage2, productImage3],
+    specifications: {
+      "Cutting Area": "1500mm x 3000mm",
+      "Max Thickness": "6mm Steel",
+      "Cutting Speed": "12000mm/min",
+      "Positioning Accuracy": "±0.01mm",
+      "Material Waste": "< 2%",
+    },
+    applications: [
+      "Thin sheet cutting",
+      "Automotive panels",
+      "Electronics housing",
+      "Kitchen appliances",
+      "Light fixtures",
+    ],
+    applicationsAr: [
+      "قطع الألواح الرقيقة",
+      "ألواح السيارات",
+      "هياكل الإلكترونيات",
+      "الأجهزة المنزلية",
+      "مصابيح الإضاءة",
+    ],
+    featured: false,
+  },
+  
+  // Non-Metal Category Products
+  {
+    id: "5",
     slug: "waterjet-precision-cutter",
     name: "Waterjet Precision Cutter",
     nameAr: "قاطع الماء عالي الدقة",
@@ -109,8 +179,8 @@ export const mockProducts: Product[] = [
       "Ultra-precise waterjet cutting system for complex shapes and exotic materials.",
     descriptionAr:
       "نظام قطع بالماء فائق الدقة للأشكال المعقدة والمواد الغريبة.",
-    category: "waterjet-cutting",
-    categoryAr: "القطع بالماء",
+    category: "non-metal",
+    categoryAr: "غير المعدنية",
     images: [productImage3, productImage3, productImage3],
     specifications: {
       "Cutting Area": "1200mm x 2400mm",
@@ -132,6 +202,111 @@ export const mockProducts: Product[] = [
       "معالجة الزجاج",
       "قطع الحجر",
       "المواد المركبة",
+    ],
+    featured: true,
+  },
+  {
+    id: "6",
+    slug: "cnc-wood-router",
+    name: "CNC Wood Router Master",
+    nameAr: "جهاز توجيه الخشب CNC الرئيسي",
+    description:
+      "Professional CNC router for woodworking, furniture making, and artistic carving.",
+    descriptionAr:
+      "جهاز توجيه CNC احترافي للأعمال الخشبية وصناعة الأثاث والنحت الفني.",
+    category: "non-metal",
+    categoryAr: "غير المعدنية",
+    images: [productImage1, productImage1, productImage1],
+    specifications: {
+      "Working Area": "2000mm x 3000mm",
+      "Spindle Power": "5.5kW",
+      "Max Material Thickness": "150mm",
+      "Positioning Accuracy": "±0.05mm",
+      "Spindle Speed": "18000 RPM",
+    },
+    applications: [
+      "Furniture making",
+      "Wood carving",
+      "Sign production",
+      "Architectural millwork",
+      "Artistic projects",
+    ],
+    applicationsAr: [
+      "صناعة الأثاث",
+      "النحت على الخشب",
+      "إنتاج اللافتات",
+      "الأعمال المعمارية",
+      "المشاريع الفنية",
+    ],
+    featured: true,
+  },
+  {
+    id: "7",
+    slug: "acrylic-laser-cutter",
+    name: "Acrylic Laser Cutter",
+    nameAr: "قاطع الليزر للأكريليك",
+    description:
+      "Specialized laser cutting system for acrylic, plastic, and other non-metallic materials.",
+    descriptionAr:
+      "نظام قطع بالليزر متخصص للأكريليك والبلاستيك والمواد غير المعدنية الأخرى.",
+    category: "non-metal",
+    categoryAr: "غير المعدنية",
+    images: [productImage2, productImage2, productImage2],
+    specifications: {
+      "Cutting Area": "1000mm x 1500mm",
+      "Laser Power": "100W CO2",
+      "Max Thickness": "25mm Acrylic",
+      "Positioning Accuracy": "±0.1mm",
+      "Cutting Speed": "5000mm/min",
+    },
+    applications: [
+      "Acrylic signage",
+      "Plastic parts",
+      "Model making",
+      "Display fabrication",
+      "Prototyping",
+    ],
+    applicationsAr: [
+      "لافتات الأكريليك",
+      "قطع البلاستيك",
+      "صناعة النماذج",
+      "تصنيع العروض",
+      "النماذج الأولية",
+    ],
+    featured: true,
+  },
+  {
+    id: "8",
+    slug: "foam-cutting-system",
+    name: "Foam Cutting System",
+    nameAr: "نظام قطع الرغوة",
+    description:
+      "Hot wire cutting system for foam, insulation materials, and soft composites.",
+    descriptionAr:
+      "نظام قطع بالأسلاك الساخنة للرغوة ومواد العزل والمركبات الناعمة.",
+    category: "non-metal",
+    categoryAr: "غير المعدنية",
+    images: [productImage3, productImage1, productImage2],
+    specifications: {
+      "Cutting Area": "1200mm x 2400mm",
+      "Max Thickness": "500mm Foam",
+      "Cutting Speed": "2000mm/min",
+      "Wire Temperature": "200-400°C",
+      "Positioning Accuracy": "±0.5mm",
+    },
+    applications: [
+      "Packaging foam",
+      "Insulation cutting",
+      "Prototype models",
+      "Artistic sculptures",
+      "Cushion fabrication",
+    ],
+    applicationsAr: [
+      "رغوة التعبئة",
+      "قطع العزل",
+      "نماذج أولية",
+      "منحوتات فنية",
+      "تصنيع الوسائد",
     ],
     featured: false,
   },

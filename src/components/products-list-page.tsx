@@ -130,6 +130,7 @@ export function ProductsListPage() {
                   size="sm"
                   onClick={() => setViewMode("grid")}
                   className="rounded-xl"
+                  suppressHydrationWarning
                 >
                   <Grid className="h-4 w-4" />
                 </Button>
@@ -138,6 +139,7 @@ export function ProductsListPage() {
                   size="sm"
                   onClick={() => setViewMode("list")}
                   className="rounded-xl"
+                  suppressHydrationWarning
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -172,6 +174,7 @@ export function ProductsListPage() {
                   setSearchQuery("");
                   setSelectedCategory("all");
                 }}
+                suppressHydrationWarning
               >
                 {locale === "en" ? "Clear Filters" : "مسح المرشحات"}
               </Button>

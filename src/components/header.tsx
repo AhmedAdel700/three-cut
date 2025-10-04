@@ -71,7 +71,7 @@ export function Header() {
       onOpenChange={setIsDrawerOpen}
     >
       <DrawerTrigger asChild>
-        <button className="flex gap-1 text-white hover:text-white/90 px-3 py-2">
+        <button className="flex gap-1 text-white hover:text-white/90 px-3 py-2" suppressHydrationWarning>
           <Menu className="w-6 h-6" />
           {locale === "ar" ? "القائمة" : "Menu"}
         </button>
@@ -133,6 +133,7 @@ export function Header() {
             }}
             className="flex lg:hidden items-center gap-2 text-white font-semibold hover:text-white/90 mt-6"
             aria-label="Switch language"
+            suppressHydrationWarning
           >
             <span>{otherLangLabel}</span>
             <Globe className="w-5 h-5" />
@@ -220,8 +221,10 @@ export function Header() {
               src={logo}
               alt="Three Cuts Logo"
               priority
-              className={`block h-8 lg:h-10 w-auto object-contain drop-shadow-[0_0_0.9px_white] ${
-                isScrolled ? "" : "brightness-0 invert"
+              className={`block h-8 lg:h-10 w-auto object-contain ${
+                isScrolled
+                  ? "drop-shadow-[0_0_0.9px_white]"
+                  : "brightness-0 invert"
               }`}
             />
           </Link>
@@ -233,6 +236,7 @@ export function Header() {
               onClick={goOtherLocale}
               className="flex items-center gap-2 text-white font-semibold hover:text-white/90"
               aria-label="Switch language"
+              suppressHydrationWarning
             >
               <span>{otherLangLabel}</span>
               <Globe className="w-5 h-5" />

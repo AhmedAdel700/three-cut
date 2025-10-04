@@ -3,41 +3,35 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Sparkles, Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { mockProducts } from "@/lib/data/products";
+import { mockProducts, productCategories } from "@/lib/data/products";
 import { useLocale } from "next-intl";
+import { useState, useEffect } from "react";
 
 export function ProductsPreview() {
   const locale = useLocale();
+  const [activeCategory, setActiveCategory] = useState("metal");
 
-  // Prefer featured, then fill with non-featured to make 3
-  const featured = mockProducts.filter((p) => p.featured);
-  const nonFeatured = mockProducts.filter((p) => !p.featured);
-  const featuredProducts = [...featured, ...nonFeatured].slice(0, 3);
+  // Auto-switch categories every 8 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCategory((prev) => (prev === "metal" ? "non-metal" : "metal"));
+    }, 8000);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
-  };
+    return () => clearInterval(interval);
+  }, []);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
-      },
-    },
-  };
+  // Get products for the active category (4 products)
+  const categoryProducts = mockProducts
+    .filter((product) => product.category === activeCategory)
+    .slice(0, 4);
+
+  const activeCategoryData = productCategories.find(
+    (cat) => cat.id === activeCategory
+  );
 
   return (
     <section className="px-4 py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
@@ -77,144 +71,198 @@ export function ProductsPreview() {
           </div>
         </ScrollReveal>
 
-        {/* Featured Products Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          {featuredProducts.map((product, index) => (
-            <motion.div
-              key={product.id}
-              variants={itemVariants}
-              className="h-full"
-            >
-              <Card
-                className={[
-                  // Equal height cards
-                  "h-full min-h-[440px] grid grid-rows-[auto,1fr] overflow-hidden",
-                  // Keep lift + shadow on hover, but remove any border change
-                  "group hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2",
-                  "border border-border/50 hover:border-transparent bg-card/50 backdrop-blur-sm !p-0 !pb-4",
-                ].join(" ")}
-              >
-                {/* Image block (top, full-width, consistent height) */}
-                <div className="relative z-0 w-full h-48 md:h-56 lg:h-56 overflow-hidden">
-                  <Image
-                    src={product.images?.[0] || "/placeholder.svg"}
-                    alt={locale === "en" ? product.name : product.nameAr}
-                    fill
-                    priority={index === 0}
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    className="object-contain object-center group-hover:scale-110 transition-transform duration-500"
-                  />
-                  {/* Make overlay non-blocking so links beneath stay clickable */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent pointer-events-none" />
-
-                  {/* Featured badge */}
-                  {product.featured && (
-                    <motion.div
-                      className="absolute"
-                      style={{ top: 16, left: 16 }}
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{
-                        delay: index * 0.1 + 0.3,
-                        type: "spring",
-                        stiffness: 200,
-                      }}
-                      viewport={{ once: true }}
-                    >
-                      <Badge className="bg-brand-primary text-brand-neutral-white flex items-center gap-1">
-                        <Star className="h-3 w-3" />
-                        {locale === "en" ? "Featured" : "مميز"}
-                      </Badge>
-                    </motion.div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <CardContent className="relative z-10 flex flex-col gap-4">
-                  <div className="flex">
-                    <Badge variant="secondary" className="text-xs">
-                      {locale === "en"
-                        ? product.category
-                            .replace("-", " ")
-                            .replace(/\b\w/g, (l: string) => l.toUpperCase())
-                        : product.categoryAr}
-                    </Badge>
-                  </div>
-
-                  <h3 className="text-xl font-bold font-display">
-                    {locale === "en" ? product.name : product.nameAr}
-                  </h3>
-
-                  <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-                    {locale === "en"
-                      ? product.description
-                      : product.descriptionAr}
-                  </p>
-
-                  <div className="mt-auto flex items-center justify-between">
-                    {/* Price or Contact link */}
-                    <Link
-                      prefetch
-                      href="/contact"
-                      className="text-sm font-medium text-brand-accent-red"
-                    >
-                      {locale === "en" ? "Contact for pricing" : "اتصل للسعر"}
-                    </Link>
-
-                    {/* Details button (guard missing slug so first card is always clickable if valid) */}
-                    {product.slug ? (
-                      <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="hover:bg-transparent hover:text-inherit focus-visible:ring-0"
-                      >
-                        <Link
-                          prefetch
-                          href={`/products/${product.slug}`}
-                          className="flex items-center gap-2"
-                        >
-                          <span>
-                            {locale === "en" ? "View Details" : "عرض التفاصيل"}
-                          </span>
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    ) : (
-                      <Button variant="ghost" size="sm" disabled>
-                        {locale === "en" ? "View Details" : "عرض التفاصيل"}
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* CTA */}
+        {/* Category Filter */}
         <ScrollReveal>
-          <div className="grid place-items-center -mt-5 lg:-mt-10">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                asChild
-                size="lg"
-                className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold rounded-2xl"
-              >
-                <Link href="/products" className="flex items-center gap-2">
-                  <span>{locale === "en" ? "View All" : "عرض الكل"}</span>
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-            </motion.div>
+          <div className="flex justify-center">
+            <div className="inline-flex items-center gap-1 bg-card/50 backdrop-blur-md rounded-xl p-1.5 border border-border/50 shadow-lg">
+              {productCategories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`relative px-8 py-3 rounded-lg font-semibold text-sm transition-all duration-300 ${
+                    activeCategory === category.id
+                      ? "text-white"
+                      : "text-muted-foreground hover:text-white"
+                  }`}
+                  suppressHydrationWarning
+                >
+                  {activeCategory === category.id && (
+                    <motion.div
+                      layoutId="categoryBg"
+                      className="absolute inset-0 bg-gradient-to-r from-brand-secondary to-brand-accent-red rounded-lg"
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                  <span className="relative z-10">
+                    {locale === "en" ? category.name : category.nameAr}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         </ScrollReveal>
+
+        {/* Products Display - 30% info / 70% images */}
+        <div className="flex justify-center w-full">
+          <div className="w-full max-w-7xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                className="grid grid-cols-1 lg:grid-cols-10 gap-8 items-stretch"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
+              >
+                {/* Left side - Info (30%) */}
+                <div className="lg:col-span-3 flex flex-col justify-between order-2 lg:order-1">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="space-y-4 h-full flex flex-col"
+                  >
+                    <div className="flex-grow space-y-5">
+                      <Badge className="bg-brand-primary text-white mb-3 text-sm">
+                        {locale === "en"
+                          ? activeCategoryData?.name
+                          : activeCategoryData?.nameAr}
+                      </Badge>
+
+                      <h3 className="text-xl lg:text-2xl font-bold font-display mb-3">
+                        {locale === "en"
+                          ? `${activeCategoryData?.name} Cutting Solutions`
+                          : `حلول قطع ${activeCategoryData?.nameAr}`}
+                      </h3>
+
+                      <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
+                        {locale === "en"
+                          ? `Advanced ${activeCategoryData?.name?.toLowerCase()} cutting systems designed for precision, efficiency, and reliability.`
+                          : `أنظمة قطع ${activeCategoryData?.nameAr} متقدمة مصممة للدقة والكفاءة والموثوقية.`}
+                      </p>
+
+                      <div className="space-y-3">
+                        {categoryProducts.slice(0, 2).map((product) => (
+                          <div
+                            key={product.id}
+                            className="flex items-center gap-3 p-3 bg-card/30 rounded-lg"
+                          >
+                            <div className="w-14 h-14 relative rounded overflow-hidden bg-muted flex-shrink-0">
+                              <Image
+                                src={product.images[0]}
+                                alt={
+                                  locale === "en"
+                                    ? product.name
+                                    : product.nameAr
+                                }
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-sm truncate">
+                                {locale === "en"
+                                  ? product.name
+                                  : product.nameAr}
+                              </h4>
+                              <p className="text-sm text-muted-foreground truncate">
+                                {locale === "en"
+                                  ? product.description
+                                  : product.descriptionAr}
+                              </p>
+                            </div>
+                            {product.featured && (
+                              <Star className="h-4 w-4 text-brand-primary flex-shrink-0" />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Button
+                      asChild
+                      size="default"
+                      className="w-full bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-white font-semibold rounded-lg text-sm h-11 mt-5"
+                    >
+                      <Link
+                        href="/products"
+                        className="flex items-center justify-center gap-1"
+                      >
+                        <span>
+                          {locale === "en"
+                            ? "View All Products"
+                            : "عرض جميع المنتجات"}
+                        </span>
+                        <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Right side - Images (70%) */}
+                <div className="lg:col-span-7 flex items-stretch justify-center order-1 lg:order-2">
+                  <motion.div
+                    className="grid grid-cols-2 gap-4 max-w-3xl w-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ staggerChildren: 0.1 }}
+                  >
+                    {categoryProducts.map((product) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.4,
+                          ease: [0.25, 0.1, 0.25, 1],
+                        }}
+                        className="group relative overflow-hidden rounded-lg bg-card/30 backdrop-blur-sm border border-border/50 w-full"
+                      >
+                        <div className="aspect-[4/3] relative w-full h-56">
+                          <Image
+                            src={product.images[0]}
+                            alt={
+                              locale === "en" ? product.name : product.nameAr
+                            }
+                            fill
+                            sizes="(min-width: 1024px) 25vw, 45vw"
+                            className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                          />
+
+                          {/* Overlay with product info */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="absolute bottom-0 left-0 right-0 p-2">
+                              <h4 className="text-white font-semibold text-xs mb-1 line-clamp-1">
+                                {locale === "en"
+                                  ? product.name
+                                  : product.nameAr}
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* View details link */}
+                          <Link
+                            href={`/products/${product.slug}`}
+                            className="absolute inset-0 z-10"
+                            aria-label={
+                              locale === "en"
+                                ? `View details for ${product.name}`
+                                : `عرض تفاصيل ${product.nameAr}`
+                            }
+                          />
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );
