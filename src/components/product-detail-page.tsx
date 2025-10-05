@@ -246,7 +246,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   {product.specifications.map((specSet: Record<string, string>, index: number) => (
                     <div key={index}>
-                      <h2 className="col-span-1 md:col-span-2 text-3xl text-white/60 mt-6 first:mt-0">
+                      <h2 className="col-span-1 md:col-span-2 text-3xl text-white/60 mt-6 first:mt-0 capitaize">
                         Specifications Set {index + 1}
                       </h2>
                       {Object.entries(specSet).map(([key, value]) => (
