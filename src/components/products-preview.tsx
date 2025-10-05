@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { mockProducts, productCategories } from "@/lib/data/products";
@@ -36,7 +36,7 @@ export function ProductsPreview() {
   return (
     <section className="px-4 py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
       {/* Page container */}
-      <div className="container mx-auto grid gap-16 lg:gap-24">
+      <div className="container mx-auto grid gap-16 lg:gap-8">
         {/* Header */}
         <ScrollReveal>
           <div className="grid place-items-center gap-4">
@@ -141,46 +141,9 @@ export function ProductsPreview() {
 
                       <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
                         {locale === "en"
-                          ? `Advanced ${activeCategoryData?.name?.toLowerCase()} cutting systems designed for precision, efficiency, and reliability.`
-                          : `أنظمة قطع ${activeCategoryData?.nameAr} متقدمة مصممة للدقة والكفاءة والموثوقية.`}
+                          ? `Explore our cutting-edge range of ${activeCategoryData?.name?.toLowerCase()} cutting systems, meticulously engineered to deliver unmatched precision, exceptional efficiency, and lasting reliability in a variety of industrial applications. Whether you're handling complex custom work or operating high-throughput production lines, our machines are designed to support diverse manufacturing needs with advanced automation, user-friendly interfaces, and robust construction. Trusted by professionals across industries, our solutions help improve productivity, reduce material waste, and ensure superior cut quality every time.`
+                          : `استكشف مجموعتنا المتطورة من أنظمة قطع ${activeCategoryData?.nameAr} المصممة بعناية لتقديم دقة لا مثيل لها، وكفاءة استثنائية، وموثوقية طويلة الأمد في مجموعة واسعة من التطبيقات الصناعية. سواء كنت تتعامل مع أعمال مخصصة معقدة أو تدير خطوط إنتاج عالية الكثافة، فإن أجهزتنا مصممة لتلبية احتياجات التصنيع المختلفة من خلال الأتمتة المتقدمة، والواجهات سهلة الاستخدام، والبنية القوية. تحظى حلولنا بثقة المهنيين في مختلف الصناعات، وتساعدك على تحسين الإنتاجية، وتقليل هدر المواد، وضمان جودة قطع فائقة في كل مرة.`}
                       </p>
-
-                      <div className="space-y-3">
-                        {categoryProducts.slice(0, 2).map((product) => (
-                          <div
-                            key={product.id}
-                            className="flex items-center gap-3 p-3 bg-card/30 rounded-lg"
-                          >
-                            <div className="w-14 h-14 relative rounded overflow-hidden bg-muted flex-shrink-0">
-                              <Image
-                                src={product.images[0]}
-                                alt={
-                                  locale === "en"
-                                    ? product.name
-                                    : product.nameAr
-                                }
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h4 className="font-semibold text-sm truncate">
-                                {locale === "en"
-                                  ? product.name
-                                  : product.nameAr}
-                              </h4>
-                              <p className="text-sm text-muted-foreground truncate">
-                                {locale === "en"
-                                  ? product.description
-                                  : product.descriptionAr}
-                              </p>
-                            </div>
-                            {product.featured && (
-                              <Star className="h-4 w-4 text-brand-primary flex-shrink-0" />
-                            )}
-                          </div>
-                        ))}
-                      </div>
                     </div>
 
                     <Button

@@ -39,16 +39,6 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3);
 
-  // const nextImage = () => {
-  //   setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-  // };
-
-  // const prevImage = () => {
-  //   setCurrentImageIndex(
-  //     (prev) => (prev - 1 + product.images.length) % product.images.length
-  //   );
-  // };
-
   const features = [
     {
       icon: Zap,
@@ -125,23 +115,6 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                   fill
                   className="object-contain"
                 />
-
-                {/* {product.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-0 xl:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-brand-neutral-white hover:bg-brand-neutral-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-0 xl:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-brand-neutral-white hover:bg-brand-neutral-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-                  </>
-                )} */}
 
                 {product.featured && (
                   <div className="absolute top-4 left-4">
@@ -319,7 +292,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
           </Card>
 
           {/* Related Products */}
-          {relatedProducts.length > 0 && (
+          {/* {relatedProducts.length > 0 && (
             <section>
               <h2 className="text-2xl lg:text-3xl font-bold font-display mb-8 text-center">
                 {locale === "en" ? "Related Products" : "منتجات ذات صلة"}
@@ -369,7 +342,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                 ))}
               </div>
             </section>
-          )}
+          )} */}
         </div>
       </section>
     </div>
