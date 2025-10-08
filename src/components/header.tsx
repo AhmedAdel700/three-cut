@@ -24,7 +24,7 @@ import { useLocale } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { usePathname, useRouter } from "@/navigations";
 import { motion } from "framer-motion";
-import XLogo from '@/app/assets/x-logo.svg';
+import XLogo from "@/app/assets/x-logo.svg";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -62,7 +62,7 @@ export function Header() {
   ];
 
   const otherLangLabel = locale === "en" ? "العربية" : "English";
-  const drawerSide = locale === "ar" ? "right" : "left";
+  const drawerSide = locale === "ar" ? "left" : "right";
 
   const DrawerMenu = () => (
     <Drawer
@@ -71,7 +71,10 @@ export function Header() {
       onOpenChange={setIsDrawerOpen}
     >
       <DrawerTrigger asChild>
-        <button className="flex gap-1 text-white hover:text-white/90 px-3 py-2" suppressHydrationWarning>
+        <button
+          className="flex gap-1 text-white hover:text-white/90 px-3 py-2"
+          suppressHydrationWarning
+        >
           <Menu className="w-6 h-6" />
           {locale === "ar" ? "القائمة" : "Menu"}
         </button>
@@ -79,7 +82,7 @@ export function Header() {
 
       <DrawerContent
         className={cn(
-          "w-[300px] p-6 bg-black/90 backdrop-blur-lg text-white h-full flex flex-col justify-start overflow-y-auto",
+          "fixed top-0 h-full z-50 w-[300px] p-6 bg-black/90 backdrop-blur-lg text-white flex flex-col justify-start overflow-y-auto overflow-x-hidden transition-transform duration-300 ease-in-out",
           drawerSide === "left" ? "left-0" : "right-0"
         )}
       >
@@ -206,7 +209,7 @@ export function Header() {
         isScrolled ? "backdrop-blur-md" : "bg-transparent"
       )}
       style={{
-        backgroundColor: isScrolled ? "rgba(48, 53, 59, 0.65)" : "transparent",
+        backgroundColor: isScrolled ? "rgba(252, 252, 252, 0.26)" : "transparent",
       }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
