@@ -226,7 +226,7 @@ export function Header() {
               priority
               className={`block h-8 lg:h-10 w-auto object-contain ${
                 isScrolled
-                  ? "drop-shadow-[0_0_0.9px_white]"
+                  ? ""
                   : "brightness-0 invert"
               }`}
             />
