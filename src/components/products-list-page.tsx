@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {  Filter, Grid, List, ArrowRight } from "lucide-react";
+import { Filter, Grid, List, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mockProducts, productCategories } from "@/lib/data/products";
 import { useLocale } from "next-intl";
@@ -66,7 +66,13 @@ export function ProductsListPage() {
       {/* Products Grid/List */}
       <section className="py-12 section-bg border-y">
         <div className="container mx-auto px-4 lg:px-6 mb-5">
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-end">
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            {/* Results Count */}
+            <div className="text-sm text-muted-foreground">
+              {locale === "en"
+                ? `Showing ${filteredAndSortedProducts.length} of ${mockProducts.length} products`
+                : `عرض ${filteredAndSortedProducts.length} من ${mockProducts.length} منتج`}
+            </div>
 
             {/* Filters */}
             <div className="flex items-center gap-4">
@@ -116,13 +122,6 @@ export function ProductsListPage() {
                 </Button>
               </div>
             </div>
-          </div>
-
-          {/* Results Count */}
-          <div className="mt-4 text-sm text-muted-foreground">
-            {locale === "en"
-              ? `Showing ${filteredAndSortedProducts.length} of ${mockProducts.length} products`
-              : `عرض ${filteredAndSortedProducts.length} من ${mockProducts.length} منتج`}
           </div>
         </div>
 
