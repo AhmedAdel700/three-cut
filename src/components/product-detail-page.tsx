@@ -14,7 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Star, Zap, Shield, Award } from "lucide-react";
+import { Zap, Shield, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { productCategories, type Product } from "@/lib/data/products";
 import { useLocale } from "next-intl";
@@ -108,15 +108,6 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                   fill
                   className="object-contain"
                 />
-
-                {product.featured && (
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-brand-neutral-white text-brand-primary">
-                      <Star className="h-3 w-3 mr-1" />
-                      {locale === "en" ? "Featured" : "مميز"}
-                    </Badge>
-                  </div>
-                )}
               </div>
 
               {/* Thumbnail Gallery */}
@@ -150,7 +141,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
             {/* Product Info */}
             <div className="space-y-6">
               <div>
-                <Badge className="mb-4">
+                <Badge className="mb-4 p-2 text-sm">
                   {locale === "en" ? categoryName?.name : categoryName?.nameAr}
                 </Badge>
                 <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
