@@ -18,8 +18,12 @@ export default async function Home({
   return (
     <>
       <HeroCarousel heroData={homeData.data.sliders.data} />
-      <AboutSection />
-      <ServicesSection />
+      <AboutSection
+        aboutData={homeData.data.about.data}
+        aboutStructsData={homeData.data.about_structs.data}
+        partnersData={homeData.data.partners.data}
+      />
+      <ServicesSection servicesData={homeData.data.services} />
       <ProductsPreview />
       <SamplesGallery />
       <ContactTeaser />

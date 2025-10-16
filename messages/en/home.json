@@ -4,5 +4,22 @@
   "aboutTitle": "About Us",
   "prevSlide": "Previous slide",
   "nextSlide": "Next slide",
-  "goToSlide": "Go to slide"
+  "goToSlide": "Go to slide",
+  "projects": "Projects Completed",
+  "countries": "Countries Served",
+  "experience": "Years of Experience",
+  "support": "Customer Support",
+  "learnMore": "Learn More",
+  "partners": {
+    "title": "Our Partners",
+    "heading": "Our Trusted Partners For Growth And Innovation",
+    "description": "Chosen by forward-thinking companies worldwide to accelerate growth and unlock new opportunities."
+  },
+  "services": {
+    "title": "Our Services",
+    "heading": "Precision Cutting Solutions",
+    "description": "Comprehensive cutting solutions designed to meet the diverse needs of modern industrial operations with precision, efficiency, and reliability.",
+    "viewDetails": "View Details",
+    "moreServices": "More Services"
+  }
 }

@@ -1,14 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Sparkles, ChevronRight } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
-import { useLocale } from "next-intl";
-import { services } from "@/lib/data/services";
+import { useTranslations } from "next-intl";
+import { Services } from "@/app/types/homeApiTypes";
+import Image from "next/image";
 
-export function ServicesSection() {
-  const locale = useLocale();
+export function ServicesSection({ servicesData }: { servicesData: Services }) {
+  const t = useTranslations("home");
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -55,39 +56,39 @@ export function ServicesSection() {
           >
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
             <span className="text-white uppercase tracking-wider text-base font-semibold">
-              {locale === "en" ? "Our Services" : "خدماتنا"}
+              {servicesData.title || t("services.title")}
             </span>
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
+
           <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.3] mb-3">
-            Precision Cutting Solutions
+            {servicesData.short_desc || t("services.heading")}
           </h2>
+
           <p className="text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {locale === "en"
-              ? "Comprehensive cutting solutions designed to meet the diverse needs of modern industrial operations with precision, efficiency, and reliability."
-              : "حلول قطع شاملة مصممة لتلبية الاحتياجات المتنوعة للعمليات الصناعية الحديثة بدقة وكفاءة وموثوقية."}
+            {t("services.description")}
           </p>
         </ScrollReveal>
 
-        {/* Alternating Rows Layout */}
+        {/* Services List */}
         <motion.div
-          className=" flex flex-col gap-8 md:gap-12 xl:gap-20"
+          className="flex flex-col gap-8 md:gap-12 xl:gap-20"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {services.slice(0, 3).map((service, index) => (
+          {servicesData.data.map((service, index) => (
             <motion.div
-              key={index}
+              key={service.id}
               variants={itemVariants}
               className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${
                 index % 2 === 1 ? "lg:flex-row-reverse" : ""
               } group`}
             >
-              {/* Content Side */}
+              {/* Text Side */}
               <div className="flex-1 flex flex-col gap-6 text-center lg:text-start">
-                {/* Icon and Number */}
+                {/* Icon & Number */}
                 <div className="flex items-center justify-start sm:justify-center lg:justify-start gap-6">
                   <motion.div
                     className="relative w-16 h-16 lg:w-20 lg:h-20"
@@ -100,7 +101,15 @@ export function ServicesSection() {
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl" />
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
                     <div className="relative w-full h-full bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl flex items-center justify-center">
-                      <service.icon className="text-brand-neutral-white drop-shadow-lg h-8 w-8 lg:h-10 lg:w-10" />
+                      {service.icon && (
+                        <Image
+                          src={service.icon}
+                          alt={service.alt_icon || service.name}
+                          width={40}
+                          height={40}
+                          className="object-contain text-brand-neutral-white drop-shadow-lg"
+                        />
+                      )}
                     </div>
                   </motion.div>
 
@@ -109,56 +118,25 @@ export function ServicesSection() {
                   </span>
                 </div>
 
-                {/* Title and Description */}
+                {/* Title & Description */}
                 <div className="flex flex-col gap-6 w-full text-start">
                   <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold font-display text-brand-accent-light transition-colors duration-300">
-                    {service.title}
+                    {service.name}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed text-sm sm:text-base lg:text-lg text-gray-300 transition-colors duration-300 max-w-2xl mx-auto lg:mx-0">
-                    {service.description}
+                    {service.short_desc}
                   </p>
                 </div>
 
-                {/* Features Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {service.features.map((feature, featureIndex) => (
-                    <motion.div
-                      key={featureIndex}
-                      className="flex items-start gap-3 justify-start"
-                      initial={{ opacity: 0, x: index % 2 === 1 ? 10 : -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{
-                        delay: featureIndex * 0.05 + 0.2,
-                        duration: 0.4,
-                        ease: [0.4, 0, 0.2, 1],
-                      }}
-                      viewport={{ once: true }}
-                    >
-                      <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
-                      <span className="text-sm lg:text-base text-muted-foreground group-hover/feature:text-brand-neutral-white transition-colors duration-200 font-medium">
-                        {feature}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
+                {/* Long Description */}
+                {service.long_desc && (
+                  <p className="text-white/70 text-sm lg:text-base leading-relaxed max-w-2xl">
+                    {service.long_desc}
+                  </p>
+                )}
               </div>
 
-              {/* Visual Separator */}
-              <div className="hidden lg:block">
-                <motion.div
-                  className="w-full h-32 xl:h-40 bg-gradient-to-b from-transparent via-brand-accent-red to-transparent"
-                  initial={{ scaleY: 0 }}
-                  whileInView={{ scaleY: 1 }}
-                  transition={{
-                    delay: 0.3,
-                    duration: 0.5,
-                    ease: [0.4, 0, 0.2, 1],
-                  }}
-                  viewport={{ once: true }}
-                />
-              </div>
-
-              {/* Visual/Icon Side */}
+              {/* Image Side */}
               <div className="flex-1 flex justify-center w-full">
                 <motion.div
                   className="w-full h-44 xl:w-full xl:h-80 bg-gradient-to-br from-slate-900/80 via-slate-800/60 to-slate-900/80 rounded-3xl border border-brand-accent-red/20 flex items-center justify-center group-hover:border-brand-accent-red/40 transition-all duration-300 hover:shadow-xl hover:shadow-brand-accent-red/5 relative overflow-hidden"
@@ -172,13 +150,14 @@ export function ServicesSection() {
                   }}
                   viewport={{ once: true }}
                 >
-                  {/* Background gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-accent-red/5 via-transparent to-brand-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Large icon */}
-                  <service.icon className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-300 group-hover:scale-105" />
-
-                  {/* Animated border glow */}
+                  <Image
+                    src={service.image}
+                    alt={service.alt_image || service.name}
+                    width={500}
+                    height={300}
+                    className="object-cover w-full h-full rounded-3xl"
+                  />
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-sm" />
                 </motion.div>
               </div>
@@ -188,24 +167,13 @@ export function ServicesSection() {
 
         {/* CTA Button */}
         <ScrollReveal className="text-center mt-16 lg:mt-20" delay={0.6}>
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-block"
-          >
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button
               asChild
               size="lg"
-              className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold px-8 rounded-2xl"
+              className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-white font-semibold px-8 rounded-2xl"
             >
-              <Link
-                href="/services"
-                className="relative z-10 flex items-center gap-3"
-              >
-                <span>
-                  {locale === "en" ? "More Services" : "المزيد من الخدمات"}
-                </span>
-              </Link>
+              <Link href="/services">{t("services.moreServices")}</Link>
             </Button>
           </motion.div>
         </ScrollReveal>
