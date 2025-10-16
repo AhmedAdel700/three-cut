@@ -5,10 +5,19 @@ import { ProductsPreview } from "@/components/products-preview";
 import { SamplesGallery } from "@/components/samples-gallery";
 import { ContactTeaser } from "@/components/contact-teaser";
 import { FloatingActionButton } from "@/components/ui/floating-action-button";
-export default function Home() {
+import { fetchHomeData } from "../api/homeService";
+
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const homeData = await fetchHomeData(locale);
+
   return (
     <>
-      <HeroCarousel />
+      <HeroCarousel heroData={homeData.data.sliders.data} />
       <AboutSection />
       <ServicesSection />
       <ProductsPreview />

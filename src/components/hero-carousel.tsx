@@ -6,80 +6,25 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigations";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselApi,
 } from "@/components/ui/carousel";
-import image1 from "@/app/assets/pc-1.png";
-import image2 from "@/app/assets/pc-2.png";
-import image3 from "@/app/assets/pc-3.png";
-import type { StaticImageData } from "next/image";
 import CallToAction from "./CallToAction";
+import { Slider } from "@/app/types/homeApiTypes";
 
-interface HeroSlide {
-  id: number;
-  image: string | StaticImageData;
-  title: string;
-  titleAr: string;
-  subtitle: string;
-  subtitleAr: string;
-  cta: string;
-  ctaAr: string;
-  ctaLink: string;
-}
-
-const heroSlides: HeroSlide[] = [
-  {
-    id: 1,
-    image: image1,
-    title: "Advanced Laser Cutting Technology",
-    titleAr: "تقنية القطع بالليزر المتقدمة",
-    subtitle:
-      "Precision engineering meets industrial excellence with our state-of-the-art laser cutting systems.",
-    subtitleAr:
-      "الهندسة الدقيقة تلتقي بالتميز الصناعي مع أنظمة القطع بالليزر المتطورة.",
-    cta: "Explore Laser Systems",
-    ctaAr: "استكشف أنظمة الليزر",
-    ctaLink: "/products?category=laser-cutting",
-  },
-  {
-    id: 2,
-    image: image2,
-    title: "Heavy-Duty Plasma Cutting",
-    titleAr: "القطع بالبلازما للخدمة الشاقة",
-    subtitle:
-      "Powerful plasma cutting solutions for the most demanding industrial applications and thick materials.",
-    subtitleAr:
-      "حلول قطع البلازما القوية للتطبيقات الصناعية الأكثر تطلباً والمواد السميكة.",
-    cta: "View Plasma Systems",
-    ctaAr: "عرض أنظمة البلازما",
-    ctaLink: "/products?category=plasma-cutting",
-  },
-  {
-    id: 3,
-    image: image3,
-    title: "Ultra-Precision Waterjet Cutting",
-    titleAr: "القطع بالماء فائق الدقة",
-    subtitle:
-      "Achieve unmatched precision with our waterjet cutting systems for complex shapes and exotic materials.",
-    subtitleAr:
-      "حقق دقة لا مثيل لها مع أنظمة القطع بالماء للأشكال المعقدة والمواد الغريبة.",
-    cta: "Discover Waterjet",
-    ctaAr: "اكتشف القطع بالماء",
-    ctaLink: "/products?category=waterjet-cutting",
-  },
-];
-
-export function HeroCarousel() {
+export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [slideChanged, setSlideChanged] = useState(false);
+
   const locale = useLocale();
+  const t = useTranslations("home");
   const isRTL = locale === "ar";
 
   const SLIDE_TO_CONTENT_DELAY = 0.42;
@@ -96,7 +41,7 @@ export function HeroCarousel() {
 
       setTimeout(() => {
         setSlideChanged(false);
-      }, SLIDE_TO_CONTENT_DELAY * 1000);
+      }, SLIDE_TO_CONTENT_DELAY * 2200);
     });
   }, [api]);
 
@@ -136,16 +81,17 @@ export function HeroCarousel() {
       className="relative min-h-screen lg:min-h-screen flex justify-center items-center max-w-full overflow-x-hidden pt-24 lg:pt-0"
       style={{
         background: `linear-gradient(135deg,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(48, 53, 59, 0.9) 25%,
-      rgba(31, 35, 39, 0.95) 50%,
-      rgba(176, 30, 30, 0.1) 75%,
-      rgba(0, 0, 0, 0.98) 100%)`,
+          rgba(0, 0, 0, 0.95) 0%,
+          rgba(48, 53, 59, 0.9) 25%,
+          rgba(31, 35, 39, 0.95) 50%,
+          rgba(176, 30, 30, 0.1) 75%,
+          rgba(0, 0, 0, 0.98) 100%)`,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <CallToAction />
+
       {/* Background Pattern Overlay */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -170,7 +116,7 @@ export function HeroCarousel() {
             }}
           >
             <CarouselContent>
-              {heroSlides.map((slide, index) => (
+              {heroData?.map((slide, index) => (
                 <CarouselItem key={slide.id}>
                   <div className="flex flex-col xl:flex-row items-center justify-center gap-8 w-full min-h-[500px] lg:mt-20 xl:mt-0">
                     {/* Text */}
@@ -202,7 +148,7 @@ export function HeroCarousel() {
                           delay: slideChanged ? 0 : 0.05,
                         }}
                       >
-                        {locale === "en" ? slide.title : slide.titleAr}
+                        {slide.title}
                       </motion.h1>
                       <motion.p
                         className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed text-start"
@@ -217,7 +163,7 @@ export function HeroCarousel() {
                           delay: slideChanged ? 0 : 0.1,
                         }}
                       >
-                        {locale === "en" ? slide.subtitle : slide.subtitleAr}
+                        {slide.subtitle}
                       </motion.p>
                       <motion.div
                         className="flex flex-col sm:flex-row gap-4 justify-center xl:justify-start"
@@ -232,32 +178,19 @@ export function HeroCarousel() {
                           delay: slideChanged ? 0 : 0.15,
                         }}
                       >
-                        {/* <Button asChild size="lg" className="btn-primary">
-                          <Link href={slide.ctaLink}>
-                            {locale === "en" ? slide.cta : slide.ctaAr}
-                          </Link>
-                        </Button>
                         <Button
                           asChild
                           variant="outline"
                           size="lg"
                           className="btn-outline"
                         >
-                          <Link href="/contact">Contact Us</Link>
-                        </Button> */}
-
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="lg"
-                          className="btn-outline"
-                        >
-                          <Link href="/about" prefetch>
-                            Read More
+                          <Link href={"/about"} prefetch>
+                            {t("readMore")}
                           </Link>
                         </Button>
                       </motion.div>
                     </motion.div>
+
                     {/* Image */}
                     <motion.div
                       className="flex-1 flex justify-center overflow-visible -mt-5 sm:-mt-22 xl:-mt-0"
@@ -281,7 +214,7 @@ export function HeroCarousel() {
                       >
                         <Image
                           src={slide.image || "/placeholder.svg"}
-                          alt={locale === "en" ? slide.title : slide.titleAr}
+                          alt={slide.alt_image}
                           width={720}
                           height={500}
                           sizes="(min-width:1280px) 720px, (min-width:640px) 620px, 520px"
@@ -305,24 +238,25 @@ export function HeroCarousel() {
           "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
           isRTL ? "right-4 lg:right-8" : "left-4 lg:left-8"
         )}
-        aria-label="Previous slide"
+        aria-label={t("prevSlide")}
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
+
       <button
         onClick={isRTL ? prevSlide : nextSlide}
         className={cn(
           "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
           isRTL ? "left-4 lg:left-8" : "right-4 lg:right-8"
         )}
-        aria-label="Next slide"
+        aria-label={t("nextSlide")}
       >
         <ChevronRight className="h-6 w-6" />
       </button>
 
       {/* Dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
-        {heroSlides.map((_, index) => (
+        {heroData?.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
@@ -332,7 +266,7 @@ export function HeroCarousel() {
                 ? "bg-white scale-110"
                 : "bg-white/40 hover:bg-white/60"
             )}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`${t("goToSlide")} ${index + 1}`}
           />
         ))}
       </div>

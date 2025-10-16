@@ -1,3 +1,8 @@
 {
-  "This Is A Test": " هذا اختبار"
+  "readMore": "اقرأ المزيد",
+  "contactUs": "اتصل بنا",
+  "aboutTitle": "من نحن",
+  "prevSlide": "الشريحة السابقة",
+  "nextSlide": "الشريحة التالية",
+  "goToSlide": "اذهب إلى الشريحة"
 }
