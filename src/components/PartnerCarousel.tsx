@@ -14,7 +14,7 @@ import { Key, useEffect, useState } from "react";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function PartnerCarousel({ partnersData }: { partnersData: any }) {
+export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
   const locale = useLocale();
   const isRTL = locale === "ar";
   const [api, setApi] = useState<CarouselApi>();
