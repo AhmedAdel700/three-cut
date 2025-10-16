@@ -14,13 +14,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Star, Zap, Shield, Award, ArrowRight } from "lucide-react";
+import { Zap, Shield, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  mockProducts,
-  productCategories,
-  type Product,
-} from "@/lib/data/products";
+import { productCategories, type Product } from "@/lib/data/products";
 import { useLocale } from "next-intl";
 
 interface ProductDetailPageProps {
@@ -35,19 +31,6 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
   const categoryName = productCategories.find(
     (cat) => cat.id === product.category
   );
-  const relatedProducts = mockProducts
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 3);
-
-  // const nextImage = () => {
-  //   setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-  // };
-
-  // const prevImage = () => {
-  //   setCurrentImageIndex(
-  //     (prev) => (prev - 1 + product.images.length) % product.images.length
-  //   );
-  // };
 
   const features = [
     {
@@ -125,32 +108,6 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                   fill
                   className="object-contain"
                 />
-
-                {/* {product.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-0 xl:left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-brand-neutral-white hover:bg-brand-neutral-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-0 xl:right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-brand-neutral-white hover:bg-brand-neutral-white/85 rounded-full flex items-center justify-center text-brand-primary transition-all"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-                  </>
-                )} */}
-
-                {product.featured && (
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-brand-neutral-white text-brand-primary">
-                      <Star className="h-3 w-3 mr-1" />
-                      {locale === "en" ? "Featured" : "مميز"}
-                    </Badge>
-                  </div>
-                )}
               </div>
 
               {/* Thumbnail Gallery */}
@@ -184,7 +141,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
             {/* Product Info */}
             <div className="space-y-6">
               <div>
-                <Badge className="mb-4">
+                <Badge className="mb-4 p-2 text-sm">
                   {locale === "en" ? categoryName?.name : categoryName?.nameAr}
                 </Badge>
                 <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
@@ -230,7 +187,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
           </div>
 
           {/* Detailed Information Tabs */}
-          <Card className="mb-16">
+          <Card className="pb-10">
             <CardHeader className="!px-0">
               <div className="flex items-center justify-center sm:justify-start border-b border-border/50 pb-4 sm:ps-4 sm:gap-3">
                 {tabs.map((tab) => (
@@ -277,19 +234,31 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
               )}
 
               {activeTab === "specifications" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {Object.entries(product.specifications).map(
-                    ([key, value]) => (
-                      <div
-                        key={key}
-                        className="flex justify-between items-center py-3 border-b border-border/50"
-                      >
-                        <span className="font-medium">{key}</span>
-                        <span className="text-muted-foreground">{value}</span>
-                      </div>
-                    )
-                  )}
-                </div>
+                <>
+                  <Button className="mb-4 w-full sm:w-fit">Download PDF</Button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    {product.specifications.map(
+                      (specSet: Record<string, string>, index: number) => (
+                        <div key={index}>
+                          <h2 className="col-span-1 md:col-span-2 text-3xl text-white/60 mt-6 first:mt-0 capitaize">
+                            Specifications Set {index + 1}
+                          </h2>
+                          {Object.entries(specSet).map(([key, value]) => (
+                            <div
+                              key={key}
+                              className="flex justify-between items-center py-5 border-b border-border/50"
+                            >
+                              <span className="font-medium">{key}</span>
+                              <span className="text-muted-foreground">
+                                {value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </>
               )}
 
               {activeTab === "applications" && (
@@ -317,59 +286,6 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
               )}
             </CardContent>
           </Card>
-
-          {/* Related Products */}
-          {relatedProducts.length > 0 && (
-            <section>
-              <h2 className="text-2xl lg:text-3xl font-bold font-display mb-8 text-center">
-                {locale === "en" ? "Related Products" : "منتجات ذات صلة"}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {relatedProducts.map((relatedProduct) => (
-                  <Card
-                    key={relatedProduct.id}
-                    className="group hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={relatedProduct.images[0] || "/placeholder.svg"}
-                        alt={
-                          locale === "en"
-                            ? relatedProduct.name
-                            : relatedProduct.nameAr
-                        }
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-bold font-display mb-2 group-hover:text-brand-accent-red transition-colors">
-                        {locale === "en"
-                          ? relatedProduct.name
-                          : relatedProduct.nameAr}
-                      </h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-2">
-                        {locale === "en"
-                          ? relatedProduct.description
-                          : relatedProduct.descriptionAr}
-                      </p>
-                      <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="w-full group-hover:bg-brand-accent-red/10 group-hover:text-brand-accent-red transition-colors"
-                      >
-                        <Link href={`/products/${relatedProduct.slug}`}>
-                          {locale === "en" ? "View Details" : "عرض التفاصيل"}
-                          <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
         </div>
       </section>
     </div>

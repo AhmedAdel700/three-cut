@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -14,32 +13,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Filter, Grid, List, Star, ArrowRight } from "lucide-react";
+import { Filter, Grid, List, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mockProducts, productCategories } from "@/lib/data/products";
 import { useLocale } from "next-intl";
 
 export function ProductsListPage() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const locale = useLocale();
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = mockProducts;
-
-    // Filter by search query
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (product) =>
-          (locale === "en" ? product.name : product.nameAr)
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          (locale === "en" ? product.description : product.descriptionAr)
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-      );
-    }
 
     // Filter by category
     if (selectedCategory !== "all") {
@@ -49,7 +34,7 @@ export function ProductsListPage() {
     }
 
     return filtered;
-  }, [searchQuery, selectedCategory, locale]);
+  }, [selectedCategory]);
 
   return (
     <div className="min-h-screen">
@@ -82,19 +67,11 @@ export function ProductsListPage() {
       <section className="py-12 section-bg border-y">
         <div className="container mx-auto px-4 lg:px-6 mb-5">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder={
-                  locale === "en"
-                    ? "Search products..."
-                    : "البحث في المنتجات..."
-                }
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 rounded-2xl"
-              />
+            {/* Results Count */}
+            <div className="text-sm text-muted-foreground">
+              {locale === "en"
+                ? `Showing ${filteredAndSortedProducts.length} of ${mockProducts.length} products`
+                : `عرض ${filteredAndSortedProducts.length} من ${mockProducts.length} منتج`}
             </div>
 
             {/* Filters */}
@@ -146,13 +123,6 @@ export function ProductsListPage() {
               </div>
             </div>
           </div>
-
-          {/* Results Count */}
-          <div className="mt-4 text-sm text-muted-foreground">
-            {locale === "en"
-              ? `Showing ${filteredAndSortedProducts.length} of ${mockProducts.length} products`
-              : `عرض ${filteredAndSortedProducts.length} من ${mockProducts.length} منتج`}
-          </div>
         </div>
 
         <div className="container mx-auto px-4 lg:px-6">
@@ -171,7 +141,6 @@ export function ProductsListPage() {
               </p>
               <Button
                 onClick={() => {
-                  setSearchQuery("");
                   setSelectedCategory("all");
                 }}
                 suppressHydrationWarning
@@ -216,12 +185,6 @@ export function ProductsListPage() {
                               .replace(/\b\w/g, (l) => l.toUpperCase())
                           : product.categoryAr}
                       </Badge>
-                      {product.featured && (
-                        <Badge className="bg-brand-primary text-brand-neutral-white">
-                          <Star className="h-3 w-3 mr-1" />
-                          {locale === "en" ? "Featured" : "مميز"}
-                        </Badge>
-                      )}
                     </div>
                   </div>
 

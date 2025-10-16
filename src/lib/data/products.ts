@@ -13,7 +13,7 @@ export interface Product {
   category: string;
   categoryAr: string;
   images: string[] | StaticImageData[];
-  specifications: Record<string, string>;
+  specifications: Array<Record<string, string>>;
   applications: string[];
   applicationsAr: string[];
   featured: boolean;
@@ -39,13 +39,22 @@ export const mockProducts: Product[] = [
     category: "metal",
     categoryAr: "المعادن",
     images: [productImage1, productImage1, productImage1],
-    specifications: {
-      "Cutting Area": "1500mm x 3000mm",
-      "Laser Power": "6kW Fiber Laser",
-      "Max Thickness": "25mm Steel",
-      "Positioning Accuracy": "±0.03mm",
-      "Power Consumption": "15kW",
-    },
+    specifications: [
+      {
+        "Cutting Area": "1500mm x 3000mm",
+        "Laser Power": "6kW Fiber Laser",
+        "Max Thickness": "25mm Steel",
+        "Positioning Accuracy": "±0.03mm",
+        "Power Consumption": "15kW",
+      },
+      {
+        "Control System": "Beckhoff CNC",
+        "Cooling System": "Water Chiller 5000W",
+        "Operating Temperature": "10-40°C",
+        "Dimensions": "4500mm x 2500mm x 2000mm",
+        "Weight": "3500kg",
+      },
+    ],
     applications: [
       "Metal fabrication",
       "Automotive parts",
@@ -75,13 +84,22 @@ export const mockProducts: Product[] = [
     category: "metal",
     categoryAr: "المعادن",
     images: [productImage2, productImage2, productImage2],
-    specifications: {
-      "Cutting Area": "2000mm x 4000mm",
-      "Plasma Power": "200A",
-      "Max Thickness": "50mm Steel",
-      "Cutting Speed": "8000mm/min",
-      "Power Supply": "380V 3-Phase",
-    },
+    specifications: [
+      {
+        "Cutting Area": "2000mm x 4000mm",
+        "Plasma Power": "200A",
+        "Max Thickness": "50mm Steel",
+        "Cutting Speed": "8000mm/min",
+        "Power Supply": "380V 3-Phase",
+      },
+      {
+        "Arc Voltage": "160V",
+        "Duty Cycle": "100% at 200A",
+        "Gas Consumption": "12 L/min",
+        "Torch Height Control": "Automatic THC",
+        "Machine Weight": "2800kg",
+      },
+    ],
     applications: [
       "Heavy fabrication",
       "Shipbuilding",
@@ -110,13 +128,22 @@ export const mockProducts: Product[] = [
     category: "metal",
     categoryAr: "المعادن",
     images: [productImage3, productImage3, productImage3],
-    specifications: {
-      "Working Area": "1300mm x 2500mm",
-      "Spindle Power": "7.5kW",
-      "Max Material Thickness": "100mm",
-      "Positioning Accuracy": "±0.02mm",
-      "Spindle Speed": "24000 RPM",
-    },
+    specifications: [
+      {
+        "Working Area": "1300mm x 2500mm",
+        "Spindle Power": "7.5kW",
+        "Max Material Thickness": "100mm",
+        "Positioning Accuracy": "±0.02mm",
+        "Spindle Speed": "24000 RPM",
+      },
+      {
+        "Tool Changer": "8-Position Automatic",
+        "Drive System": "Servo Motors",
+        "Lubrication": "Automatic Oil System",
+        "Software": "Mach3/UCCNC Compatible",
+        "Machine Base": "Heavy Cast Iron",
+      },
+    ],
     applications: [
       "Metal engraving",
       "Sign making",
@@ -145,13 +172,22 @@ export const mockProducts: Product[] = [
     category: "metal",
     categoryAr: "المعادن",
     images: [productImage1, productImage2, productImage3],
-    specifications: {
-      "Cutting Area": "1500mm x 3000mm",
-      "Max Thickness": "6mm Steel",
-      "Cutting Speed": "12000mm/min",
-      "Positioning Accuracy": "±0.01mm",
-      "Material Waste": "< 2%",
-    },
+    specifications: [
+      {
+        "Cutting Area": "1500mm x 3000mm",
+        "Max Thickness": "6mm Steel",
+        "Cutting Speed": "12000mm/min",
+        "Positioning Accuracy": "±0.01mm",
+        "Material Waste": "< 2%",
+      },
+      {
+        "Blade Type": "Carbide Tungsten",
+        "Feed Rate": "0-15 m/min",
+        "Motor Power": "3kW",
+        "Dust Collection": "Integrated Vacuum System",
+        "Safety Features": "Emergency Stop, Light Curtain",
+      },
+    ],
     applications: [
       "Thin sheet cutting",
       "Automotive panels",
@@ -182,13 +218,22 @@ export const mockProducts: Product[] = [
     category: "non-metal",
     categoryAr: "غير المعدنية",
     images: [productImage3, productImage3, productImage3],
-    specifications: {
-      "Cutting Area": "1200mm x 2400mm",
-      Pressure: "4150 bar",
-      "Max Thickness": "200mm",
-      "Positioning Accuracy": "±0.025mm",
-      "Abrasive Flow": "0.3-0.5 kg/min",
-    },
+    specifications: [
+      {
+        "Cutting Area": "1200mm x 2400mm",
+        Pressure: "4150 bar",
+        "Max Thickness": "200mm",
+        "Positioning Accuracy": "±0.025mm",
+        "Abrasive Flow": "0.3-0.5 kg/min",
+      },
+      {
+        "Pump Type": "Intensifier",
+        "Water Consumption": "3.8 L/min",
+        "Nozzle Diameter": "0.76mm - 1.02mm",
+        "Cutting Head": "5-Axis Dynamic",
+        "Tank Capacity": "1000L with Filtration",
+      },
+    ],
     applications: [
       "Precision parts",
       "Titanium cutting",
@@ -217,13 +262,22 @@ export const mockProducts: Product[] = [
     category: "non-metal",
     categoryAr: "غير المعدنية",
     images: [productImage1, productImage1, productImage1],
-    specifications: {
-      "Working Area": "2000mm x 3000mm",
-      "Spindle Power": "5.5kW",
-      "Max Material Thickness": "150mm",
-      "Positioning Accuracy": "±0.05mm",
-      "Spindle Speed": "18000 RPM",
-    },
+    specifications: [
+      {
+        "Working Area": "2000mm x 3000mm",
+        "Spindle Power": "5.5kW",
+        "Max Material Thickness": "150mm",
+        "Positioning Accuracy": "±0.05mm",
+        "Spindle Speed": "18000 RPM",
+      },
+      {
+        "Z-Axis Travel": "300mm",
+        "Vacuum Table": "9 Zones Independent Control",
+        "Tool Holders": "ER32 Collet System",
+        "Drive Type": "Rack and Pinion",
+        "Dust Extraction": "4-Port System Ready",
+      },
+    ],
     applications: [
       "Furniture making",
       "Wood carving",
@@ -252,13 +306,22 @@ export const mockProducts: Product[] = [
     category: "non-metal",
     categoryAr: "غير المعدنية",
     images: [productImage2, productImage2, productImage2],
-    specifications: {
-      "Cutting Area": "1000mm x 1500mm",
-      "Laser Power": "100W CO2",
-      "Max Thickness": "25mm Acrylic",
-      "Positioning Accuracy": "±0.1mm",
-      "Cutting Speed": "5000mm/min",
-    },
+    specifications: [
+      {
+        "Cutting Area": "1000mm x 1500mm",
+        "Laser Power": "100W CO2",
+        "Max Thickness": "25mm Acrylic",
+        "Positioning Accuracy": "±0.1mm",
+        "Cutting Speed": "5000mm/min",
+      },
+      {
+        "Laser Tube Life": "8000 Hours",
+        "Cooling Method": "Water Cooling System",
+        "Focal Length": "50.8mm / 101.6mm Optional",
+        "Interface": "USB / Ethernet",
+        "Compatible Formats": "DXF, AI, PLT, BMP, JPG",
+      },
+    ],
     applications: [
       "Acrylic signage",
       "Plastic parts",
@@ -287,13 +350,22 @@ export const mockProducts: Product[] = [
     category: "non-metal",
     categoryAr: "غير المعدنية",
     images: [productImage3, productImage1, productImage2],
-    specifications: {
-      "Cutting Area": "1200mm x 2400mm",
-      "Max Thickness": "500mm Foam",
-      "Cutting Speed": "2000mm/min",
-      "Wire Temperature": "200-400°C",
-      "Positioning Accuracy": "±0.5mm",
-    },
+    specifications: [
+      {
+        "Cutting Area": "1200mm x 2400mm",
+        "Max Thickness": "500mm Foam",
+        "Cutting Speed": "2000mm/min",
+        "Wire Temperature": "200-400°C",
+        "Positioning Accuracy": "±0.5mm",
+      },
+      {
+        "Wire Type": "Nichrome 0.8mm",
+        "Power Supply": "24V DC Transformer",
+        "Temperature Control": "Digital PID Controller",
+        "Frame Construction": "Aluminum Extrusion",
+        "Software": "2D/3D Cutting Capable",
+      },
+    ],
     applications: [
       "Packaging foam",
       "Insulation cutting",
