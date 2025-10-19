@@ -21,5 +21,27 @@
     "description": "Comprehensive cutting solutions designed to meet the diverse needs of modern industrial operations with precision, efficiency, and reliability.",
     "viewDetails": "View Details",
     "moreServices": "More Services"
+  },
+  "ourProducts": "Our Products",
+  "productsTitle": "Precision Cutting Systems for Every Need",
+  "productsDesc": "Discover our range of cutting-edge industrial cutting systems designed for precision, efficiency, and reliability in demanding applications.",
+  "cuttingSolutions": "Cutting Solutions",
+  "defaultProductDesc": "Explore our cutting-edge range of products built for precision and reliability.",
+  "viewAllProducts": "View All Products",
+  "title": "Our Projects",
+  "short_desc": "Explore some of our most recent and remarkable works, crafted with precision and innovation.",
+  "category_all": "All",
+  "category_laser_cutting": "Laser Cutting",
+  "category_plasma_cutting": "Plasma Cutting",
+  "category_waterjet_cutting": "Waterjet Cutting",
+  "header_label": "Samples of Our Work",
+  "header_title": "Precision Cutting Samples",
+  "header_text": "Explore material and product samples cut on our CNC/laser/waterjet systems—real parts, ready for use.",
+  "all": "All",
+  "section_title": "Our Work",
+  "contact_teaser": {
+    "title": "Ready to Get Started?",
+    "short_desc": "Contact our experts today to discuss your cutting system requirements and discover how Three Cuts can enhance your industrial operations.",
+    "cta": "Contact Us Now"
   }
 }

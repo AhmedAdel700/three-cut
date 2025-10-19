@@ -1,0 +1,22 @@
+{
+  "Home": "Home",
+  "About": "About",
+  "Services": "Services",
+  "Products": "Products",
+  "Contact": "Contact",
+  "Menu": "Menu",
+  "Navigation Menu": "Navigation Menu",
+  "Switch language": "Switch language",
+  "Phone": "Phone",
+  "Email": "Email",
+  "Facebook": "Facebook",
+  "Instagram": "Instagram",
+  "LinkedIn": "LinkedIn",
+  "Drawer Title": "Navigation Menu",
+  "Arabic": "Arabic",
+  "English": "English",
+  "Name must be at least 2 characters": "Name must be at least 2 characters",
+  "Please enter a valid email address": "Please enter a valid email address",
+  "Please enter a valid phone number": "Please enter a valid phone number",
+  "Message must be at least 10 characters": "Message must be at least 10 characters"
+}

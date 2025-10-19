@@ -1,0 +1,32 @@
+{
+  "toast": {
+    "successTitle": "Success",
+    "successDesc": "We'll get back to you within 24 hours.",
+    "errorTitle": "Error",
+    "errorDesc": "Please try again or contact us directly."
+  },
+  "phone": "Phone",
+  "email": "Email",
+  "address": "Address",
+  "businessHours": "Business Hours",
+  "open": "Open",
+  "close": "Close",
+  "sendMessage": "Send us a Message",
+  "formDesc": "Fill out the form below and we'll get back to you within 24 hours.",
+  "name": "Name",
+  "namePlaceholder": "Your full name",
+  "emailPlaceholder": "your.email@company.com",
+  "phonePlaceholder": "+20 XXX XXX XXXX",
+  "message": "Message",
+  "messagePlaceholder": "How can we help you?",
+  "sending": "Sending...",
+  "submit": "Submit",
+  "contactInformation": "Contact Information",
+  "visitLocation": "Visit Our Location",
+  "mapTitle": "Three Cuts Location",
+  "openGoogleMaps": "Open in Google Maps",
+  "Name must be at least 2 characters": "Name must be at least 2 characters",
+  "Please enter a valid email address": "Please enter a valid email address",
+  "Please enter a valid phone number": "Please enter a valid phone number",
+  "Message must be at least 10 characters": "Message must be at least 10 characters"
+}

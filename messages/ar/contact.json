@@ -1,0 +1,32 @@
+{
+  "toast": {
+    "successTitle": "تم بنجاح",
+    "successDesc": "سنتواصل معك خلال 24 ساعة.",
+    "errorTitle": "حدث خطأ",
+    "errorDesc": "يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة."
+  },
+  "phone": "رقم الهاتف",
+  "email": "البريد الإلكتروني",
+  "address": "العنوان",
+  "businessHours": "ساعات العمل",
+  "open": "يفتح",
+  "close": "يغلق",
+  "sendMessage": "أرسل لنا رسالة",
+  "formDesc": "املأ النموذج أدناه وسنتواصل معك خلال 24 ساعة.",
+  "name": "الاسم",
+  "namePlaceholder": "اسمك الكامل",
+  "emailPlaceholder": "your.email@company.com",
+  "phonePlaceholder": "+20 XXX XXX XXXX",
+  "message": "الرسالة",
+  "messagePlaceholder": "كيف يمكننا مساعدتك؟",
+  "sending": "جاري الإرسال...",
+  "submit": "إرسال",
+  "contactInformation": "معلومات الاتصال",
+  "visitLocation": "قم بزيارة موقعنا",
+  "mapTitle": "موقع Three Cuts",
+  "openGoogleMaps": "افتح في خرائط جوجل",
+  "Name must be at least 2 characters": "يجب أن يكون الاسم مكونًا من حرفين على الأقل",
+  "Please enter a valid email address": "يرجى إدخال عنوان بريد إلكتروني صالح",
+  "Please enter a valid phone number": "يرجى إدخال رقم هاتف صالح",
+  "Message must be at least 10 characters": "يجب أن تحتوي الرسالة على 10 أحرف على الأقل"
+}

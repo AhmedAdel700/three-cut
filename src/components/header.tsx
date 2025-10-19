@@ -20,7 +20,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { usePathname, useRouter } from "@/navigations";
 import { motion } from "framer-motion";
@@ -31,6 +31,7 @@ export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const locale = useLocale();
+  const t = useTranslations("header");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -54,14 +55,14 @@ export function Header() {
   }, []);
 
   const navItems = [
-    { href: "/", label: locale === "ar" ? "الرئيسية" : "Home" },
-    { href: "/about", label: locale === "ar" ? "حولنا" : "About" },
-    { href: "/services", label: locale === "ar" ? "الخدمات" : "Services" },
-    { href: "/products", label: locale === "ar" ? "المنتجات" : "Products" },
-    { href: "/contact", label: locale === "ar" ? "تواصل" : "Contact" },
+    { href: "/", label: t("Home") },
+    { href: "/about", label: t("About") },
+    { href: "/services", label: t("Services") },
+    { href: "/products", label: t("Products") },
+    { href: "/contact", label: t("Contact") },
   ];
 
-  const otherLangLabel = locale === "en" ? "العربية" : "English";
+  const otherLangLabel = locale === "en" ? t("Arabic") : t("English");
   const drawerSide = locale === "ar" ? "left" : "right";
 
   const DrawerMenu = () => (
@@ -76,7 +77,7 @@ export function Header() {
           suppressHydrationWarning
         >
           <Menu className="w-6 h-6" />
-          {locale === "ar" ? "القائمة" : "Menu"}
+          {t("Menu")}
         </button>
       </DrawerTrigger>
 
@@ -86,9 +87,7 @@ export function Header() {
           drawerSide === "left" ? "left-0" : "right-0"
         )}
       >
-        <DrawerTitle className="sr-only">
-          {locale === "ar" ? "قائمة التنقل" : "Navigation Menu"}
-        </DrawerTitle>
+        <DrawerTitle className="sr-only">{t("Navigation Menu")}</DrawerTitle>
 
         {/* Top Section */}
         <div>
@@ -135,7 +134,7 @@ export function Header() {
               setIsDrawerOpen(false);
             }}
             className="flex lg:hidden items-center gap-2 text-white font-semibold hover:text-white/90 mt-6"
-            aria-label="Switch language"
+            aria-label={t("Switch language")}
             suppressHydrationWarning
           >
             <span>{otherLangLabel}</span>
@@ -144,6 +143,7 @@ export function Header() {
         </div>
 
         <div className="border-t border-white/20 w-full mt-2 mb-6"></div>
+
         {/* Footer Section */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-4 text-white/90">
@@ -162,7 +162,7 @@ export function Header() {
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Facebook"
+              aria-label={t("Facebook")}
             >
               <Facebook className="w-5 h-5 hover:text-white/80" />
             </Link>
@@ -170,7 +170,7 @@ export function Header() {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram"
+              aria-label={t("Instagram")}
             >
               <Instagram className="w-5 h-5 hover:text-white/80" />
             </Link>
@@ -178,15 +178,15 @@ export function Header() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn"
+              aria-label={t("LinkedIn")}
             >
               <Linkedin className="w-5 h-5 hover:text-white/80" />
             </Link>
             <Link
-              href="https://linkedin.com"
+              href="https://x.com"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn"
+              aria-label="X"
             >
               <Image
                 src={XLogo}
@@ -209,7 +209,9 @@ export function Header() {
         isScrolled ? "backdrop-blur-md" : "bg-transparent"
       )}
       style={{
-        backgroundColor: isScrolled ? "rgba(252, 252, 252, 0.26)" : "transparent",
+        backgroundColor: isScrolled
+          ? "rgba(252, 252, 252, 0.26)"
+          : "transparent",
       }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -225,9 +227,7 @@ export function Header() {
               alt="Three Cuts Logo"
               priority
               className={`block h-8 lg:h-10 w-auto object-contain ${
-                isScrolled
-                  ? ""
-                  : "brightness-0 invert"
+                isScrolled ? "" : "brightness-0 invert"
               }`}
             />
           </Link>
@@ -238,7 +238,7 @@ export function Header() {
             <button
               onClick={goOtherLocale}
               className="flex items-center gap-2 text-white font-semibold hover:text-white/90"
-              aria-label="Switch language"
+              aria-label={t("Switch language")}
               suppressHydrationWarning
             >
               <span>{otherLangLabel}</span>

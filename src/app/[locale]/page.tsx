@@ -24,9 +24,9 @@ export default async function Home({
         partnersData={homeData.data.partners.data}
       />
       <ServicesSection servicesData={homeData.data.services} />
-      <ProductsPreview />
-      <SamplesGallery />
-      <ContactTeaser />
+      <ProductsPreview categories={homeData.data.categories} />
+      <SamplesGallery projects={homeData.data.projects} />
+      <ContactTeaser contact={homeData.data.contact} />
       <FloatingActionButton />
     </>
   );

@@ -50,7 +50,7 @@ export default async function RootLayout({
           <Header />
           {children}
           <Footer />
-          <Toaster position="top-center" />
+          <Toaster richColors position="top-center" />
           <Analytics />
         </NextIntlClientProvider>
       </body>

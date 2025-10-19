@@ -10,7 +10,7 @@ import {
   Linkedin,
   Instagram,
 } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { motion } from "framer-motion";
 
@@ -35,14 +35,14 @@ const XLogo = ({
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const locale = useLocale();
+  const t = useTranslations("footer");
 
   const quickLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/services", label: "Services" },
-    { href: "/products", label: "Products" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("Home") },
+    { href: "/about", label: t("About") },
+    { href: "/services", label: t("Services") },
+    { href: "/products", label: t("Products") },
+    { href: "/contact", label: t("Contact") },
   ];
 
   const contactInfo = [
@@ -58,26 +58,23 @@ export function Footer() {
     },
     {
       icon: MapPin,
-      label: "Al Sarag Mall - Nasr City, Cairo, Egypt",
-      href: "https://www.google.com/maps/place/Three+cuts+For+CNC+Machines/@30.051088,31.34949,12z/data=!4m6!3m5!1s0x14583fc9ae990c0b:0xb62c714b690f3d78!8m2!3d30.0510877!4d31.3494897!16s%2Fg%2F11fsnwqss3?hl=en-US&entry=ttu&g_ep=EgoyMDI1MDkxNC4wIKXMDSoASAFQAw%3D%3D",
+      label: t("Address"),
+      href: "https://www.google.com/maps/place/Three+cuts+For+CNC+Machines/@30.051088,31.34949,12z/data=!4m6!3m5!1s0x14583fc9ae990c0b:0xb62c714b690f3d78!8m2!3d30.0510877!4d31.3494897!16s%2Fg%2F11fsnwqss3",
     },
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Facebook, href: "#", label: t("Facebook") },
     { icon: XLogo, href: "#", label: "X" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Linkedin, href: "#", label: t("LinkedIn") },
+    { icon: Instagram, href: "#", label: t("Instagram") },
   ];
 
-  const brandDescription =
-    locale === "en"
-      ? "Three Cuts delivers high-quality products with consistent standards, safe handling, and responsive service across KSA. We partner with businesses to ensure freshness, reliability, and on-time fulfillment."
-      : "توفر Three Cuts منتجات عالية الجودة بمعايير ثابتة وسلامة عالية وخدمة سريعة في جميع أنحاء المملكة. نعمل مع شركائنا لضمان الجودة والالتزام بالمواعيد.";
+  const brandDescription = t("BrandDescription");
 
   return (
     <footer className="bg-gradient-to-br from-red-900 via-black to-red-800 text-brand-neutral-white">
-      {/* Top Brand Block (centered) */}
+      {/* Top Brand Block */}
       <div className="container mx-auto px-4 lg:px-6 pt-12 lg:pt-16">
         <div className="flex flex-col items-center text-center">
           <Link href="/" className="block w-full max-w-[240px]">
@@ -109,10 +106,10 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Middle Content: Links & Contact with divider */}
+      {/* Middle Content */}
       <div className="container mx-auto px-4 lg:px-6 pb-12 lg:pb-10 mt-10">
         <div className="flex flex-col items-center sm:flex-row sm:items-stretch justify-center gap-8 sm:gap-12">
-          {/* Quick Links (left) */}
+          {/* Quick Links */}
           <div className="min-w-0 flex flex-col items-center">
             <motion.h3
               initial={{ opacity: 0 }}
@@ -121,7 +118,7 @@ export function Footer() {
               viewport={{ once: true, margin: "-50px" }}
               className="text-lg font-semibold font-display mb-6"
             >
-              {locale === "en" ? "Quick Links" : "روابط سريعة"}
+              {t("Quick Links")}
             </motion.h3>
             <ul className="flex items-center gap-3">
               {quickLinks.map((link, idx) => (
@@ -142,7 +139,7 @@ export function Footer() {
               ))}
             </ul>
 
-            {/* Socials (centered row) */}
+            {/* Socials */}
             <div className="flex flex-wrap items-center sm:justify-center gap-4 mt-6 sm:mt-8">
               {socialLinks.map((social, idx) => (
                 <motion.div
@@ -181,7 +178,7 @@ export function Footer() {
           {/* Divider */}
           <div className="hidden sm:block sm:w-[1px] bg-white/40"></div>
 
-          {/* Contact Info (right) */}
+          {/* Contact Info */}
           <div className="min-w-0 flex flex-col items-center sm:items-start">
             <motion.h3
               initial={{ opacity: 0 }}
@@ -190,7 +187,7 @@ export function Footer() {
               viewport={{ once: true, margin: "-50px" }}
               className="text-lg font-semibold font-display mb-6"
             >
-              {locale === "en" ? "Get in touch" : "تواصل معنا"}
+              {t("Get in touch")}
             </motion.h3>
             <ul className="flex flex-col gap-4 items-center sm:items-start">
               {contactInfo.map((info, idx) => (
@@ -233,7 +230,7 @@ export function Footer() {
               viewport={{ once: true, margin: "-20px" }}
               className="text-brand-neutral-white/60 text-sm lg:text-base text-center md:text-start"
             >
-              Created By{" "}
+              {t("Created By")}{" "}
               <Link
                 href={"https://www.be-group.com/en"}
                 target="_blank"
@@ -241,8 +238,7 @@ export function Footer() {
               >
                 Be Group
               </Link>{" "}
-              © {currentYear}{" "}
-              {locale === "en" ? "All Rights Reserved." : "جميع الحقوق محفوظة."}
+              © {currentYear} {t("All Rights Reserved")}
             </motion.p>
             <motion.div
               initial={{ opacity: 0 }}
@@ -255,13 +251,13 @@ export function Footer() {
                 href="/privacy"
                 className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
               >
-                {locale === "en" ? "Privacy Policy" : "سياسة الخصوصية"}
+                {t("Privacy Policy")}
               </Link>
               <Link
                 href="/terms"
                 className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
               >
-                {locale === "en" ? "Terms of Service" : "شروط الخدمة"}
+                {t("Terms of Service")}
               </Link>
             </motion.div>
           </div>

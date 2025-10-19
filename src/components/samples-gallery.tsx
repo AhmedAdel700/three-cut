@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,127 +9,33 @@ import { X, ZoomIn, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { cn } from "@/lib/utils";
-import { useLocale } from "next-intl";
-import image1 from "@/app/assets/sample1.webp";
-import image2 from "@/app/assets/sample2.webp";
-import image3 from "@/app/assets/sample3.webp";
+import { useLocale, useTranslations } from "next-intl";
+import { Projects } from "@/app/types/homeApiTypes";
 
-interface SampleItem {
-  id: number;
-  src: string | StaticImageData;
-  thumbnail: string | StaticImageData;
-  title: string;
-  titleAr: string;
-  category: string;
-  categoryAr: string;
-  description: string;
-  descriptionAr: string;
-}
-
-const sampleItems: SampleItem[] = [
-  {
-    id: 1,
-    src: image1,
-    thumbnail: image1,
-    title: "Stainless Steel Nameplate (Laser-cut)",
-    titleAr: "لوحة اسم من الستانلس (مقطوعة بالليزر)",
-    category: "Laser Cutting",
-    categoryAr: "القطع بالليزر",
-    description:
-      "Laser-cut stainless steel nameplate with deburred edges and clean internal corners.",
-    descriptionAr:
-      "لوحة اسم من الستانلس مقطوعة بالليزر بحواف مصقولة وزوايا داخلية نظيفة.",
-  },
-  {
-    id: 2,
-    src: image2,
-    thumbnail: image2,
-    title: "Thick Steel Bracket (Plasma-cut)",
-    titleAr: "حامل فولاذي سميك (مقطوع بالبلازما)",
-    category: "Plasma Cutting",
-    categoryAr: "القطع بالبلازما",
-    description:
-      "Heavy-duty bracket cut from thick plate, suitable for industrial fixtures.",
-    descriptionAr: "حامل قوي مقطوع من صفيحة سميكة، مناسب للتجهيزات الصناعية.",
-  },
-  {
-    id: 3,
-    src: image3,
-    thumbnail: image3,
-    title: "Marble Inlay Sample (Waterjet)",
-    titleAr: "عينة تطعيم رخام (مقطوعة بالماء)",
-    category: "Waterjet Cutting",
-    categoryAr: "القطع بالماء",
-    description:
-      "Precision waterjet-cut marble inlay demonstrating tight fits and smooth edges.",
-    descriptionAr:
-      "تطعيم رخام مقطوع بدقة بالماء يظهر انطباقًا محكمًا وحوافًا ملساء.",
-  },
-  {
-    id: 4,
-    src: image3,
-    thumbnail: image3,
-    title: "Decorative Metal Screen Panel",
-    titleAr: "لوح معدني ديكوري مُفرّغ",
-    category: "Laser Cutting",
-    categoryAr: "التكنولوجيا",
-    description: "Laser-perforated decorative panel for interiors and façades.",
-    descriptionAr: "لوح ديكوري مُفرّغ بالليزر للاستخدامات الداخلية والواجهات.",
-  },
-  {
-    id: 5,
-    src: image1,
-    thumbnail: image2,
-    title: "Acrylic Signage Letters",
-    titleAr: "حروف إعلانية من الأكريليك",
-    category: "Equipment",
-    categoryAr: "المعدات",
-    description:
-      "CNC-cut acrylic letters with polished edges for premium signage.",
-    descriptionAr:
-      "حروف أكريليك مقطوعة بالـ CNC بحواف مصقولة ليافطات عالية الجودة.",
-  },
-  {
-    id: 6,
-    src: image1,
-    thumbnail: image1,
-    title: "Composite Gasket (Waterjet-cut)",
-    titleAr: "جوان مركّب (مقطوع بالماء)",
-    category: "Components",
-    categoryAr: "المكونات",
-    description:
-      "Waterjet-cut gasket from composite sheet for sealing applications.",
-    descriptionAr: "جوان مقطوع بالماء من خامة مركّبة لتطبيقات العزل والإحكام.",
-  },
-];
-
-export function SamplesGallery() {
-  const [selectedItem, setSelectedItem] = useState<SampleItem | null>(null);
+export function SamplesGallery({ projects }: { projects: Projects }) {
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [filter, setFilter] = useState<string>("all");
+  const t = useTranslations("home");
   const locale = useLocale();
 
+  const allProjects = projects?.data || [];
+
   const categories = [
-    { id: "all", name: locale === "en" ? "All" : "الكل" },
-    {
-      id: "laser-cutting",
-      name: locale === "en" ? "Laser Cutting" : "القطع بالليزر",
-    },
-    {
-      id: "plasma-cutting",
-      name: locale === "en" ? "Plasma Cutting" : "القطع بالبلازما",
-    },
-    {
-      id: "waterjet-cutting",
-      name: locale === "en" ? "Waterjet Cutting" : "القطع بالماء",
-    },
+    { id: "all", name: t("all") },
+    ...Array.from(new Set(allProjects.map((p) => p.alt_icon))).map((cat) => ({
+      id: cat?.toLowerCase().replace(/\s+/g, "-") || "",
+      name: cat || "",
+    })),
   ];
 
   const filteredItems =
     filter === "all"
-      ? sampleItems
-      : sampleItems.filter(
-          (item) => item.category.toLowerCase().replace(" ", "-") === filter
+      ? allProjects
+      : allProjects.filter(
+          (item) => item.alt_icon?.toLowerCase().replace(/\s+/g, "-") === filter
         );
+
+  const selectedProject = allProjects.find((p) => p.id === selectedItem);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -165,17 +71,17 @@ export function SamplesGallery() {
           >
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
             <span className="text-white uppercase tracking-wider text-base font-semibold">
-              Samples of Our Work
+              {t("section_title")}
             </span>
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
           </motion.div>
+
           <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25] text-center">
-            Precision Cutting Samples
+            {projects?.title}
           </h2>
+
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {locale === "en"
-              ? "Explore material and product samples cut on our CNC/laser/waterjet systems—real parts, ready for use."
-              : "استكشف عينات مواد ومنتجات مقطوعة بأنظمة CNC والليزر والقطع بالماء — قطع حقيقية جاهزة للاستخدام."}
+            {projects?.short_desc}
           </p>
         </ScrollReveal>
 
@@ -222,28 +128,28 @@ export function SamplesGallery() {
               className="h-full flex"
             >
               <Card
-                className="h-full w-full flex flex-col group cursor-pointer overflow-hidden 
+                className="!pt-0 h-full w-full flex flex-col group cursor-pointer overflow-hidden 
         hover:shadow-2xl hover:shadow-brand-primary/10 
         transition-all duration-500 hover:-translate-y-2 
         border-border/50 bg-card/50 backdrop-blur-sm"
-                onClick={() => setSelectedItem(item)}
+                onClick={() => setSelectedItem(item.id)}
               >
                 {/* Media */}
                 <div className="relative h-40 overflow-hidden">
                   <Image
-                    src={item.thumbnail || "/placeholder.svg"}
-                    alt={locale === "en" ? item.title : item.titleAr}
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.name}
                     fill
-                    className="object-contain group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
 
-                  {/* Gradient overlay */}
+                  {/* Overlay */}
                   <div
                     className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent 
             opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
                   />
 
-                  {/* Search icon overlay */}
+                  {/* Search icon */}
                   <div
                     className="absolute inset-0 hidden xl:flex items-center justify-center 
             opacity-0 group-hover:opacity-100 
@@ -259,9 +165,13 @@ export function SamplesGallery() {
                   </div>
 
                   {/* Badge */}
-                  <div className="absolute top-0 left-3 bg-red-500/20 rounded-lg">
+                  <div
+                    className={`absolute top-3 ${
+                      locale === "en" ? "left-3" : "right-3"
+                    } bg-red-500 rounded-lg`}
+                  >
                     <Badge className="bg-brand-primary/90 text-white text-xs px-2 py-0.5">
-                      {locale === "en" ? item.category : item.categoryAr}
+                      {item.alt_icon || t("category")}
                     </Badge>
                   </div>
                 </div>
@@ -270,10 +180,10 @@ export function SamplesGallery() {
                 <div className="p-4 flex-1 flex flex-col justify-between min-h-[100px]">
                   <div>
                     <h3 className="text-sm font-bold font-display mb-2">
-                      {locale === "en" ? item.title : item.titleAr}
+                      {item.name}
                     </h3>
                     <p className="text-muted-foreground text-xs leading-relaxed line-clamp-3">
-                      {locale === "en" ? item.description : item.descriptionAr}
+                      {item.short_desc}
                     </p>
                   </div>
                 </div>
@@ -284,7 +194,7 @@ export function SamplesGallery() {
 
         {/* Lightbox Modal */}
         <AnimatePresence>
-          {selectedItem && (
+          {selectedProject && (
             <motion.div
               className="hidden xl:flex fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-6"
               initial={{ opacity: 0 }}
@@ -300,15 +210,10 @@ export function SamplesGallery() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Header with Close Button */}
                 <div className="flex items-center justify-between p-4 text-white">
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-brand-primary text-white">
-                      {locale === "en"
-                        ? selectedItem.category
-                        : selectedItem.categoryAr}
-                    </Badge>
-                  </div>
+                  <Badge className="bg-brand-primary text-white">
+                    {selectedProject.alt_icon}
+                  </Badge>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -319,33 +224,22 @@ export function SamplesGallery() {
                   </Button>
                 </div>
 
-                {/* Main Content - Side by side on large screens */}
                 <div className="flex flex-col lg:flex-row">
-                  {/* Image Container */}
                   <div className="relative h-64 lg:h-80 lg:flex-1 flex items-center justify-center">
                     <Image
-                      src={selectedItem.src || "/placeholder.svg"}
-                      alt={
-                        locale === "en"
-                          ? selectedItem.title
-                          : selectedItem.titleAr
-                      }
+                      src={selectedProject.image || "/placeholder.svg"}
+                      alt={selectedProject.name}
                       fill
                       className="object-contain p-4"
                     />
                   </div>
 
-                  {/* Content - Side by side with image on large screens */}
                   <div className="p-4 space-y-3 lg:flex-1 lg:flex lg:flex-col lg:justify-start">
                     <h3 className="text-lg lg:text-xl font-bold text-white">
-                      {locale === "en"
-                        ? selectedItem.title
-                        : selectedItem.titleAr}
+                      {selectedProject.name}
                     </h3>
                     <p className="text-sm lg:text-base text-white leading-relaxed">
-                      {locale === "en"
-                        ? selectedItem.description
-                        : selectedItem.descriptionAr}
+                      {selectedProject.long_desc}
                     </p>
                   </div>
                 </div>

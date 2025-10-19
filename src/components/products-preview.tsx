@@ -4,38 +4,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
-import { mockProducts, productCategories } from "@/lib/data/products";
-import { useLocale } from "next-intl";
-import { useState, useEffect } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useState, useEffect, useMemo } from "react";
+import { Categories } from "@/app/types/homeApiTypes";
 
-export function ProductsPreview() {
+export function ProductsPreview({ categories }: { categories: Categories }) {
+  const t = useTranslations("home");
   const locale = useLocale();
-  const [activeCategory, setActiveCategory] = useState("metal");
 
-  // Auto-switch categories every 8 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveCategory((prev) => (prev === "metal" ? "non-metal" : "metal"));
-    }, 8000);
+  // ✅ Memoize categoryList so it's not redefined every render
+  const categoryList = useMemo(() => categories?.data || [], [categories]);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  // Get products for the active category (4 products)
-  const categoryProducts = mockProducts
-    .filter((product) => product.category === activeCategory)
-    .slice(0, 4);
-
-  const activeCategoryData = productCategories.find(
-    (cat) => cat.id === activeCategory
+  const [activeCategoryId, setActiveCategoryId] = useState<number | null>(
+    categoryList.length > 0 ? categoryList[0].id : null
   );
+
+  useEffect(() => {
+    if (categoryList.length < 2) return;
+    const interval = setInterval(() => {
+      setActiveCategoryId((prevId) => {
+        const currentIndex = categoryList.findIndex((cat) => cat.id === prevId);
+        const nextIndex =
+          currentIndex === categoryList.length - 1 ? 0 : currentIndex + 1;
+        return categoryList[nextIndex].id;
+      });
+    }, 8000);
+    return () => clearInterval(interval);
+  }, [categoryList]); // ✅ No more ESLint warning
+
+  const activeCategory = categoryList.find(
+    (cat) => cat.id === activeCategoryId
+  );
+  const categoryProducts = activeCategory?.products?.slice(0, 4) || [];
 
   return (
     <section className="px-4 py-16 lg:py-24 relative overflow-hidden border-t dark-section-bg">
-      {/* Page container */}
       <div className="container mx-auto grid gap-16 lg:gap-8">
         {/* Header */}
         <ScrollReveal>
@@ -49,23 +55,18 @@ export function ProductsPreview() {
             >
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
               <span className="text-white uppercase tracking-wider text-base font-semibold">
-                {locale === "en" ? "Our Products" : "منتجاتنا"}
+                {t("ourProducts")}
               </span>
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
             </motion.div>
 
-            {/* Title */}
             <h2 className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25] text-center">
-              {locale === "en"
-                ? "Precision Cutting Systems for Every Need"
-                : "أنظمة قطع دقيقة لكل الاحتياجات"}
+              {t("productsTitle")}
             </h2>
 
             <div className="grid place-items-center">
               <p className="text-lg text-muted-foreground max-w-3xl text-center leading-relaxed">
-                {locale === "en"
-                  ? "Discover our range of cutting-edge industrial cutting systems designed for precision, efficiency, and reliability in demanding applications."
-                  : "اكتشف مجموعتنا من أنظمة القطع الصناعية المتطورة المصممة للدقة والكفاءة والموثوقية في التطبيقات الصعبة."}
+                {t("productsDesc")}
               </p>
             </div>
           </div>
@@ -75,18 +76,18 @@ export function ProductsPreview() {
         <ScrollReveal>
           <div className="flex justify-center">
             <div className="inline-flex items-center gap-1 bg-card/50 backdrop-blur-md rounded-xl p-1.5 border border-border/50 shadow-lg">
-              {productCategories.map((category) => (
+              {categoryList.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
+                  onClick={() => setActiveCategoryId(category.id)}
                   className={`relative px-8 py-3 rounded-lg font-semibold text-sm transition-all duration-300 ${
-                    activeCategory === category.id
+                    activeCategoryId === category.id
                       ? "text-white"
                       : "text-muted-foreground hover:text-white"
                   }`}
                   suppressHydrationWarning
                 >
-                  {activeCategory === category.id && (
+                  {activeCategoryId === category.id && (
                     <motion.div
                       layoutId="categoryBg"
                       className="absolute inset-0 bg-gradient-to-r from-brand-secondary to-brand-accent-red rounded-lg"
@@ -97,28 +98,26 @@ export function ProductsPreview() {
                       }}
                     />
                   )}
-                  <span className="relative z-10">
-                    {locale === "en" ? category.name : category.nameAr}
-                  </span>
+                  <span className="relative z-10">{category.name}</span>
                 </button>
               ))}
             </div>
           </div>
         </ScrollReveal>
 
-        {/* Products Display - 30% info / 70% images */}
+        {/* Products Display */}
         <div className="flex justify-center w-full">
           <div className="w-full max-w-7xl">
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeCategory}
+                key={activeCategoryId}
                 className="grid grid-cols-1 lg:grid-cols-10 gap-8 items-stretch"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
               >
-                {/* Left side - Info (30%) */}
+                {/* Left side - Info */}
                 <div className="lg:col-span-3 flex flex-col justify-between order-2 lg:order-1">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -128,21 +127,15 @@ export function ProductsPreview() {
                   >
                     <div className="flex-grow space-y-5">
                       <Badge className="bg-brand-primary text-white mb-3 text-sm">
-                        {locale === "en"
-                          ? activeCategoryData?.name
-                          : activeCategoryData?.nameAr}
+                        {activeCategory?.name}
                       </Badge>
 
                       <h3 className="text-xl lg:text-2xl font-bold font-display mb-3">
-                        {locale === "en"
-                          ? `${activeCategoryData?.name} Cutting Solutions`
-                          : `حلول قطع ${activeCategoryData?.nameAr}`}
+                        {activeCategory?.name} {t("cuttingSolutions")}
                       </h3>
 
                       <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
-                        {locale === "en"
-                          ? `Explore our cutting-edge range of ${activeCategoryData?.name?.toLowerCase()} cutting systems, meticulously engineered to deliver unmatched precision, exceptional efficiency, and lasting reliability in a variety of industrial applications. Whether you're handling complex custom work or operating high-throughput production lines, our machines are designed to support diverse manufacturing needs with advanced automation, user-friendly interfaces, and robust construction. Trusted by professionals across industries, our solutions help improve productivity, reduce material waste, and ensure superior cut quality every time.`
-                          : `استكشف مجموعتنا المتطورة من أنظمة قطع ${activeCategoryData?.nameAr} المصممة بعناية لتقديم دقة لا مثيل لها، وكفاءة استثنائية، وموثوقية طويلة الأمد في مجموعة واسعة من التطبيقات الصناعية. سواء كنت تتعامل مع أعمال مخصصة معقدة أو تدير خطوط إنتاج عالية الكثافة، فإن أجهزتنا مصممة لتلبية احتياجات التصنيع المختلفة من خلال الأتمتة المتقدمة، والواجهات سهلة الاستخدام، والبنية القوية. تحظى حلولنا بثقة المهنيين في مختلف الصناعات، وتساعدك على تحسين الإنتاجية، وتقليل هدر المواد، وضمان جودة قطع فائقة في كل مرة.`}
+                        {activeCategory?.long_desc || t("defaultProductDesc")}
                       </p>
                     </div>
 
@@ -155,18 +148,18 @@ export function ProductsPreview() {
                         href="/products"
                         className="flex items-center justify-center gap-1"
                       >
-                        <span>
-                          {locale === "en"
-                            ? "View All Products"
-                            : "عرض جميع المنتجات"}
-                        </span>
-                        <ArrowRight className="h-3 w-3" />
+                        <span>{t("viewAllProducts")}</span>
+                        {locale === "en" ? (
+                          <ArrowRight className="h-3 w-3" />
+                        ) : (
+                          <ArrowLeft className="h-3 w-3" />
+                        )}
                       </Link>
                     </Button>
                   </motion.div>
                 </div>
 
-                {/* Right side - Images (70%) */}
+                {/* Right side - Images */}
                 <div className="lg:col-span-7 flex items-stretch justify-center order-1 lg:order-2">
                   <motion.div
                     className="grid grid-cols-2 gap-4 max-w-3xl w-full"
@@ -187,35 +180,25 @@ export function ProductsPreview() {
                       >
                         <div className="aspect-[4/3] relative w-full h-56">
                           <Image
-                            src={product.images[0]}
-                            alt={
-                              locale === "en" ? product.name : product.nameAr
-                            }
+                            src={product.image || "/placeholder.png"}
+                            alt={product.name}
                             fill
                             sizes="(min-width: 1024px) 25vw, 45vw"
-                            className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                            className="object-cover p-4 group-hover:scale-105 transition-transform duration-500"
                           />
 
-                          {/* Overlay with product info */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div className="absolute bottom-0 left-0 right-0 p-2">
                               <h4 className="text-white font-semibold text-xs mb-1 line-clamp-1">
-                                {locale === "en"
-                                  ? product.name
-                                  : product.nameAr}
+                                {product.name}
                               </h4>
                             </div>
                           </div>
 
-                          {/* View details link */}
                           <Link
                             href={`/products/${product.slug}`}
                             className="absolute inset-0 z-10"
-                            aria-label={
-                              locale === "en"
-                                ? `View details for ${product.name}`
-                                : `عرض تفاصيل ${product.nameAr}`
-                            }
+                            aria-label={`View details for ${product.name}`}
                           />
                         </div>
                       </motion.div>

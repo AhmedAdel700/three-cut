@@ -4,12 +4,15 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { Contact } from "@/app/types/homeApiTypes";
 
-export function ContactTeaser() {
-  const locale = useLocale();
+export function ContactTeaser({ contact }: { contact: Contact }) {
+  const t = useTranslations("home");
+
   return (
     <section className="py-8 bg-gradient-to-r from-brand-primary via-brand-accent-red to-brand-primary relative overflow-hidden border-y-[1.5px]">
+      {/* Animated Background */}
       <div className="absolute inset-0 opacity-10">
         <motion.div
           className="absolute inset-0"
@@ -30,21 +33,21 @@ export function ContactTeaser() {
 
       <div className="container mx-auto px-4 lg:px-6 relative z-10">
         <div className="text-center text-brand-neutral-white">
+          {/* Title */}
           <ScrollReveal>
             <h2 className="text-3xl lg:text-5xl font-bold font-display mb-6 bg-gradient-to-b from-brand-neutral-white to-brand-accent-light capitalize bg-clip-text text-transparent">
-              {locale === "en" ? "Ready to Get Started?" : "مستعد للبدء؟"}
+              {contact?.title || t("contact_teaser.title")}
             </h2>
           </ScrollReveal>
 
+          {/* Description */}
           <ScrollReveal delay={0.2}>
             <p className="text-sm md:text-xl text-brand-neutral-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-              {locale === "en"
-                ? "Contact our experts today to discuss your cutting system requirements and discover how Three Cuts can enhance your industrial operations."
-                : "اتصل بخبرائنا اليوم لمناقشة متطلبات نظام القطع الخاص بك واكتشف كيف يمكن لثري كتس تحسين عملياتك الصناعية."}
+              {contact?.short_desc || t("contact_teaser.short_desc")}
             </p>
           </ScrollReveal>
 
-          {/* CTA Buttons with Enhanced Animations */}
+          {/* Button */}
           <ScrollReveal delay={0.6}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.div
@@ -56,7 +59,7 @@ export function ContactTeaser() {
                   size="default"
                   className="bg-brand-neutral-white text-brand-primary hover:bg-brand-neutral-white/90 font-semibold py-5 text-base md:text-base rounded-2xl shadow-2xl hover:shadow-brand-neutral-white/25 transition-all duration-300"
                 >
-                  <Link href="/contact">Contact Us Now</Link>
+                  <Link href="/contact">{t("contact_teaser.cta")}</Link>
                 </Button>
               </motion.div>
             </div>

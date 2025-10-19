@@ -1,0 +1,12 @@
+{
+  "title": "منتجاتنا",
+  "description": "اكتشف مجموعتنا الشاملة من أنظمة القطع الصناعية المتطورة المصممة للدقة والكفاءة والموثوقية.",
+  "showingResults": "عرض {count} من {total} منتج",
+  "allCategories": "جميع الفئات",
+  "noProductsFound": "لم يتم العثور على منتجات",
+  "noProductsDescription": "حاول تعديل معايير البحث أو تصفح جميع الفئات.",
+  "clearFilters": "مسح المرشحات",
+  "contactForPricing": "اتصل للسعر",
+  "viewDetails": "عرض التفاصيل",
+  "keyApplications": "التطبيقات الرئيسية:"
+}

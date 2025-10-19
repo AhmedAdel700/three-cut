@@ -1,45 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Award, Sparkles, Users, Wrench } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { PartnerCarousel } from "./PartnerCarousel";
 import CallToAction from "./CallToAction";
 import Image from "next/image";
-import mission from "@/app/assets/Our-Mission.jpg";
-import vision from "@/app/assets//Vision.jpg";
+import { AboutPageResponse } from "@/app/types/aboutApiTypes";
 
-export function AboutPage() {
-  const locale = useLocale();
+export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
+  const t = useTranslations("about");
 
-  const features = [
-    {
-      icon: Award,
-      title: locale === "en" ? "Industry Excellence" : "التميز الصناعي",
-      description:
-        locale === "en"
-          ? "Over 15 years of experience in cutting systems technology"
-          : "أكثر من 15 عاماً من الخبرة في تقنية أنظمة القطع",
-    },
-    {
-      icon: Users,
-      title: locale === "en" ? "Expert Team" : "فريق خبراء",
-      description:
-        locale === "en"
-          ? "Certified engineers and technicians providing world-class support"
-          : "مهندسون وفنيون معتمدون يقدمون دعماً عالمي المستوى",
-    },
-    {
-      icon: Wrench,
-      title: locale === "en" ? "Complete Solutions" : "حلول شاملة",
-      description:
-        locale === "en"
-          ? "From consultation to installation and ongoing maintenance"
-          : "من الاستشارة إلى التركيب والصيانة المستمرة",
-    },
-  ];
+  const about = aboutData?.data?.about?.data;
+  const aboutStructs = aboutData?.data?.about_structs?.data || [];
 
   return (
     <div className="min-h-screen border-b">
@@ -56,23 +31,19 @@ export function AboutPage() {
           ></div>
         </div>
 
-        <div className="container mx-auto px-4 lg:px-6 relative z-10">
-          <div className="text-center">
-            <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
-              {locale === "en" ? "About Three Cuts" : "حول ثري كتس"}
-            </h1>
-            <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
-              {locale === "en"
-                ? "Leading the Future of Industrial Cutting Systems with Precision and Reliability"
-                : "ريادة مستقبل أنظمة القطع الصناعية بدقة وموثوقية"}
-            </p>
-          </div>
+        <div className="container mx-auto px-4 lg:px-6 relative z-10 text-center">
+          <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
+            {about?.title || t("heroTitle")}
+          </h1>
+          <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
+            {about?.short_desc || t("heroSubtitle")}
+          </p>
         </div>
       </section>
 
       {/* About Content */}
       <section className="py-16 relative overflow-hidden border-t dark-section-bg">
-        {/* Animated background */}
+        {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute top-20 left-10 w-32 h-32 bg-brand-accent-red/5 rounded-full blur-xl"
@@ -98,22 +69,23 @@ export function AboutPage() {
             >
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
               <span className="text-white uppercase tracking-wider text-base font-semibold">
-                {locale === "en" ? "Our Story" : "قصتنا"}
+                {t("ourStory")}
               </span>
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
             </motion.div>
 
-            <p className="text-muted-foreground leading-relaxed text-lg max-w-3xl mx-auto">
-              {locale === "en"
-                ? "Our cutting-edge technology and commitment to excellence have established us as a leader in the industrial cutting systems market. We provide comprehensive solutions that meet the highest standards of precision and reliability."
-                : "تقنيتنا المتطورة والتزامنا بالتميز جعلنا رواداً في سوق أنظمة القطع الصناعية. نحن نقدم حلولاً شاملة تلبي أعلى معايير الدقة والموثوقية."}
-            </p>
+            <p
+              className="text-muted-foreground leading-relaxed text-lg max-w-3xl mx-auto"
+              dangerouslySetInnerHTML={{
+                __html: about?.long_desc || t("ourStoryDesc"),
+              }}
+            />
           </ScrollReveal>
 
-          {/* Features */}
+          {/* Features from API */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {features.map((feature, index) => (
-              <ScrollReveal key={index} delay={index * 0.1} direction="up">
+            {aboutStructs.map((item) => (
+              <ScrollReveal key={item.id} delay={item.id * 0.1} direction="up">
                 <motion.div
                   className="p-8 rounded-2xl bg-card/50 hover:bg-card transition-all duration-300 border border-border/50 h-full"
                   whileHover={{
@@ -123,13 +95,19 @@ export function AboutPage() {
                   }}
                 >
                   <div className="w-16 h-16 bg-gradient-to-br from-brand-secondary to-brand-accent-red rounded-xl flex items-center justify-center mb-6">
-                    <feature.icon className="h-8 w-8 text-brand-neutral-white" />
+                    <Image
+                      src={item.icon}
+                      alt={item.alt_icon || item.name}
+                      width={40}
+                      height={40}
+                      className="object-contain"
+                    />
                   </div>
                   <h3 className="font-semibold font-display text-xl mb-4">
-                    {feature.title}
+                    {item.name}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    {feature.description}
+                    {item.long_desc}
                   </p>
                 </motion.div>
               </ScrollReveal>
@@ -148,8 +126,10 @@ export function AboutPage() {
                 <div className="relative group">
                   <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-secondary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
                   <Image
-                    src={mission}
-                    alt="Our Mission"
+                    src={about?.image || "/fallback-mission.jpg"}
+                    alt={about?.alt_image || t("missionAlt")}
+                    width={600}
+                    height={400}
                     className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
                   />
                 </div>
@@ -164,30 +144,16 @@ export function AboutPage() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent-red/10 text-brand-accent-red text-sm font-medium mb-4">
                   <Sparkles className="h-7 w-7 text-brand-accent-red" />
                   <span className="text-white uppercase tracking-wider text-base font-semibold">
-                    {locale === "en" ? "Mission" : "المهمة"}
+                    {t("mission")}
                   </span>
                   <Sparkles className="h-7 w-7 text-brand-accent-red" />
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
-                  {locale === "en" ? "Our Mission" : "مهمتنا"}
+                  {t("ourMission")}
                 </h2>
-                <div className="space-y-4 text-base lg:text-lg">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? "At Three Cuts, our mission is to revolutionize industrial cutting by delivering reliable, high-precision systems that drive productivity and performance for businesses across the globe."
-                      : "في ثري كتس، مهمتنا هي إحداث ثورة في القطع الصناعي من خلال تقديم أنظمة موثوقة وعالية الدقة تعزز الإنتاجية والأداء للشركات حول العالم."}
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? "We focus on building long-term partnerships through exceptional engineering, responsive support, and a deep understanding of our clients’ operational needs."
-                      : "نركز على بناء شراكات طويلة الأمد من خلال الهندسة الاستثنائية، والدعم السريع، وفهم عميق لاحتياجات عملائنا التشغيلية."}
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? "Every solution we provide is tailored to empower industries to perform at their best, reduce downtime, and achieve sustainable growth."
-                      : "كل حل نقدمه مصمم خصيصاً لتمكين الصناعات من الأداء بأفضل شكل، وتقليل التوقفات، وتحقيق نمو مستدام."}
-                  </p>
-                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  {about?.short_desc || t("missionDesc")}
+                </p>
               </motion.div>
             </div>
           </ScrollReveal>
@@ -205,30 +171,16 @@ export function AboutPage() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-tertiary/10 text-brand-tertiary text-sm font-medium mb-4">
                   <Sparkles className="h-7 w-7 text-brand-accent-red" />
                   <span className="text-white uppercase tracking-wider text-base font-semibold">
-                    {locale === "en" ? "Vision" : "الرؤية"}
+                    {t("vision")}
                   </span>
                   <Sparkles className="h-7 w-7 text-brand-accent-red" />
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
-                  {locale === "en" ? "Our Vision" : "رؤيتنا"}
+                  {t("ourVision")}
                 </h2>
-                <div className="space-y-4 text-base lg:text-lg">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? "We envision a future where Three Cuts is synonymous with innovation, quality, and trust in the industrial cutting sector."
-                      : "نحن نتطلع إلى مستقبل تكون فيه ثري كتس مرادفاً للابتكار والجودة والثقة في قطاع القطع الصناعي."}
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? "Our goal is to set new benchmarks in sustainability, efficiency, and customer satisfaction by continuously evolving our technologies and services."
-                      : "هدفنا هو وضع معايير جديدة في الاستدامة والكفاءة ورضا العملاء من خلال التطوير المستمر لتقنياتنا وخدماتنا."}
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {locale === "en"
-                      ? "We strive to lead not only in technology but also in building a responsible and impactful industrial future for generations to come."
-                      : "نسعى إلى الريادة ليس فقط في التقنية، بل في بناء مستقبل صناعي مسؤول وذو تأثير للأجيال القادمة."}
-                  </p>
-                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  {about?.long_desc || t("visionDesc")}
+                </p>
               </motion.div>
 
               <motion.div
@@ -241,8 +193,10 @@ export function AboutPage() {
                 <div className="relative group">
                   <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-tertiary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
                   <Image
-                    src={vision}
-                    alt="Our Vision"
+                    src={about?.banner || "/fallback-vision.jpg"}
+                    alt={about?.alt_banner || t("visionAlt")}
+                    width={600}
+                    height={400}
                     className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
                   />
                 </div>
@@ -266,14 +220,15 @@ export function AboutPage() {
                   href="/contact"
                   className="relative z-10 flex items-center gap-3"
                 >
-                  <span>{locale === "en" ? "Get In Touch" : "تواصل معنا"}</span>
+                  <span>{t("getInTouch")}</span>
                 </Link>
               </Button>
             </motion.div>
           </ScrollReveal>
         </div>
 
-        <PartnerCarousel />
+        {/* Partners Carousel */}
+        <PartnerCarousel partnersData={aboutData.data.partners.data} />
       </section>
     </div>
   );

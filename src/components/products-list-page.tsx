@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,26 +14,30 @@ import {
 } from "@/components/ui/select";
 import { Filter, Grid, List, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { mockProducts, productCategories } from "@/lib/data/products";
-import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { ProductsApiResponse } from "@/app/types/productsApiTypes";
 
-export function ProductsListPage() {
+export function ProductsListPage({
+  productsData,
+}: {
+  productsData: ProductsApiResponse;
+}) {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const locale = useLocale();
+  const t = useTranslations("products");
 
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = mockProducts;
+    let filtered = productsData.data.products.data;
 
     // Filter by category
     if (selectedCategory !== "all") {
       filtered = filtered.filter(
-        (product) => product.category === selectedCategory
+        (product) => product.category_id === selectedCategory
       );
     }
 
     return filtered;
-  }, [selectedCategory]);
+  }, [selectedCategory, productsData.data.products.data]);
 
   return (
     <div className="min-h-screen">
@@ -48,16 +51,13 @@ export function ProductsListPage() {
             }}
           ></div>
         </div>
-
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
-              Our Products
+              {productsData.data.products.title || t("title")}
             </h1>
             <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
-              {locale === "en"
-                ? "Discover our comprehensive range of cutting-edge industrial cutting systems designed for precision, efficiency, and reliability."
-                : "اكتشف مجموعتنا الشاملة من أنظمة القطع الصناعية المتطورة المصممة للدقة والكفاءة والموثوقية."}
+              {productsData.data.products.short_desc || t("description")}
             </p>
           </div>
         </div>
@@ -69,9 +69,10 @@ export function ProductsListPage() {
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             {/* Results Count */}
             <div className="text-sm text-muted-foreground">
-              {locale === "en"
-                ? `Showing ${filteredAndSortedProducts.length} of ${mockProducts.length} products`
-                : `عرض ${filteredAndSortedProducts.length} من ${mockProducts.length} منتج`}
+              {t("showingResults", {
+                count: filteredAndSortedProducts.length,
+                total: productsData.data.products.data.length,
+              })}
             </div>
 
             {/* Filters */}
@@ -82,19 +83,16 @@ export function ProductsListPage() {
               >
                 <SelectTrigger className="w-48 rounded-2xl">
                   <Filter className="h-4 w-4 mr-2" />
-                  <SelectValue
-                    placeholder={
-                      locale === "en" ? "All Categories" : "جميع الفئات"
-                    }
-                  />
+                  <SelectValue placeholder={t("allCategories")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">
-                    {locale === "en" ? "All Categories" : "جميع الفئات"}
-                  </SelectItem>
-                  {productCategories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {locale === "en" ? category.name : category.nameAr}
+                  <SelectItem value="all">{t("allCategories")}</SelectItem>
+                  {productsData.data.categories.data.map((category) => (
+                    <SelectItem
+                      key={category.id}
+                      value={category.id.toString()}
+                    >
+                      {category.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -130,14 +128,10 @@ export function ProductsListPage() {
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-bold font-display mb-4">
-                {locale === "en"
-                  ? "No products found"
-                  : "لم يتم العثور على منتجات"}
+                {t("noProductsFound")}
               </h3>
               <p className="text-muted-foreground mb-8">
-                {locale === "en"
-                  ? "Try adjusting your search criteria or browse all categories."
-                  : "حاول تعديل معايير البحث أو تصفح جميع الفئات."}
+                {t("noProductsDescription")}
               </p>
               <Button
                 onClick={() => {
@@ -145,7 +139,7 @@ export function ProductsListPage() {
                 }}
                 suppressHydrationWarning
               >
-                {locale === "en" ? "Clear Filters" : "مسح المرشحات"}
+                {t("clearFilters")}
               </Button>
             </div>
           ) : (
@@ -160,34 +154,27 @@ export function ProductsListPage() {
                 <Card
                   key={product.id}
                   className={cn(
-                    "h-full min-h-[520px] flex flex-col group overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm",
+                    "!p-0 h-full min-h-[520px] flex flex-col group overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 bg-card/50 backdrop-blur-sm",
                     viewMode === "list" && "flex-row min-h-[200px]"
                   )}
                 >
                   <div
                     className={cn(
                       "relative overflow-hidden",
-                      viewMode === "grid" ? "h-64" : "w-64 h-48 flex-shrink-0"
+                      viewMode === "grid" ? "h-full" : "w-64 h-50 flex-shrink-0"
                     )}
                   >
                     <Image
-                      src={product.images[0] || "/placeholder.svg"}
-                      alt={locale === "en" ? product.name : product.nameAr}
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.alt_image || product.name}
                       fill
-                      className="object-contain group-hover:scale-110 transition-transform duration-500"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-neutral-dark/60 to-transparent" />
                     <div className="absolute top-4 left-4 flex gap-2">
-                      <Badge className="text-xs">
-                        {locale === "en"
-                          ? product.category
-                              .replace("-", " ")
-                              .replace(/\b\w/g, (l) => l.toUpperCase())
-                          : product.categoryAr}
-                      </Badge>
+                      <Badge className="text-xs">{product.category_name}</Badge>
                     </div>
                   </div>
-
                   <CardContent
                     className={cn(
                       "p-6 flex flex-col justify-between flex-1",
@@ -197,9 +184,8 @@ export function ProductsListPage() {
                   >
                     <div>
                       <h3 className="text-xl font-bold font-display mb-3">
-                        {locale === "en" ? product.name : product.nameAr}
+                        {product.name}
                       </h3>
-
                       <p
                         className={cn(
                           "text-muted-foreground leading-relaxed mb-4",
@@ -208,47 +194,15 @@ export function ProductsListPage() {
                             : "text-base line-clamp-2"
                         )}
                       >
-                        {locale === "en"
-                          ? product.description
-                          : product.descriptionAr}
+                        {product.short_desc}
                       </p>
-
-                      {viewMode === "list" && (
-                        <div className="mb-4">
-                          <h4 className="font-semibold mb-2">
-                            {locale === "en"
-                              ? "Key Applications:"
-                              : "التطبيقات الرئيسية:"}
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {(locale === "en"
-                              ? product.applications
-                              : product.applicationsAr
-                            )
-                              .slice(0, 3)
-                              .map((app, index) => (
-                                <Badge
-                                  key={index}
-                                  variant="secondary"
-                                  className="text-xs"
-                                >
-                                  {app}
-                                </Badge>
-                              ))}
-                          </div>
-                        </div>
-                      )}
                     </div>
-
                     <div className="flex items-center justify-between">
                       <Link
                         href={"/contact"}
                         className="text-sm font-medium text-brand-accent-red"
                       >
-                        {product.price ||
-                          (locale === "en"
-                            ? "Contact for pricing"
-                            : "اتصل للسعر")}
+                        {t("contactForPricing")}
                       </Link>
                       <Button
                         asChild
@@ -257,7 +211,7 @@ export function ProductsListPage() {
                         className="transition-colors"
                       >
                         <Link href={`/products/${product.slug}`}>
-                          {locale === "en" ? "View Details" : "عرض التفاصيل"}
+                          {t("viewDetails")}
                           <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
                         </Link>
                       </Button>
