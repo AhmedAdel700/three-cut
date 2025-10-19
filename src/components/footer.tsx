@@ -9,10 +9,16 @@ import {
   Facebook,
   Linkedin,
   Instagram,
+  Youtube,
+  Send,
+  Camera,
+  Music,
+  Pin,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { motion } from "framer-motion";
+import { SettingsApiResponse } from "@/app/types/appApiTypes";
 
 // X Logo Component
 const XLogo = ({
@@ -33,9 +39,14 @@ const XLogo = ({
   </svg>
 );
 
-export function Footer() {
+export function Footer({
+  appsettingsData,
+}: {
+  appsettingsData: SettingsApiResponse;
+}) {
   const currentYear = new Date().getFullYear();
   const t = useTranslations("footer");
+  const settings = appsettingsData?.data?.setting;
 
   const quickLinks = [
     { href: "/", label: t("Home") },
@@ -45,32 +56,87 @@ export function Footer() {
     { href: "/contact", label: t("Contact") },
   ];
 
+  // Helper function to convert Google Maps embed URL to regular URL
+  const getMapUrl = (mapUrl: string) => {
+    // If it's an embed URL, extract the location and create a regular Google Maps URL
+    if (mapUrl.includes("maps/embed")) {
+      // Try to extract coordinates or place ID
+      const pbMatch = mapUrl.match(/!1d([-\d.]+)!2d([-\d.]+)/);
+      if (pbMatch) {
+        const lng = pbMatch[1];
+        const lat = pbMatch[2];
+        return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+      }
+      // If we can't parse it, just return the embed URL (will open in new tab)
+      return mapUrl;
+    }
+    return mapUrl;
+  };
+
+  // Dynamic contact info
   const contactInfo = [
-    {
-      icon: Phone,
-      label: "+20 0128390225",
-      href: "tel:+966112345678",
-    },
-    {
-      icon: Mail,
-      label: "info@threecuts.com",
-      href: "mailto:info@threecuts.com",
-    },
-    {
-      icon: MapPin,
-      label: t("Address"),
-      href: "https://www.google.com/maps/place/Three+cuts+For+CNC+Machines/@30.051088,31.34949,12z/data=!4m6!3m5!1s0x14583fc9ae990c0b:0xb62c714b690f3d78!8m2!3d30.0510877!4d31.3494897!16s%2Fg%2F11fsnwqss3",
-    },
+    ...(settings?.whatsapp
+      ? [
+          {
+            icon: Phone,
+            label: settings.whatsapp,
+            href: `https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`,
+          },
+        ]
+      : []),
+    ...(settings?.email
+      ? [
+          {
+            icon: Mail,
+            label: settings.email,
+            href: `mailto:${settings.email}`,
+          },
+        ]
+      : []),
+    ...(settings?.map
+      ? [
+          {
+            icon: MapPin,
+            label: t("Address"),
+            href: getMapUrl(settings.map),
+          },
+        ]
+      : []),
   ];
 
+  // Dynamic social links with icons
   const socialLinks = [
-    { icon: Facebook, href: "#", label: t("Facebook") },
-    { icon: XLogo, href: "#", label: "X" },
-    { icon: Linkedin, href: "#", label: t("LinkedIn") },
-    { icon: Instagram, href: "#", label: t("Instagram") },
+    ...(settings?.facebook
+      ? [{ icon: Facebook, href: settings.facebook, label: t("Facebook") }]
+      : []),
+    ...(settings?.twitter
+      ? [{ icon: XLogo, href: settings.twitter, label: "X" }]
+      : []),
+    ...(settings?.linkedin
+      ? [{ icon: Linkedin, href: settings.linkedin, label: t("LinkedIn") }]
+      : []),
+    ...(settings?.instagram
+      ? [{ icon: Instagram, href: settings.instagram, label: t("Instagram") }]
+      : []),
+    ...(settings?.youtube
+      ? [{ icon: Youtube, href: settings.youtube, label: "YouTube" }]
+      : []),
+    ...(settings?.telegram
+      ? [{ icon: Send, href: settings.telegram, label: "Telegram" }]
+      : []),
+    ...(settings?.snapchat
+      ? [{ icon: Camera, href: settings.snapchat, label: "Snapchat" }]
+      : []),
+    ...(settings?.tiktok
+      ? [{ icon: Music, href: settings.tiktok, label: "TikTok" }]
+      : []),
+    ...(settings?.pinterest
+      ? [{ icon: Pin, href: settings.pinterest, label: "Pinterest" }]
+      : []),
   ];
 
-  const brandDescription = t("BrandDescription");
+  const brandDescription = settings?.description || t("BrandDescription");
+  const logoImage = settings?.logo || logo;
 
   return (
     <footer className="bg-gradient-to-br from-red-900 via-black to-red-800 text-brand-neutral-white">
@@ -79,15 +145,15 @@ export function Footer() {
         <div className="flex flex-col items-center text-center">
           <Link href="/" className="block w-full max-w-[240px]">
             <motion.div
-              className="relative h-24"
+              className="relative h-24 mb-6"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true, margin: "-100px" }}
             >
               <Image
-                src={logo}
-                alt="Three Cuts Logo"
+                src={logoImage}
+                alt={settings?.short_name || "Three Cuts Logo"}
                 fill
                 className="object-contain brightness-0 invert transition-transform duration-300 hover:scale-105"
               />
@@ -140,76 +206,88 @@ export function Footer() {
             </ul>
 
             {/* Socials */}
-            <div className="flex flex-wrap items-center sm:justify-center gap-4 mt-6 sm:mt-8">
-              {socialLinks.map((social, idx) => (
-                <motion.div
-                  key={social.label}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: idx * 0.08 }}
-                  viewport={{ once: true, margin: "-30px" }}
-                >
-                  <Link
-                    href={social.href}
-                    aria-label={social.label}
-                    title={social.label}
-                    className="
-                  group
-                  w-10 h-10
-                  rounded-full
-                  border border-white/15
-                  bg-white/5
-                  backdrop-blur
-                  flex items-center justify-center
-                  transition
-                  hover:bg-white/15 hover:border-white/25
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
-                  text-brand-neutral-white/80 hover:text-brand-accent-light
-                "
+            {socialLinks.length > 0 && (
+              <div className="flex flex-wrap items-center sm:justify-center gap-4 mt-6 sm:mt-8">
+                {socialLinks.map((social, idx) => (
+                  <motion.div
+                    key={social.label}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: idx * 0.08 }}
+                    viewport={{ once: true, margin: "-30px" }}
                   >
-                    <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-                    <span className="sr-only">{social.label}</span>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
+                    <Link
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      title={social.label}
+                      className="
+                    group
+                    w-10 h-10
+                    rounded-full
+                    border border-white/15
+                    bg-white/5
+                    backdrop-blur
+                    flex items-center justify-center
+                    transition
+                    hover:bg-white/15 hover:border-white/25
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
+                    text-brand-neutral-white/80 hover:text-brand-accent-light
+                  "
+                    >
+                      <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+                      <span className="sr-only">{social.label}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Divider */}
-          <div className="hidden sm:block sm:w-[1px] bg-white/40"></div>
+          {contactInfo.length > 0 && (
+            <div className="hidden sm:block sm:w-[1px] bg-white/40"></div>
+          )}
 
           {/* Contact Info */}
-          <div className="min-w-0 flex flex-col items-center sm:items-start">
-            <motion.h3
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="text-lg font-semibold font-display mb-6"
-            >
-              {t("Get in touch")}
-            </motion.h3>
-            <ul className="flex flex-col gap-4 items-center sm:items-start">
-              {contactInfo.map((info, idx) => (
-                <motion.li
-                  key={info.label}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: idx * 0.05 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                >
-                  <Link
-                    href={info.href}
-                    className="group flex items-center gap-3 text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
-                    title={info.label}
+          {contactInfo.length > 0 && (
+            <div className="min-w-0 flex flex-col items-center sm:items-start">
+              <motion.h3
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                viewport={{ once: true, margin: "-50px" }}
+                className="text-lg font-semibold font-display mb-6"
+              >
+                {t("Get in touch")}
+              </motion.h3>
+              <ul className="flex flex-col gap-4 items-center sm:items-start">
+                {contactInfo.map((info, idx) => (
+                  <motion.li
+                    key={info.label}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: idx * 0.05 }}
+                    viewport={{ once: true, margin: "-50px" }}
                   >
-                    <info.icon className="h-4 w-4 text-brand-accent-red transition-transform group-hover:scale-110" />
-                    <span className="break-words">{info.label}</span>
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
+                    <Link
+                      href={info.href}
+                      target={info.icon === MapPin ? "_blank" : undefined}
+                      rel={
+                        info.icon === MapPin ? "noopener noreferrer" : undefined
+                      }
+                      className="group flex items-center gap-3 text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
+                      title={info.label}
+                    >
+                      <info.icon className="h-4 w-4 text-brand-accent-red transition-transform group-hover:scale-110" />
+                      <span className="break-words">{info.label}</span>
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
@@ -234,6 +312,7 @@ export function Footer() {
               <Link
                 href={"https://www.be-group.com/en"}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-orange-400 font-semibold cursor-pointer"
               >
                 Be Group

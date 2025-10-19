@@ -25,8 +25,13 @@ import logo from "@/app/assets/logo.png";
 import { usePathname, useRouter } from "@/navigations";
 import { motion } from "framer-motion";
 import XLogo from "@/app/assets/x-logo.svg";
+import { SettingsApiResponse } from "@/app/types/appApiTypes";
 
-export function Header() {
+export function Header({
+  appsettingsData,
+}: {
+  appsettingsData: SettingsApiResponse;
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -65,6 +70,9 @@ export function Header() {
   const otherLangLabel = locale === "en" ? t("Arabic") : t("English");
   const drawerSide = locale === "ar" ? "left" : "right";
 
+  // Dynamic settings
+  const setting = appsettingsData?.data?.setting;
+
   const DrawerMenu = () => (
     <Drawer
       direction={drawerSide}
@@ -72,10 +80,7 @@ export function Header() {
       onOpenChange={setIsDrawerOpen}
     >
       <DrawerTrigger asChild>
-        <button
-          className="flex gap-1 text-white hover:text-white/90 px-3 py-2"
-          suppressHydrationWarning
-        >
+        <button className="flex gap-1 text-white hover:text-white/90 px-3 py-2">
           <Menu className="w-6 h-6" />
           {t("Menu")}
         </button>
@@ -89,7 +94,6 @@ export function Header() {
       >
         <DrawerTitle className="sr-only">{t("Navigation Menu")}</DrawerTitle>
 
-        {/* Top Section */}
         <div>
           <div className="flex justify-between items-center">
             <Link
@@ -98,9 +102,11 @@ export function Header() {
               onClick={() => setIsDrawerOpen(false)}
             >
               <Image
-                src={logo}
-                alt="Logo"
+                src={setting?.logo || logo}
+                alt={setting?.short_name || "Logo"}
                 className="h-10 w-auto brightness-0 invert mb-6"
+                width={250}
+                height={250}
               />
             </Link>
             <X
@@ -127,7 +133,6 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Language Switcher - Mobile */}
           <button
             onClick={() => {
               goOtherLocale();
@@ -135,7 +140,6 @@ export function Header() {
             }}
             className="flex lg:hidden items-center gap-2 text-white font-semibold hover:text-white/90 mt-6"
             aria-label={t("Switch language")}
-            suppressHydrationWarning
           >
             <span>{otherLangLabel}</span>
             <Globe className="w-5 h-5" />
@@ -144,58 +148,75 @@ export function Header() {
 
         <div className="border-t border-white/20 w-full mt-2 mb-6"></div>
 
-        {/* Footer Section */}
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4 text-white/90">
-            <Phone className="w-5 h-5" />
-            <span dir="ltr">+1 (555) 123-4567</span>
-          </div>
-          <div className="flex items-center gap-4 text-white/90">
-            <Mail className="w-5 h-5" />
-            <span>info@example.com</span>
-          </div>
+          {setting?.whatsapp && (
+            <Link
+              href={`tel:${setting.whatsapp}`}
+              className="flex items-center gap-4 text-white/90 hover:text-white/80"
+            >
+              <Phone className="w-5 h-5" />
+              <span dir="ltr">{setting.whatsapp}</span>
+            </Link>
+          )}
+          {setting?.email && (
+            <Link
+              href={`mailto:${setting.email}`}
+              className="flex items-center gap-4 text-white/90 hover:text-white/80"
+            >
+              <Mail className="w-5 h-5" />
+              <span>{setting.email}</span>
+            </Link>
+          )}
 
           <div className="border-t border-white/20 w-full mt-2 mb-4"></div>
 
           <div className="flex gap-4">
-            <Link
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t("Facebook")}
-            >
-              <Facebook className="w-5 h-5 hover:text-white/80" />
-            </Link>
-            <Link
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t("Instagram")}
-            >
-              <Instagram className="w-5 h-5 hover:text-white/80" />
-            </Link>
-            <Link
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t("LinkedIn")}
-            >
-              <Linkedin className="w-5 h-5 hover:text-white/80" />
-            </Link>
-            <Link
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X"
-            >
-              <Image
-                src={XLogo}
-                alt="X Logo"
-                width={23}
-                height={23}
-                className="w-4 h-4 hover:text-white/80 mt-[1px]"
-              />
-            </Link>
+            {setting?.facebook && (
+              <Link
+                href={setting.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5 hover:text-white/80" />
+              </Link>
+            )}
+            {setting?.instagram && (
+              <Link
+                href={setting.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5 hover:text-white/80" />
+              </Link>
+            )}
+            {setting?.linkedin && (
+              <Link
+                href={setting.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5 hover:text-white/80" />
+              </Link>
+            )}
+            {setting?.twitter && (
+              <Link
+                href={setting.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+              >
+                <Image
+                  src={XLogo}
+                  alt="X Logo"
+                  width={23}
+                  height={23}
+                  className="w-4 h-4 hover:text-white/80 mt-[1px]"
+                />
+              </Link>
+            )}
           </div>
         </div>
       </DrawerContent>
@@ -220,11 +241,12 @@ export function Header() {
     >
       <div className="md:container mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* LOGO */}
           <Link prefetch href="/" className="flex items-center h-full">
             <Image
-              src={logo}
-              alt="Three Cuts Logo"
+              src={setting?.logo || logo}
+              alt={setting?.short_name || "Logo"}
+              width={250}
+              height={250}
               priority
               className={`block h-8 lg:h-10 w-auto object-contain ${
                 isScrolled ? "" : "brightness-0 invert"
@@ -232,24 +254,18 @@ export function Header() {
             />
           </Link>
 
-          {/* DESKTOP LANG + DRAWER */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Language Button */}
             <button
               onClick={goOtherLocale}
               className="flex items-center gap-2 text-white font-semibold hover:text-white/90"
               aria-label={t("Switch language")}
-              suppressHydrationWarning
             >
               <span>{otherLangLabel}</span>
               <Globe className="w-5 h-5" />
             </button>
-
-            {/* Drawer */}
             <DrawerMenu />
           </div>
 
-          {/* MOBILE MENU */}
           <div className="flex items-center gap-2 lg:hidden">
             <DrawerMenu />
           </div>

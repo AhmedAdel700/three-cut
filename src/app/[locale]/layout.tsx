@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { fetchAppSettingsData } from "../api/appSettingService";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const appsettingsData = await fetchAppSettingsData(locale);
 
   if (!routing.locales.includes(locale as "en" | "ar")) notFound();
   setRequestLocale(locale);
@@ -47,9 +49,9 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body className={`${inter.variable} ${poppins.variable}`}>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <Header />
+          <Header appsettingsData={appsettingsData} />
           {children}
-          <Footer />
+          <Footer appsettingsData={appsettingsData} />
           <Toaster richColors position="top-center" />
           <Analytics />
         </NextIntlClientProvider>

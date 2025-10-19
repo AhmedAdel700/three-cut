@@ -4,12 +4,17 @@ import { Sparkles, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
-import { useLocale } from "next-intl";
-import { services } from "@/lib/data/services";
+import { useTranslations } from "next-intl";
 import CallToAction from "./CallToAction";
+import { ServicesApiResponse } from "@/app/types/servicesApiTypes";
+import Image from "next/image";
 
-export function ServicesPage() {
-  const locale = useLocale();
+export function ServicesPage({
+  servicesData,
+}: {
+  servicesData: ServicesApiResponse;
+}) {
+  const t = useTranslations("services");
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -45,12 +50,10 @@ export function ServicesPage() {
         <div className="container mx-auto px-4 lg:px-6 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
-              {locale === "en" ? "Our Services" : "خدماتنا"}
+              {servicesData.data.services.title || t("title")}
             </h1>
             <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
-              {locale === "en"
-                ? "Comprehensive cutting solutions designed to meet the diverse needs of modern industrial operations with precision, efficiency, and reliability."
-                : "حلول قطع شاملة مصممة لتلبية الاحتياجات المتنوعة للعمليات الصناعية الحديثة بدقة وكفاءة وموثوقية."}
+              {servicesData.data.services.short_desc || t("description")}
             </p>
           </div>
         </div>
@@ -84,19 +87,15 @@ export function ServicesPage() {
             >
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
               <span className="text-white uppercase tracking-wider text-base font-semibold">
-                {locale === "en" ? "Our Services" : "خدماتنا"}
+                {t("ourServices")}
               </span>
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
             </motion.div>
             <h2 className="text-3xl lg:text-5xl font-bold font-display mb-3  bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
-              {locale === "en"
-                ? "Precision Cutting Solutions"
-                : "حلول القطع الدقيقة"}
+              {t("precisionCuttingSolutions")}
             </h2>
             <p className="text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              {locale === "en"
-                ? "Comprehensive cutting solutions designed to meet the diverse needs of modern industrial operations with precision, efficiency, and reliability."
-                : "حلول قطع شاملة مصممة لتلبية الاحتياجات المتنوعة للعمليات الصناعية الحديثة بدقة وكفاءة وموثوقية."}
+              {t("comprehensiveDescription")}
             </p>
           </ScrollReveal>
 
@@ -108,9 +107,9 @@ export function ServicesPage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
           >
-            {services.map((service, index) => (
+            {servicesData.data.services.data.map((service, index) => (
               <motion.div
-                key={index}
+                key={service.id}
                 variants={itemVariants}
                 className={`flex flex-col lg:flex-row items-center gap-8 lg:gap-16 ${
                   index % 2 === 1 ? "lg:flex-row-reverse" : ""
@@ -130,8 +129,15 @@ export function ServicesPage() {
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl" />
                       <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                      <div className="relative w-full h-full bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl flex items-center justify-center">
-                        <service.icon className="text-brand-neutral-white drop-shadow-lg h-8 w-8 lg:h-10 lg:w-10" />
+                      <div className="relative w-full h-full bg-gradient-to-br from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-2xl flex items-center justify-center overflow-hidden">
+                        {service.icon && (
+                          <Image
+                            src={service.icon}
+                            alt={service.alt_icon || service.name}
+                            fill
+                            className="object-contain p-3 drop-shadow-lg"
+                          />
+                        )}
                       </div>
                     </motion.div>
 
@@ -143,35 +149,44 @@ export function ServicesPage() {
                   {/* Title and Description */}
                   <div className="flex flex-col gap-6 w-full text-start">
                     <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold font-display text-brand-accent-light transition-colors duration-300">
-                      {service.title}
+                      {service.name}
                     </h3>
                     <p className="text-muted-foreground leading-relaxed text-sm sm:text-base lg:text-lg text-gray-300 transition-colors duration-300 max-w-2xl mx-auto lg:mx-0">
-                      {service.description}
+                      {service.short_desc}
                     </p>
                   </div>
 
-                  {/* Features Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {service.features.map((feature, featureIndex) => (
-                      <motion.div
-                        key={featureIndex}
-                        className="flex items-start gap-3 justify-start"
-                        initial={{ opacity: 0, x: index % 2 === 1 ? 10 : -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{
-                          delay: featureIndex * 0.05 + 0.2,
-                          duration: 0.4,
-                          ease: [0.4, 0, 0.2, 1],
-                        }}
-                        viewport={{ once: true }}
-                      >
-                        <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
-                        <span className="text-sm lg:text-base text-muted-foreground group-hover/feature:text-brand-neutral-white transition-colors duration-200 font-medium">
-                          {feature}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
+                  {/* Features from long_desc - split by newlines or periods */}
+                  {service.long_desc && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {service.long_desc
+                        .split(/[.\n]/)
+                        .filter((feature) => feature.trim().length > 0)
+                        .slice(0, 6)
+                        .map((feature, featureIndex) => (
+                          <motion.div
+                            key={featureIndex}
+                            className="flex items-start gap-3 justify-start"
+                            initial={{
+                              opacity: 0,
+                              x: index % 2 === 1 ? 10 : -10,
+                            }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{
+                              delay: featureIndex * 0.05 + 0.2,
+                              duration: 0.4,
+                              ease: [0.4, 0, 0.2, 1],
+                            }}
+                            viewport={{ once: true }}
+                          >
+                            <ChevronRight className="w-4 h-4 text-brand-accent-red flex-shrink-0 group-hover/feature:translate-x-1 transition-transform duration-200" />
+                            <span className="text-sm lg:text-base text-muted-foreground group-hover/feature:text-brand-neutral-white transition-colors duration-200 font-medium">
+                              {feature.trim()}
+                            </span>
+                          </motion.div>
+                        ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Visual Separator */}
@@ -206,8 +221,26 @@ export function ServicesPage() {
                     {/* Background gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-br from-brand-accent-red/5 via-transparent to-brand-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                    {/* Large icon */}
-                    <service.icon className="w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-300 group-hover:scale-105" />
+                    {/* Service image or icon */}
+                    {service.image ? (
+                      <div className="relative w-full h-full p-8">
+                        <Image
+                          src={service.image}
+                          alt={service.alt_image || service.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-all duration-300"
+                        />
+                      </div>
+                    ) : service.icon ? (
+                      <div className="relative w-16 h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24">
+                        <Image
+                          src={service.icon}
+                          alt={service.alt_icon || service.name}
+                          fill
+                          className="object-contain text-brand-accent-red/30 group-hover:text-brand-accent-red/50 transition-all duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                    ) : null}
 
                     {/* Animated border glow */}
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-secondary via-brand-tertiary to-brand-accent-red rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-sm" />
@@ -233,11 +266,7 @@ export function ServicesPage() {
                   href="/contact"
                   className="relative z-10 flex items-center gap-3"
                 >
-                  <span>
-                    {locale === "en"
-                      ? "Get Custom Solution"
-                      : "احصل على حل مخصص"}
-                  </span>
+                  <span>{t("getCustomSolution")}</span>
                 </Link>
               </Button>
             </motion.div>
