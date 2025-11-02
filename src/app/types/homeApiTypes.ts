@@ -15,6 +15,7 @@ export interface HomeData {
   categories: Categories;
   contact: Contact;
   projects: Projects;
+  seo: SEO;
 }
 
 /* ---------- Slider Section ---------- */
@@ -143,4 +144,57 @@ export interface Project {
   icon: string;
   alt_icon: string;
   slug: string;
+}
+
+/* ---------- SEO Section ---------- */
+export interface SEO {
+  // --- Schema.org Organization fields ---
+  "@context"?: string;
+  "@type"?: string;
+  name?: string;
+  description?: string;
+  url?: string;
+  logo?: {
+    "@type"?: string;
+    url?: string;
+  };
+  image?: string;
+  sameAs?: string[];
+  contactPoint?: {
+    "@type"?: string;
+    telephone?: string;
+    contactType?: string;
+    availableLanguage?: string[];
+  };
+
+  // --- Meta / Open Graph / Twitter fields ---
+  charset?: string;
+  viewport?: string;
+  language?: string;
+  robots?: string;
+  title?: string;
+  keywords?: string;
+  author?: string | null;
+  canonical?: string | null;
+
+  // Open Graph
+  og_title?: string | null;
+  og_description?: string | null;
+  og_url?: string | null;
+  og_image?: string | null;
+  og_type?: string | null;
+  og_site_name?: string | null;
+  og_locale?: string | null;
+
+  // Twitter Card
+  twitter_title?: string | null;
+  twitter_description?: string | null;
+  twitter_image?: string | null;
+  twitter_site?: string | null;
+  twitter_creator?: string | null;
+
+  // Article / Time
+  article_published_time?: string | null;
+  article_modified_time?: string | null;
+  time?: string | null;
 }
