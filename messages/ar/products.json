@@ -8,5 +8,31 @@
   "clearFilters": "مسح المرشحات",
   "contactForPricing": "اتصل للسعر",
   "viewDetails": "عرض التفاصيل",
-  "keyApplications": "التطبيقات الرئيسية:"
+  "keyApplications": "التطبيقات الرئيسية:",
+  "breadcrumb": {
+    "home": "الرئيسية",
+    "products": "منتجاتنا"
+  },
+  "features": {
+    "highPerformance": {
+      "title": "أداء عالي",
+      "description": "سرعات قطع ودقة رائدة في الصناعة"
+    },
+    "safetyFirst": {
+      "title": "السلامة أولاً",
+      "description": "أنظمة وبروتوكولات السلامة المتقدمة"
+    },
+    "qualityAssured": {
+      "title": "جودة مضمونة",
+      "description": "تصنيع واختبار معتمد من ISO"
+    }
+  },
+  "tabs": {
+    "overview": "نظرة عامة",
+    "specifications": "المواصفات",
+    "applications": "التطبيقات"
+  },
+  "contactSales": "اتصل بالمبيعات",
+  "noSpecifications": "لا توجد مواصفات متاحة",
+  "noApplications": "لا توجد تطبيقات متاحة"
 }

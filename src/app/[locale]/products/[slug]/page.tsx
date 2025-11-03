@@ -1,21 +1,14 @@
-import { notFound } from "next/navigation";
 import { ProductDetailPage } from "@/components/product-detail-page";
+import { fetchProductDetailsData } from "@/app/api/productService";
 import { mockProducts } from "@/lib/data/products";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ProductPage({ params }: any) {
-  const product = mockProducts.find((p) => p.slug === params.slug);
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  const productDetailsData = await fetchProductDetailsData(locale, slug);
 
-  if (!product) {
-    notFound();
-  }
-
-  return <ProductDetailPage product={product} />;
-}
-
-export async function generateStaticParams() {
-  const locales = ["en", "ar"];
-  return locales.flatMap((locale) =>
-    mockProducts.map((product) => ({ locale, slug: product.slug }))
-  );
+  return <ProductDetailPage product={productDetailsData} />;
 }

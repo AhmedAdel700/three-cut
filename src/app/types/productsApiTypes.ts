@@ -31,3 +31,29 @@ export interface Product {
   category_name: string;
   slug: string;
 }
+
+export interface ProductDetailsResponse {
+  success: boolean;
+  message: string;
+  data: {
+    product: {
+      data: {
+        id: number;
+        name: string;
+        short_desc: string;
+        long_desc: string;
+        image: string;
+        alt_image: string;
+        icon: string;
+        alt_icon: string;
+        category_id: string;
+        category_name: string;
+        slug: string;
+      };
+    };
+    seo: {
+      metatags: string | null;
+      schema: string | null;
+    };
+  };
+}

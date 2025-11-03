@@ -228,7 +228,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
         </div>
 
         {/* Partners Carousel */}
-        <PartnerCarousel partnersData={aboutData.data.partners.data} />
+        {/* <PartnerCarousel partnersData={aboutData.data.partners.data} /> */}
       </section>
     </div>
   );

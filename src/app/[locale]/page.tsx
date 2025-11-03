@@ -23,9 +23,9 @@ export default async function Home({
         aboutStructsData={homeData.data.about_structs.data}
         partnersData={homeData.data.partners.data}
       />
-      <ServicesSection servicesData={homeData.data.services} />
+      {/* <ServicesSection servicesData={homeData.data.services} /> */}
       <ProductsPreview categories={homeData.data.categories} />
-      <SamplesGallery projects={homeData.data.projects} />
+      {/* <SamplesGallery projects={homeData.data.projects} /> */}
       <ContactTeaser contact={homeData.data.contact} />
       <FloatingActionButton />
     </>

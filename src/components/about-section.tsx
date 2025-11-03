@@ -93,7 +93,7 @@ export function AboutSection({
           )}
 
           {/* ---------- Stats Section (Fallback to i18n) ---------- */}
-          <ScrollReveal delay={0.3} direction="up">
+          {/* <ScrollReveal delay={0.3} direction="up">
             <motion.div
               className="bg-card/70 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-border/50 mb-8"
               initial={{ opacity: 0, y: 30 }}
@@ -135,7 +135,7 @@ export function AboutSection({
                 ))}
               </div>
             </motion.div>
-          </ScrollReveal>
+          </ScrollReveal> */}
 
           {/* ---------- CTA ---------- */}
           <ScrollReveal delay={0.4}>
@@ -151,7 +151,7 @@ export function AboutSection({
       </div>
 
       {/* ---------- Partners Carousel ---------- */}
-      <PartnerCarousel partnersData={partnersData ?? []} />
+      {/* <PartnerCarousel partnersData={partnersData ?? []} /> */}
     </section>
   );
 }
