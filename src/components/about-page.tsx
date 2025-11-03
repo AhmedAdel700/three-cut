@@ -83,7 +83,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
           </ScrollReveal>
 
           {/* Features from API */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {aboutStructs.map((item) => (
               <ScrollReveal key={item.id} delay={item.id * 0.1} direction="up">
                 <motion.div
@@ -112,7 +112,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 </motion.div>
               </ScrollReveal>
             ))}
-          </div>
+          </div> */}
 
           {/* Mission Section */}
           <ScrollReveal className="relative mb-12">
