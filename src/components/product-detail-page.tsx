@@ -24,9 +24,8 @@ export function ProductDetailPage({
   product: ProductDetailsApiResponse;
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState(0);
   const t = useTranslations("products");
-
   const productData = product.data.product.data;
 
   // Validate image URL deterministically without relying on window (SSR-safe)
@@ -39,6 +38,7 @@ export function ProductDetailPage({
   const productImages = [
     productData.image,
     ...(productData.alt_image ? [productData.alt_image] : []),
+    ...(productData.images?.map((img) => img.image) || []),
   ].filter((img) => img && isValidImageUrl(img));
 
   const features = [
@@ -59,11 +59,23 @@ export function ProductDetailPage({
     },
   ];
 
-  const tabs = [
-    { id: "overview", label: t("tabs.overview") },
-    { id: "specifications", label: t("tabs.specifications") },
-    { id: "applications", label: t("tabs.applications") },
-  ];
+  // Use dynamic tabs from API or fallback to default tabs
+  const tabs =
+    productData.tabs && productData.tabs.length > 0
+      ? productData.tabs
+      : [
+          {
+            id: -1,
+            title: t("tabs.overview"),
+            short_description: null,
+            long_description: productData.long_desc,
+            image: "",
+            alt_image: null,
+            icon: "",
+            alt_icon: null,
+            benefits: [],
+          },
+        ];
 
   return (
     <div className="min-h-fit section-bg">
@@ -134,19 +146,23 @@ export function ProductDetailPage({
             {/* Product Info */}
             <div className="space-y-6">
               <div>
-                <Badge className="mb-4 p-2 text-sm">
-                  {productData.category_name}
-                </Badge>
+                {productData.category_name && (
+                  <Badge className="mb-4 p-2 text-sm">
+                    {productData.category_name}
+                  </Badge>
+                )}
                 <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
                   {productData.name}
                 </h1>
-                <div
-                  className="text-lg text-muted-foreground leading-relaxed"
-                  dangerouslySetInnerHTML={{
-                    __html: productData.short_desc || "",
-                  }}
-                  suppressHydrationWarning
-                />
+                {productData.short_desc && (
+                  <div
+                    className="text-lg text-muted-foreground leading-relaxed"
+                    dangerouslySetInnerHTML={{
+                      __html: productData.short_desc,
+                    }}
+                    suppressHydrationWarning
+                  />
+                )}
               </div>
 
               {/* Features */}
@@ -185,58 +201,113 @@ export function ProductDetailPage({
           {/* Detailed Information Tabs */}
           <Card className="pb-10">
             <CardHeader className="!px-0">
-              <div className="flex items-center justify-center sm:justify-start border-b border-border/50 pb-4 sm:ps-4 sm:gap-3">
-                {tabs.map((tab) => (
+              <div className="flex items-center justify-center sm:justify-start border-b border-border/50 pb-4 sm:ps-4 sm:gap-3 overflow-x-auto">
+                {tabs.map((tab, index) => (
                   <Button
                     key={tab.id}
-                    variant={activeTab === tab.id ? "default" : "ghost"}
-                    onClick={() => setActiveTab(tab.id)}
+                    variant={activeTab === index ? "default" : "ghost"}
+                    onClick={() => setActiveTab(index)}
                     className={cn(
-                      "rounded-2xl",
-                      activeTab === tab.id &&
+                      "rounded-2xl whitespace-nowrap",
+                      activeTab === index &&
                         "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-brand-neutral-white text-xs sm:text-sm lg:text-base"
                     )}
                   >
-                    {tab.label}
+                    {tab.title}
                   </Button>
                 ))}
               </div>
             </CardHeader>
             <CardContent>
-              {activeTab === "overview" && (
+              {tabs[activeTab] && (
                 <div className="prose prose-gray dark:prose-invert max-w-none">
-                  <div
-                    className="text-muted-foreground leading-relaxed"
-                    dangerouslySetInnerHTML={{
-                      __html: productData.long_desc || "",
-                    }}
-                    suppressHydrationWarning
-                  />
+                  {/* Tab Image */}
+                  {tabs[activeTab].image &&
+                    isValidImageUrl(tabs[activeTab].image) && (
+                      <div className="relative w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden mb-6">
+                        <Image
+                          src={tabs[activeTab].image}
+                          alt={tabs[activeTab].title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
 
-                  <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
-                    <iframe
-                      className="absolute top-0 left-0 w-full h-full"
-                      src="https://www.youtube.com/embed/R29G3hUiZnU?autoplay=0&rel=0"
-                      title="YouTube video"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
+                  {/* Long Description */}
+                  {tabs[activeTab].long_description && (
+                    <div
+                      className="text-muted-foreground leading-relaxed"
+                      dangerouslySetInnerHTML={{
+                        __html: tabs[activeTab].long_description!,
+                      }}
+                      suppressHydrationWarning
                     />
-                  </div>
-                </div>
-              )}
+                  )}
 
-              {activeTab === "specifications" && (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">
-                    {t("noSpecifications")}
-                  </p>
-                </div>
-              )}
+                  {/* Benefits Section */}
+                  {tabs[activeTab].benefits &&
+                    tabs[activeTab].benefits.length > 0 && (
+                      <div className="mt-8 space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {tabs[activeTab].benefits.map((benefit) => (
+                            <div
+                              key={benefit.id}
+                              className="p-6 rounded-xl bg-card border border-border/50"
+                            >
+                              {benefit.image &&
+                                isValidImageUrl(benefit.image) && (
+                                  <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4">
+                                    <Image
+                                      src={benefit.image}
+                                      alt={benefit.title}
+                                      fill
+                                      className="object-cover"
+                                    />
+                                  </div>
+                                )}
+                              <h4 className="text-xl font-semibold mb-2">
+                                {benefit.title}
+                              </h4>
+                              {benefit.short_description && (
+                                <div
+                                  className="text-sm text-muted-foreground"
+                                  dangerouslySetInnerHTML={{
+                                    __html: benefit.short_description,
+                                  }}
+                                  suppressHydrationWarning
+                                />
+                              )}
+                              {benefit.long_description && (
+                                <div
+                                  className="text-sm text-muted-foreground mt-2"
+                                  dangerouslySetInnerHTML={{
+                                    __html: benefit.long_description,
+                                  }}
+                                  suppressHydrationWarning
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-              {activeTab === "applications" && (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">{t("noApplications")}</p>
+                  {/* Video Embed - Only show if no content in tab */}
+                  {!tabs[activeTab].long_description &&
+                    !tabs[activeTab].short_description &&
+                    tabs[activeTab].id === -1 && (
+                      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
+                        <iframe
+                          className="absolute top-0 left-0 w-full h-full"
+                          src="https://www.youtube.com/embed/R29G3hUiZnU?autoplay=0&rel=0"
+                          title="YouTube video"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    )}
                 </div>
               )}
             </CardContent>
