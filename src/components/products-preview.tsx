@@ -189,7 +189,7 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
 
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div className="absolute bottom-0 left-0 right-0 p-2">
-                              <h4 className="text-white font-semibold text-xs mb-1 line-clamp-1">
+                              <h4 className="text-black/80 font-semibold text-base m-2 line-clamp-1">
                                 {product.name}
                               </h4>
                             </div>
