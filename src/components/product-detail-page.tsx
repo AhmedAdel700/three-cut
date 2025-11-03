@@ -28,7 +28,39 @@ export function ProductDetailPage({
   const t = useTranslations("products");
   const productData = product.data.product.data;
 
-  console.log(`######################`, productData);
+  // Clean HTML content by removing empty rows and cells
+  const cleanTableHTML = (html: string) => {
+    if (!html) return html;
+
+    // Create a temporary div to parse HTML
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+
+    // Find all tables
+    const tables = temp.querySelectorAll("table");
+
+    tables.forEach((table) => {
+      // Remove empty cells (cells with no text content or only whitespace/&nbsp;)
+      const cells = table.querySelectorAll("td, th");
+      cells.forEach((cell) => {
+        const text = cell.textContent?.trim().replace(/\u00a0/g, "");
+        if (!text || text === "") {
+          cell.remove();
+        }
+      });
+
+      // Remove empty rows (rows with no cells or all cells removed)
+      const rows = table.querySelectorAll("tr");
+      rows.forEach((row) => {
+        const remainingCells = row.querySelectorAll("td, th");
+        if (remainingCells.length === 0) {
+          row.remove();
+        }
+      });
+    });
+
+    return temp.innerHTML;
+  };
 
   // Validate image URL deterministically without relying on window (SSR-safe)
   const isValidImageUrl = (url: string) => {
@@ -239,9 +271,22 @@ export function ProductDetailPage({
                   {/* Long Description */}
                   {tabs[activeTab].long_description && (
                     <div
-                      className="text-muted-foreground leading-relaxed"
+                      className={cn(
+                        "text-muted-foreground leading-relaxed",
+                        tabs[activeTab].long_description?.includes("<table") &&
+                          "[&_table]:w-full [&_table]:border-collapse [&_table]:my-8 [&_table]:bg-card [&_table]:rounded-lg [&_table]:overflow-hidden [&_table]:shadow-md [&_table]:border [&_table]:border-border/50 " +
+                            "[&_td]:border [&_td]:border-border/50 [&_td]:p-4 [&_td]:text-sm [&_td]:text-start [&_td]:align-top [&_td]:min-w-[100px] " +
+                            "[&_th]:border [&_th]:border-border/50 [&_th]:p-4 [&_th]:text-sm [&_th]:text-start [&_th]:align-top [&_th]:min-w-[100px] " +
+                            "[&_tr:first-child]:bg-primary/10 [&_tr:first-child_td]:font-bold [&_tr:first-child_td]:text-foreground [&_tr:first-child_th]:font-bold [&_tr:first-child_th]:text-foreground " +
+                            "[&_tr:not(:first-child):hover]:bg-muted/30 [&_tr:not(:first-child)]:transition-colors " +
+                            "[&_table]:block [&_table]:overflow-x-auto [&_table]:max-w-full " +
+                            "sm:[&_table]:table sm:[&_table]:overflow-visible"
+                      )}
                       dangerouslySetInnerHTML={{
-                        __html: tabs[activeTab].long_description!,
+                        __html:
+                          typeof window !== "undefined"
+                            ? cleanTableHTML(tabs[activeTab].long_description!)
+                            : tabs[activeTab].long_description!,
                       }}
                       suppressHydrationWarning
                     />
