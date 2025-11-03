@@ -15,32 +15,24 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Zap, Shield, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { ProductDetailsResponse } from "@/app/types/productsApiTypes";
+import { useTranslations } from "next-intl";
+import { ProductDetailsApiResponse } from "@/app/types/productApiTypes";
 
 export function ProductDetailPage({
   product,
 }: {
-  product: ProductDetailsResponse;
+  product: ProductDetailsApiResponse;
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("overview");
-  const locale = useLocale();
   const t = useTranslations("products");
 
   const productData = product.data.product.data;
 
-  // Validate if a string is a valid image URL
+  // Validate image URL deterministically without relying on window (SSR-safe)
   const isValidImageUrl = (url: string) => {
     if (!url) return false;
-    try {
-      const parsed = new URL(url, window.location.origin);
-      return (
-        parsed.pathname.startsWith("/") || parsed.protocol.startsWith("http")
-      );
-    } catch {
-      return false;
-    }
+    return /^https?:\/\//.test(url) || url.startsWith("/");
   };
 
   // Create images array from product data with validation
@@ -108,7 +100,7 @@ export function ProductDetailPage({
                   src={productImages[currentImageIndex] || "/placeholder.svg"}
                   alt={productData.name}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                 />
               </div>
               {/* Thumbnail Gallery */}
@@ -125,6 +117,7 @@ export function ProductDetailPage({
                           ? "border-brand-primary"
                           : "border-transparent hover:border-brand-primary"
                       )}
+                      suppressHydrationWarning
                     >
                       <Image
                         src={image || "/placeholder.svg"}
@@ -147,9 +140,13 @@ export function ProductDetailPage({
                 <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
                   {productData.name}
                 </h1>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  {productData.short_desc}
-                </p>
+                <div
+                  className="text-lg text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: productData.short_desc || "",
+                  }}
+                  suppressHydrationWarning
+                />
               </div>
 
               {/* Features */}
@@ -208,12 +205,14 @@ export function ProductDetailPage({
             <CardContent>
               {activeTab === "overview" && (
                 <div className="prose prose-gray dark:prose-invert max-w-none">
-                  <p className="text-lg leading-relaxed">
-                    {productData.short_desc}
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {productData.long_desc}
-                  </p>
+                  <div
+                    className="text-muted-foreground leading-relaxed"
+                    dangerouslySetInnerHTML={{
+                      __html: productData.long_desc || "",
+                    }}
+                    suppressHydrationWarning
+                  />
+
                   <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
                     <iframe
                       className="absolute top-0 left-0 w-full h-full"

@@ -40,7 +40,7 @@ export function ProductsListPage({
   }, [selectedCategory, productsData.data.products.data]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-fit">
       {/* Hero Section */}
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
         <div className="absolute inset-0 opacity-10">
@@ -56,9 +56,14 @@ export function ProductsListPage({
             <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
               {productsData.data.products.title || t("title")}
             </h1>
-            <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
-              {productsData.data.products.short_desc || t("description")}
-            </p>
+            <div
+              className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html:
+                  productsData.data.products.short_desc || t("description"),
+              }}
+              suppressHydrationWarning
+            />
           </div>
         </div>
       </section>
@@ -161,7 +166,7 @@ export function ProductsListPage({
                   <div
                     className={cn(
                       "relative overflow-hidden",
-                      viewMode === "grid" ? "h-full" : "w-64 h-50 flex-shrink-0"
+                      viewMode === "grid" ? "h-64" : "w-64 h-64 flex-shrink-0"
                     )}
                   >
                     <Image
@@ -186,16 +191,16 @@ export function ProductsListPage({
                       <h3 className="text-xl font-bold font-display mb-3">
                         {product.name}
                       </h3>
-                      <p
+                      <div
                         className={cn(
                           "text-muted-foreground leading-relaxed mb-4",
                           viewMode === "grid"
                             ? "text-sm line-clamp-3"
                             : "text-base line-clamp-2"
                         )}
-                      >
-                        {product.short_desc}
-                      </p>
+                        dangerouslySetInnerHTML={{ __html: product.short_desc }}
+                        suppressHydrationWarning
+                      />
                     </div>
                     <div className="flex items-center justify-between">
                       <Link
