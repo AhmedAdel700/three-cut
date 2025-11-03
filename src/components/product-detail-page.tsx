@@ -28,6 +28,8 @@ export function ProductDetailPage({
   const t = useTranslations("products");
   const productData = product.data.product.data;
 
+  console.log(`######################`, productData);
+
   // Validate image URL deterministically without relying on window (SSR-safe)
   const isValidImageUrl = (url: string) => {
     if (!url) return false;

@@ -34,7 +34,7 @@ export async function fetchProductDetailsData(lang = "en", id: string) {
       {
         headers: {
           "Content-Type": "application/json",
-          "Accept-Language": lang,
+          "lang": lang,
           slug: "",
         },
         method: "GET",
