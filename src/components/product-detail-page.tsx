@@ -235,14 +235,19 @@ export function ProductDetailPage({
           {/* Detailed Information Tabs */}
           <Card className="pb-10">
             <CardHeader className="!px-0">
-              <div className="flex items-center justify-center sm:justify-start border-b border-border/50 pb-4 sm:ps-4 sm:gap-3 overflow-x-auto">
+              <div
+                className="
+      flex flex-wrap items-center justify-start
+      border-b border-border/50 pb-4 ps-4 sm:gap-3
+    "
+              >
                 {tabs.map((tab, index) => (
                   <Button
                     key={tab.id}
                     variant={activeTab === index ? "default" : "ghost"}
                     onClick={() => setActiveTab(index)}
                     className={cn(
-                      "rounded-2xl whitespace-nowrap",
+                      "rounded-2xl whitespace-nowrap mb-2 sm:mb-0",
                       activeTab === index &&
                         "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-brand-neutral-white text-xs sm:text-sm lg:text-base"
                     )}
@@ -252,6 +257,7 @@ export function ProductDetailPage({
                 ))}
               </div>
             </CardHeader>
+
             <CardContent>
               {tabs[activeTab] && (
                 <div className="prose prose-gray dark:prose-invert max-w-none">
@@ -274,13 +280,12 @@ export function ProductDetailPage({
                       className={cn(
                         "text-muted-foreground leading-relaxed",
                         tabs[activeTab].long_description?.includes("<table") &&
-                          "[&_table]:w-full [&_table]:border-collapse [&_table]:my-8 [&_table]:bg-card [&_table]:rounded-lg [&_table]:overflow-hidden [&_table]:shadow-md [&_table]:border [&_table]:border-border/50 " +
-                            "[&_td]:border [&_td]:border-border/50 [&_td]:p-4 [&_td]:text-sm [&_td]:text-start [&_td]:align-top [&_td]:min-w-[100px] " +
-                            "[&_th]:border [&_th]:border-border/50 [&_th]:p-4 [&_th]:text-sm [&_th]:text-start [&_th]:align-top [&_th]:min-w-[100px] " +
-                            "[&_tr:first-child]:bg-primary/10 [&_tr:first-child_td]:font-bold [&_tr:first-child_td]:text-foreground [&_tr:first-child_th]:font-bold [&_tr:first-child_th]:text-foreground " +
+                          "overflow-x-auto [&_table]:w-full [&_table]:min-w-full [&_table]:border-collapse [&_table]:my-8 [&_table]:bg-card [&_table]:rounded-lg [&_table]:shadow-md [&_table]:border [&_table]:border-border/50 " +
+                            "[&_td]:border [&_td]:border-border/50 [&_td]:p-4 [&_td]:text-sm [&_td]:align-top [&_td]:min-w-[150px] " +
+                            "[&_th]:border [&_th]:border-border/50 [&_th]:p-4 [&_th]:text-sm [&_th]:font-semibold [&_th]:align-top [&_th]:min-w-[150px] " +
+                            "[&_tr:first-child]:bg-primary/10 [&_tr:first-child_th]:font-bold [&_tr:first-child_th]:text-foreground " +
                             "[&_tr:not(:first-child):hover]:bg-muted/30 [&_tr:not(:first-child)]:transition-colors " +
-                            "[&_table]:block [&_table]:overflow-x-auto [&_table]:max-w-full " +
-                            "sm:[&_table]:table sm:[&_table]:overflow-visible"
+                            "[&_table]:!w-full [&_table]:!max-w-none [&_table]:!table-fixed"
                       )}
                       dangerouslySetInnerHTML={{
                         __html:
