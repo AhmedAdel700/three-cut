@@ -28,35 +28,132 @@ export function ProductDetailPage({
   const t = useTranslations("products");
   const productData = product.data.product.data;
 
-  // Clean HTML content by removing empty rows and cells
+  // Clean HTML content and ensure proper table structure
   const cleanTableHTML = (html: string) => {
     if (!html) return html;
 
-    // Create a temporary div to parse HTML
     const temp = document.createElement("div");
     temp.innerHTML = html;
 
-    // Find all tables
+    // Remove wrapper divs
+    const wrapperDivs = temp.querySelectorAll(
+      "div._tableContainer_1rjym_1, div._tableWrapper_1rjym_13, div.group"
+    );
+    wrapperDivs.forEach((wrapper) => {
+      const table = wrapper.querySelector("table");
+      if (table && wrapper.parentNode) {
+        wrapper.parentNode.replaceChild(table, wrapper);
+      }
+    });
+
     const tables = temp.querySelectorAll("table");
 
     tables.forEach((table) => {
-      // Remove empty cells (cells with no text content or only whitespace/&nbsp;)
-      const cells = table.querySelectorAll("td, th");
-      cells.forEach((cell) => {
+      // Remove attributes
+      table.removeAttribute("style");
+      table.removeAttribute("class");
+      table.removeAttribute("data-start");
+      table.removeAttribute("data-end");
+      table.removeAttribute("tabindex");
+
+      // Get all rows
+      const allRows = Array.from(table.querySelectorAll("tr"));
+
+      // Clean all cells first
+      const allCells = table.querySelectorAll("td, th");
+      allCells.forEach((cell) => {
+        cell.removeAttribute("data-start");
+        cell.removeAttribute("data-end");
+        cell.removeAttribute("data-col-size");
+        cell.removeAttribute("tabindex");
+        cell.removeAttribute("width");
+
+        const el = cell as HTMLTableCellElement;
+        const textAlign = el.style.textAlign;
+        cell.removeAttribute("style");
+        if (textAlign) {
+          el.style.textAlign = textAlign;
+        }
+
         const text = cell.textContent?.trim().replace(/\u00a0/g, "");
         if (!text || text === "") {
           cell.remove();
         }
       });
 
-      // Remove empty rows (rows with no cells or all cells removed)
-      const rows = table.querySelectorAll("tr");
-      rows.forEach((row) => {
+      // Remove empty rows
+      allRows.forEach((row) => {
+        row.removeAttribute("data-start");
+        row.removeAttribute("data-end");
         const remainingCells = row.querySelectorAll("td, th");
         if (remainingCells.length === 0) {
           row.remove();
         }
       });
+
+      // Restructure table with proper thead/tbody if needed
+      const remainingRows = Array.from(table.querySelectorAll("tr"));
+      if (remainingRows.length > 0) {
+        let thead = table.querySelector("thead");
+        let tbody = table.querySelector("tbody");
+
+        // If no thead exists, create one from first row
+        if (!thead && remainingRows.length > 0) {
+          thead = document.createElement("thead");
+          const firstRow = remainingRows[0];
+
+          // Convert first row cells to th if they're td
+          const firstRowCells = firstRow.querySelectorAll("td, th");
+          firstRowCells.forEach((cell) => {
+            if (cell.tagName.toLowerCase() === "td") {
+              const th = document.createElement("th");
+              th.innerHTML = cell.innerHTML;
+              if (cell.hasAttribute("style")) {
+                th.setAttribute("style", cell.getAttribute("style")!);
+              }
+              cell.parentNode?.replaceChild(th, cell);
+            }
+          });
+
+          thead.appendChild(firstRow);
+          table.insertBefore(thead, table.firstChild);
+        }
+
+        // If no tbody exists, create one with remaining rows
+        if (!tbody) {
+          tbody = document.createElement("tbody");
+          remainingRows.slice(1).forEach((row) => {
+            // Convert th to td in body rows
+            const cells = row.querySelectorAll("th");
+            cells.forEach((th) => {
+              const td = document.createElement("td");
+              td.innerHTML = th.innerHTML;
+              if (th.hasAttribute("style")) {
+                td.setAttribute("style", th.getAttribute("style")!);
+              }
+              th.parentNode?.replaceChild(td, th);
+            });
+            tbody!.appendChild(row);
+          });
+          table.appendChild(tbody);
+        }
+
+        // Clean thead and tbody attributes
+        if (thead) {
+          thead.removeAttribute("data-start");
+          thead.removeAttribute("data-end");
+        }
+        if (tbody) {
+          tbody.removeAttribute("data-start");
+          tbody.removeAttribute("data-end");
+        }
+      }
+
+      // Remove colgroup if exists
+      const colgroup = table.querySelector("colgroup");
+      if (colgroup) {
+        colgroup.remove();
+      }
     });
 
     return temp.innerHTML;
@@ -235,12 +332,7 @@ export function ProductDetailPage({
           {/* Detailed Information Tabs */}
           <Card className="pb-10">
             <CardHeader className="!px-0">
-              <div
-                className="
-      flex flex-wrap items-center justify-start
-      border-b border-border/50 pb-4 ps-4 sm:gap-3
-    "
-              >
+              <div className="flex flex-wrap items-center justify-start border-b border-border/50 pb-4 ps-4 sm:gap-3">
                 {tabs.map((tab, index) => (
                   <Button
                     key={tab.id}
@@ -280,12 +372,13 @@ export function ProductDetailPage({
                       className={cn(
                         "text-muted-foreground leading-relaxed",
                         tabs[activeTab].long_description?.includes("<table") &&
-                          "overflow-x-auto [&_table]:w-full [&_table]:min-w-full [&_table]:border-collapse [&_table]:my-8 [&_table]:bg-card [&_table]:rounded-lg [&_table]:shadow-md [&_table]:border [&_table]:border-border/50 " +
-                            "[&_td]:border [&_td]:border-border/50 [&_td]:p-4 [&_td]:text-sm [&_td]:align-top [&_td]:min-w-[150px] " +
-                            "[&_th]:border [&_th]:border-border/50 [&_th]:p-4 [&_th]:text-sm [&_th]:font-semibold [&_th]:align-top [&_th]:min-w-[150px] " +
-                            "[&_tr:first-child]:bg-primary/10 [&_tr:first-child_th]:font-bold [&_tr:first-child_th]:text-foreground " +
-                            "[&_tr:not(:first-child):hover]:bg-muted/30 [&_tr:not(:first-child)]:transition-colors " +
-                            "[&_table]:!w-full [&_table]:!max-w-none [&_table]:!table-fixed"
+                          "w-full overflow-x-auto " +
+                            "[&_table]:w-full [&_table]:border-collapse [&_table]:mt-1 [&_table]:rounded-none [&_table]:overflow-hidden px-2 " +
+                            "[&_table]:border [&_table]:border-white " +
+                            "[&_td]:border [&_td]:border-white/15 [&_td]:p-4 [&_td]:text-sm [&_td]:align-middle [&_td]:text-white " +
+                            "[&_th]:border [&_th]:border-white/15 [&_th]:p-4 [&_th]:text-sm [&_th]:font-bold [&_th]:align-middle [&_th]:text-white " +
+                            "[&_thead]:bg-white/10 " +
+                            "[&_tbody_tr]:bg-transparent [&_tbody_tr:hover]:bg-white/10 [&_tbody_tr]:transition-colors"
                       )}
                       dangerouslySetInnerHTML={{
                         __html:

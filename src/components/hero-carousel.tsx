@@ -27,7 +27,7 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
   const t = useTranslations("home");
   const isRTL = locale === "ar";
 
-  const SLIDE_TO_CONTENT_DELAY = 0.42;
+  const SLIDE_TO_CONTENT_DELAY = 0.2;
 
   useEffect(() => {
     if (!api) return;
