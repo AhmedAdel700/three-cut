@@ -75,7 +75,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
             </motion.div>
 
             <div
-              className="text-muted-foreground leading-relaxed text-lg mx-auto"
+              className="text-muted-foreground leading-relaxed text-lg mx-auto bg-black/50 rounded-lg p-3"
               dangerouslySetInnerHTML={{
                 __html: about?.text,
               }}
