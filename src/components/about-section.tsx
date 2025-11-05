@@ -21,10 +21,22 @@ export function AboutSection({
   partnersData?: Partners;
 }) {
   const t = useTranslations("home");
+
+  function truncateHtmlText(html: string, maxLength: number | undefined) {
+    // Create a temporary element to extract plain text
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+    const text = temp.textContent || temp.innerText || "";
+
+    // Truncate text and add ellipsis
+    const length = maxLength ?? 150; // Default to 150 if maxLength is undefined
+    return text.length > length ? text.slice(0, length) + "..." : text;
+  }
+
   return (
     <section className="py-16 lg:py-24 border-t dark-section-bg">
       <div className="container mx-auto px-4 lg:px-6">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="mx-auto text-center">
           {/* ---------- Header ---------- */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -53,7 +65,7 @@ export function AboutSection({
             <p
               className="text-muted-foreground leading-relaxed text-lg max-w-3xl mx-auto"
               dangerouslySetInnerHTML={{
-                __html: aboutData?.text ?? "",
+                __html: aboutData?.short_desc ?? "",
               }}
             />
           </ScrollReveal>
@@ -71,21 +83,25 @@ export function AboutSection({
                       transition: { duration: 0.2 },
                     }}
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-brand-secondary to-brand-accent-red rounded-xl flex items-center justify-center mx-auto mb-6">
+                    <div className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6">
                       <Image
                         src={item.icon}
                         alt={item.alt_icon || item.name}
-                        className="h-8 w-8 object-contain"
-                        width={32}
-                        height={32}
+                        className="h-16 w-16 object-cover rounded-xl"
+                        width={45}
+                        height={45}
                       />
                     </div>
-                    <h3 className="font-semibold font-display text-xl mb-4">
-                      {item.name}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {item.long_desc}
-                    </p>
+                    <h3
+                      className="font-semibold font-display text-xl mb-4"
+                      dangerouslySetInnerHTML={{ __html: item.name }}
+                    />
+                    <p
+                      className="text-muted-foreground leading-relaxed"
+                      dangerouslySetInnerHTML={{
+                        __html: truncateHtmlText(item.long_desc, 150),
+                      }}
+                    ></p>
                   </motion.div>
                 </ScrollReveal>
               ))}
@@ -144,7 +160,7 @@ export function AboutSection({
               size="lg"
               className="bg-gradient-to-r from-brand-secondary to-brand-accent-red hover:from-brand-secondary/90 hover:to-brand-accent-red/90 text-brand-neutral-white font-semibold px-8 rounded-2xl"
             >
-              <Link href="/contact">{t("learnMore")}</Link>
+              <Link href="/about">{t("learnMore")}</Link>
             </Button>
           </ScrollReveal>
         </div>

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
 import { useTranslations } from "next-intl";
-import { PartnerCarousel } from "./PartnerCarousel";
+// import { PartnerCarousel } from "./PartnerCarousel";
 import CallToAction from "./CallToAction";
 import Image from "next/image";
 import { AboutPageResponse } from "@/app/types/aboutApiTypes";
@@ -32,12 +32,18 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
         </div>
 
         <div className="container mx-auto px-4 lg:px-6 relative z-10 text-center">
-          <h1 className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight">
-            {about?.title || t("heroTitle")}
-          </h1>
-          <p className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-3xl mx-auto leading-relaxed">
-            {about?.short_desc || t("heroSubtitle")}
-          </p>
+          <h1
+            className="text-5xl lg:text-7xl font-bold font-display mb-4 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent leading-tight"
+            dangerouslySetInnerHTML={{
+              __html: about?.title ?? "",
+            }}
+          ></h1>
+          <p
+            className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-4xl mx-auto leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: about?.short_desc ?? "",
+            }}
+          ></p>
         </div>
       </section>
 
@@ -74,10 +80,10 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
               <Sparkles className="h-7 w-7 text-brand-accent-red" />
             </motion.div>
 
-            <p
-              className="text-muted-foreground leading-relaxed text-lg max-w-3xl mx-auto"
+            <div
+              className="text-muted-foreground leading-relaxed text-lg mx-auto"
               dangerouslySetInnerHTML={{
-                __html: about?.long_desc || t("ourStoryDesc"),
+                __html: about?.text,
               }}
             />
           </ScrollReveal>
@@ -151,9 +157,12 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
                   {t("ourMission")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {about?.short_desc || t("missionDesc")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: aboutStructs[0].long_desc ?? "",
+                  }}
+                ></p>
               </motion.div>
             </div>
           </ScrollReveal>
@@ -178,9 +187,12 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
                   {t("ourVision")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {about?.long_desc || t("visionDesc")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: aboutStructs[1].long_desc ?? "",
+                  }}
+                ></p>
               </motion.div>
 
               <motion.div
@@ -200,6 +212,53 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                     className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
                   />
                 </div>
+              </motion.div>
+            </div>
+          </ScrollReveal>
+
+          {/* Our Goal Section */}
+          <ScrollReveal className="relative mb-12">
+            <div className="grid md:grid-cols-2 gap-12 items-center rounded-3xl bg-card/60 border border-border/50 p-8 lg:p-12 backdrop-blur-sm shadow-xl">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative group">
+                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-secondary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
+                  <Image
+                    src={about?.image}
+                    alt={about?.alt_image}
+                    width={600}
+                    height={400}
+                    className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent-red/10 text-brand-accent-red text-sm font-medium mb-4">
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                  <span className="text-white uppercase tracking-wider text-base font-semibold">
+                    {t("Goal")}
+                  </span>
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
+                  {t("ourGoal")}
+                </h2>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: aboutStructs[2].long_desc ?? "",
+                  }}
+                ></p>
               </motion.div>
             </div>
           </ScrollReveal>
