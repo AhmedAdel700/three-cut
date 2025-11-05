@@ -28,6 +28,8 @@ export interface AboutPageResponse {
 }
 
 export interface AboutStruct {
+  alt_image: string;
+  image: string;
   id: number;
   name: string;
   icon: string;

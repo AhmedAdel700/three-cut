@@ -114,6 +114,53 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
             ))}
           </div> */}
 
+          {/* Our Goal Section */}
+          <ScrollReveal className="relative mb-12">
+            <div className="grid md:grid-cols-2 gap-12 items-center rounded-3xl bg-card/60 border border-border/50 p-8 lg:p-12 backdrop-blur-sm shadow-xl">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative group">
+                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-secondary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
+                  <Image
+                    src={aboutStructs[0]?.image}
+                    alt={aboutStructs[0]?.alt_image ?? ""}
+                    width={600}
+                    height={400}
+                    className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent-red/10 text-brand-accent-red text-sm font-medium mb-4">
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                  <span className="text-white uppercase tracking-wider text-base font-semibold">
+                    {t("Goal")}
+                  </span>
+                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
+                  {t("ourGoal")}
+                </h2>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: aboutStructs[0].long_desc ?? "",
+                  }}
+                ></p>
+              </motion.div>
+            </div>
+          </ScrollReveal>
+
           {/* Mission Section */}
           <ScrollReveal className="relative mb-12">
             <div className="grid md:grid-cols-2 gap-12 items-center rounded-3xl bg-card/60 border border-border/50 p-8 lg:p-12 backdrop-blur-sm shadow-xl">
@@ -126,8 +173,8 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 <div className="relative group">
                   <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-secondary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
                   <Image
-                    src={about?.image || "/fallback-mission.jpg"}
-                    alt={about?.alt_image || t("missionAlt")}
+                    src={aboutStructs[1]?.image}
+                    alt={aboutStructs[1]?.alt_image ?? ""}
                     width={600}
                     height={400}
                     className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
@@ -154,7 +201,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 <p
                   className="text-muted-foreground leading-relaxed"
                   dangerouslySetInnerHTML={{
-                    __html: aboutStructs[0].long_desc ?? "",
+                    __html: aboutStructs[1].long_desc ?? "",
                   }}
                 ></p>
               </motion.div>
@@ -184,7 +231,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 <p
                   className="text-muted-foreground leading-relaxed"
                   dangerouslySetInnerHTML={{
-                    __html: aboutStructs[1].long_desc ?? "",
+                    __html: aboutStructs[2].long_desc ?? "",
                   }}
                 ></p>
               </motion.div>
@@ -199,60 +246,13 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
                 <div className="relative group">
                   <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-tertiary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
                   <Image
-                    src={about?.banner || "/fallback-vision.jpg"}
-                    alt={about?.alt_banner || t("visionAlt")}
+                    src={aboutStructs[2]?.image}
+                    alt={aboutStructs[2]?.alt_image ?? ""}
                     width={600}
                     height={400}
                     className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
                   />
                 </div>
-              </motion.div>
-            </div>
-          </ScrollReveal>
-
-          {/* Our Goal Section */}
-          <ScrollReveal className="relative mb-12">
-            <div className="grid md:grid-cols-2 gap-12 items-center rounded-3xl bg-card/60 border border-border/50 p-8 lg:p-12 backdrop-blur-sm shadow-xl">
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <div className="relative group">
-                  <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-brand-secondary/30 to-brand-accent-red/30 blur opacity-40 group-hover:opacity-60 transition" />
-                  <Image
-                    src={about?.image}
-                    alt={about?.alt_image}
-                    width={600}
-                    height={400}
-                    className="relative rounded-2xl object-cover shadow-2xl ring-1 ring-border/50 group-hover:scale-[1.01] transition"
-                  />
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent-red/10 text-brand-accent-red text-sm font-medium mb-4">
-                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
-                  <span className="text-white uppercase tracking-wider text-base font-semibold">
-                    {t("Goal")}
-                  </span>
-                  <Sparkles className="h-7 w-7 text-brand-accent-red" />
-                </div>
-                <h2 className="text-3xl lg:text-4xl font-semibold mb-5 text-white tracking-tight">
-                  {t("ourGoal")}
-                </h2>
-                <p
-                  className="text-muted-foreground leading-relaxed"
-                  dangerouslySetInnerHTML={{
-                    __html: aboutStructs[2].long_desc ?? "",
-                  }}
-                ></p>
               </motion.div>
             </div>
           </ScrollReveal>
