@@ -238,12 +238,12 @@ export function ProductDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden bg-secondary/50">
+              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden bg-secondary/5">
                 <Image
                   src={productImages[currentImageIndex] || "/placeholder.svg"}
                   alt={productData.name}
                   fill
-                  className="object-cover"
+                  className="object-contain lg:object-cover"
                 />
               </div>
               {/* Thumbnail Gallery */}
@@ -255,7 +255,7 @@ export function ProductDetailPage({
                       type="button"
                       onClick={() => setCurrentImageIndex(index)}
                       className={cn(
-                        "relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-[3px] transition-all bg-secondary/50",
+                        "relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-[3px] transition-all bg-secondary/5",
                         index === currentImageIndex
                           ? "border-brand-primary"
                           : "border-transparent hover:border-brand-primary"
@@ -266,7 +266,7 @@ export function ProductDetailPage({
                         src={image || "/placeholder.svg"}
                         alt={`${productData.name} ${index + 1}`}
                         fill
-                        className="object-cover"
+                        className="object-contain lg:object-cover"
                       />
                     </button>
                   ))}
@@ -352,7 +352,7 @@ export function ProductDetailPage({
                           src={tabs[activeTab].image}
                           alt={tabs[activeTab].title}
                           fill
-                          className="object-cover"
+                          className="object-contain lg:object-cover"
                         />
                       </div>
                     )}
@@ -398,7 +398,7 @@ export function ProductDetailPage({
                                       src={benefit.image}
                                       alt={benefit.title}
                                       fill
-                                      className="object-cover"
+                                      className="object-contain lg:object-cover"
                                     />
                                   </div>
                                 )}
