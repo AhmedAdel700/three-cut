@@ -135,7 +135,7 @@ export function Footer({
       : []),
   ];
 
-  const brandDescription = settings?.description || t("BrandDescription");
+  const brandDescription = settings?.description;
   const logoImage = settings?.logo || logo;
 
   return (
@@ -145,7 +145,7 @@ export function Footer({
         <div className="flex flex-col items-center text-center">
           <Link href="/" className="block w-full max-w-[240px]">
             <motion.div
-              className="relative h-24 mb-6"
+              className="relative h-24"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
@@ -160,7 +160,7 @@ export function Footer({
             </motion.div>
           </Link>
 
-          <motion.p
+          {/* <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
@@ -168,7 +168,7 @@ export function Footer({
             className="text-brand-neutral-white/80 text-sm leading-relaxed max-w-3xl"
           >
             {brandDescription}
-          </motion.p>
+          </motion.p> */}
         </div>
       </div>
 
@@ -300,13 +300,13 @@ export function Footer({
         viewport={{ once: true, margin: "-20px" }}
       >
         <div className="container mx-auto py-6 px-4">
-          <div className="flex flex-col items-center justify-center 2xl:flex-row 2xl:justify-between gap-4">
+          <div className="flex flex-col items-center justify-center 2xl:flex-row gap-4">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: 0.1 }}
               viewport={{ once: true, margin: "-20px" }}
-              className="text-brand-neutral-white/60 text-sm lg:text-base text-center md:text-start"
+              className="text-brand-neutral-white/60 text-sm lg:text-base text-center"
             >
               {t("Created By")}{" "}
               <Link
@@ -319,26 +319,6 @@ export function Footer({
               </Link>{" "}
               © {currentYear} {t("All Rights Reserved")}
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-              viewport={{ once: true, margin: "-20px" }}
-              className="flex items-center gap-6 text-sm lg:text-base"
-            >
-              <Link
-                href="/privacy"
-                className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
-              >
-                {t("Privacy Policy")}
-              </Link>
-              <Link
-                href="/terms"
-                className="text-brand-neutral-white/60 hover:text-brand-neutral-white transition-colors"
-              >
-                {t("Terms of Service")}
-              </Link>
-            </motion.div>
           </div>
         </div>
       </motion.div>

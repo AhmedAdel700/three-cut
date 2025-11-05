@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Phone, Mail, MapPin, Clock, Send, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, Send, ExternalLink } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Link } from "@/navigations";
@@ -74,7 +74,7 @@ export function ContactPage({
     {
       icon: Phone,
       title: t("phone"),
-      details: [info.phone, info.phone2].filter(Boolean),
+      details: [info.phone].filter(Boolean),
       action: `tel:${info.phone}`,
     },
     {
@@ -88,14 +88,6 @@ export function ContactPage({
       title: t("address"),
       details: [info.address],
       action: info.map_link,
-    },
-    {
-      icon: Clock,
-      title: t("businessHours"),
-      details: [
-        `${t("open")}: ${info.open || "8:00 AM"}`,
-        `${t("close")}: ${info.close || "6:00 PM"}`,
-      ],
     },
   ];
 

@@ -38,12 +38,6 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
               __html: about?.title ?? "",
             }}
           ></h1>
-          <p
-            className="text-lg lg:text-xl text-brand-neutral-white/90 max-w-4xl mx-auto leading-relaxed"
-            dangerouslySetInnerHTML={{
-              __html: about?.short_desc ?? "",
-            }}
-          ></p>
         </div>
       </section>
 
