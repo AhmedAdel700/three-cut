@@ -240,7 +240,11 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
         )}
         aria-label={t("prevSlide")}
       >
-        <ChevronLeft className="h-6 w-6" />
+        {locale === "en" ? (
+          <ChevronLeft className="h-6 w-6" />
+        ) : (
+          <ChevronRight className="h-6 w-6" />
+        )}
       </button>
 
       <button
@@ -251,7 +255,11 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
         )}
         aria-label={t("nextSlide")}
       >
-        <ChevronRight className="h-6 w-6" />
+        {locale === "en" ? (
+          <ChevronRight className="h-6 w-6" />
+        ) : (
+          <ChevronLeft className="h-6 w-6" />
+        )}
       </button>
 
       {/* Dots */}

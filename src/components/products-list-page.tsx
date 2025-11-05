@@ -12,9 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, Grid, List, ArrowRight } from "lucide-react";
+import { Filter, Grid, List, ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ProductsApiResponse } from "@/app/types/productsApiTypes";
 
 export function ProductsListPage({
@@ -25,6 +25,7 @@ export function ProductsListPage({
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const t = useTranslations("products");
+  const locale = useLocale();
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = productsData.data.products.data;
@@ -217,7 +218,11 @@ export function ProductsListPage({
                       >
                         <Link href={`/products/${product.slug}`}>
                           {t("viewDetails")}
-                          <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
+                          {locale === "en" ? (
+                            <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
+                          ) : (
+                            <ArrowLeft className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
+                          )}
                         </Link>
                       </Button>
                     </div>

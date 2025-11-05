@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useLocale } from "next-intl";
 
 interface FloatingActionButtonProps {
   showAfter?: number;
@@ -16,6 +17,7 @@ export function FloatingActionButton({
   className,
 }: FloatingActionButtonProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const locale = useLocale();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -41,7 +43,10 @@ export function FloatingActionButton({
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className={cn("fixed bottom-8 right-8 z-50", className)}
+          className={cn(
+            `fixed bottom-8 ${locale === "en" ? "right-8" : "left-8"} z-50`,
+            className
+          )}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}

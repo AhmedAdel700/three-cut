@@ -7,7 +7,7 @@ export async function fetchProductsData(lang = "en", id: string) {
       {
         headers: {
           Accept: "application/json",
-          "Accept-Language": lang,
+          "lang": lang,
         },
         method: "GET",
         cache: "no-store",

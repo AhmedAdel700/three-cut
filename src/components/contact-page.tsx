@@ -93,7 +93,6 @@ export function ContactPage({
 
   return (
     <div className="h-fit border-b">
-
       {/* --- Hero Section --- */}
       <section className="pt-16 lg:py-24 text-brand-neutral-white relative overflow-hidden border-y section-bg">
         <div className="absolute inset-0 opacity-10">

@@ -5,7 +5,7 @@ export async function fetchServicesData(lang = "en") {
     const response = await fetch(`${NEXT_PUBLIC_BACKEND_BASE_URL}/services`, {
       headers: {
         Accept: "application/json",
-        "Accept-Language": lang,
+        lang: lang,
       },
       method: "GET",
       cache: "no-store",

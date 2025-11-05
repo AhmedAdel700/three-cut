@@ -285,15 +285,6 @@ export function ProductDetailPage({
                 <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
                   {productData.name}
                 </h1>
-                {productData.short_desc && (
-                  <div
-                    className="text-lg text-muted-foreground leading-relaxed"
-                    dangerouslySetInnerHTML={{
-                      __html: productData.short_desc,
-                    }}
-                    suppressHydrationWarning
-                  />
-                )}
               </div>
 
               {/* Features */}
