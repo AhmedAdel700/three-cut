@@ -129,7 +129,7 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
                   >
                     <div className="flex-grow space-y-5">
 
-                      <h3 className="text-xl lg:text-2xl font-bold font-display my-3">
+                      <h3 className="text-xl lg:text-3xl xl:text-4xl font-bold font-display my-3">
                         {activeCategory?.name}
                       </h3>
 
