@@ -15,6 +15,8 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
   const t = useTranslations("home");
   const locale = useLocale();
 
+  console.log(`########################`, categories);
+
   // ✅ Memoize categoryList so it's not redefined every render
   const categoryList = useMemo(() => categories?.data || [], [categories]);
 
@@ -126,16 +128,13 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
                     className="space-y-4 h-full flex flex-col"
                   >
                     <div className="flex-grow space-y-5">
-                      <Badge className="bg-brand-primary text-white mb-3 text-sm">
-                        {activeCategory?.name}
-                      </Badge>
 
-                      <h3 className="text-xl lg:text-2xl font-bold font-display mb-3">
-                        {activeCategory?.name} {t("cuttingSolutions")}
+                      <h3 className="text-xl lg:text-2xl font-bold font-display my-3">
+                        {activeCategory?.name}
                       </h3>
 
                       <p className="text-muted-foreground leading-relaxed mb-4 text-sm">
-                        {activeCategory?.long_desc || t("defaultProductDesc")}
+                        {activeCategory?.long_desc}
                       </p>
                     </div>
 
