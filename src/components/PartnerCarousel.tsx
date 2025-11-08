@@ -20,8 +20,16 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
   const [api, setApi] = useState<CarouselApi>();
   const t = useTranslations("home");
 
-  const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0, 300, 600], [1, 0.98, 0.96]);
+  // Optimize scroll listener - only track when component is visible
+  const { scrollY } = useScroll({
+    layoutEffect: false,
+  });
+  const scale = useTransform(
+    scrollY, 
+    [0, 300, 600], 
+    [1, 0.98, 0.96],
+    { clamp: true }
+  );
 
   // Auto-scroll the carousel
   useEffect(() => {
@@ -36,16 +44,16 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
         {/* ---------- Header ---------- */}
         <motion.div
           className="text-center mb-12 flex flex-col gap-4"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-50px" }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-50px" }}
             className="flex items-center justify-center gap-4"
           >
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
@@ -57,10 +65,10 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
 
           <motion.h2
             className="text-3xl lg:text-5xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-50px" }}
           >
             {t("partners.heading", {
               defaultMessage: "Our Trusted Partners For Growth And Innovation",
@@ -69,10 +77,10 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
 
           <motion.p
             className="text-muted-foreground max-w-xl mx-auto capitalize"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-50px" }}
           >
             {t("partners.description", {
               defaultMessage:
@@ -83,10 +91,10 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
 
         {/* ---------- Partners Carousel ---------- */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.25, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-50px" }}
           className="relative"
         >
           <Carousel

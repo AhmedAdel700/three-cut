@@ -21,14 +21,20 @@ export function ScrollReveal({
   className,
 }: ScrollRevealProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  // Optimize intersection observer with reduced margin and once: true
+  const isInView = useInView(ref, { 
+    once: true, 
+    margin: "-50px",
+    // Reduce frequency of checks
+    amount: 0.2,
+  });
   const controls = useAnimation();
 
   const variants = {
     hidden: {
       opacity: 0,
-      y: direction === "up" ? 50 : direction === "down" ? -50 : 0,
-      x: direction === "left" ? 50 : direction === "right" ? -50 : 0,
+      y: direction === "up" ? 30 : direction === "down" ? -30 : 0,
+      x: direction === "left" ? 30 : direction === "right" ? -30 : 0,
     },
     visible: {
       opacity: 1,
@@ -55,6 +61,8 @@ export function ScrollReveal({
       animate={controls}
       variants={variants}
       className={className}
+      // Optimize rendering
+      style={{ willChange: isInView ? "transform, opacity" : "auto" }}
     >
       {children}
     </motion.div>

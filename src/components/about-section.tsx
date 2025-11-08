@@ -39,10 +39,10 @@ export function AboutSection({
         <div className="mx-auto text-center">
           {/* ---------- Header ---------- */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true, margin: "-50px" }}
             className="flex items-center justify-center gap-4 mb-6"
           >
             <Sparkles className="h-7 w-7 text-brand-accent-red" />
@@ -78,8 +78,8 @@ export function AboutSection({
                   <motion.div
                     className="p-8 rounded-2xl bg-card/50 hover:bg-card transition-all duration-300 border border-border/50 h-full"
                     whileHover={{
-                      scale: 1.05,
-                      y: -10,
+                      scale: 1.02,
+                      y: -5,
                       transition: { duration: 0.2 },
                     }}
                   >
@@ -111,7 +111,7 @@ export function AboutSection({
           {/* ---------- Stats Section (Fallback to i18n) ---------- */}
           {/* <ScrollReveal delay={0.3} direction="up">
             <motion.div
-              className="bg-card/70 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-border/50 mb-8"
+              className="bg-card/70 backdrop-blur-[2px] rounded-2xl p-8 shadow-2xl border border-border/50 mb-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}

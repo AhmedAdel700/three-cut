@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -74,7 +73,7 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
         {/* Category Filter */}
         <ScrollReveal>
           <div className="flex justify-center">
-            <div className="inline-flex items-center gap-1 bg-card/50 backdrop-blur-md rounded-xl p-1.5 border border-border/50 shadow-lg">
+            <div className="inline-flex items-center gap-1 bg-card/50 backdrop-blur-[4px] rounded-xl p-1.5 border border-border/50 shadow-lg">
               {categoryList.map((category) => (
                 <button
                   key={category.id}
@@ -178,7 +177,7 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
                           duration: 0.4,
                           ease: [0.25, 0.1, 0.25, 1],
                         }}
-                        className="group relative overflow-hidden rounded-lg bg-card/30 backdrop-blur-sm border border-border/50 w-full"
+                        className="group relative overflow-hidden rounded-lg bg-card/30 backdrop-blur-[2px] border border-border/50 w-full"
                       >
                         <div className="aspect-[4/3] relative w-full h-56">
                           <Image

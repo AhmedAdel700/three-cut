@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
+/* Removed scroll-behavior: smooth for better performance */
+/* Use JavaScript-based smooth scrolling if needed */
 
 :root {
   --radius: 0.625rem;
@@ -70,6 +69,15 @@ html {
       linear-gradient(180deg, var(--color-red-dark));
     min-height: 100vh;
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
+    /* Optimize scrolling performance */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Optimize scroll performance */
+  html {
+    scroll-padding-top: 80px;
   }
 
   .font-display {
@@ -80,7 +88,8 @@ html {
   .card,
   .bg-card {
     background: rgba(245, 237, 237, 0.05);
-    backdrop-filter: blur(10px);
+    /* Reduced backdrop-filter for better performance */
+    backdrop-filter: blur(5px);
     border: 1px solid rgba(245, 237, 237, 0.1);
   }
 }
@@ -115,14 +124,14 @@ html {
     /* red gradient at bottom */
     linear-gradient(180deg, var(--color-red-dark));
   background-blend-mode: normal;
-  backdrop-filter: blur(8px);
+  /* Reduced backdrop-filter for better performance */
+  backdrop-filter: blur(4px);
+  /* Optimize rendering */
+  will-change: background;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth !important;
-  }
-}
+/* Removed scroll-behavior for better performance */
+/* Smooth scrolling can be handled via JavaScript if needed */
 
 ::-webkit-scrollbar {
   width: 6px;

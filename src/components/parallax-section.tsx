@@ -20,13 +20,22 @@ export function ParallaxSection({
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
+    // Optimize scroll listener performance
+    layoutEffect: false,
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", `${speed * 100}%`]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", `${speed * 100}%`], {
+    // Clamp values to prevent excessive calculations
+    clamp: true,
+  });
 
   return (
     <div ref={ref} className={className}>
-      <motion.div style={{ y }}>{children}</motion.div>
+      <motion.div 
+        style={{ y, willChange: "transform" }}
+      >
+        {children}
+      </motion.div>
     </div>
   );
 }

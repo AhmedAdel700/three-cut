@@ -235,7 +235,7 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
       <button
         onClick={isRTL ? nextSlide : prevSlide}
         className={cn(
-          "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
+          "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-[2px] rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
           isRTL ? "right-4 lg:right-8" : "left-4 lg:left-8"
         )}
         aria-label={t("prevSlide")}
@@ -250,7 +250,7 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
       <button
         onClick={isRTL ? prevSlide : nextSlide}
         className={cn(
-          "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
+          "hidden xl:flex absolute top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-[2px] rounded-full items-center justify-center text-white transition-all duration-300 hover:scale-110",
           isRTL ? "left-4 lg:left-8" : "right-4 lg:right-8"
         )}
         aria-label={t("nextSlide")}
