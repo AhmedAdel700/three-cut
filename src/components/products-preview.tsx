@@ -15,9 +15,6 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
   const t = useTranslations("home");
   const locale = useLocale();
 
-  console.log(`########################`, categories);
-
-  // ✅ Memoize categoryList so it's not redefined every render
   const categoryList = useMemo(() => categories?.data || [], [categories]);
 
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(
@@ -33,9 +30,9 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
           currentIndex === categoryList.length - 1 ? 0 : currentIndex + 1;
         return categoryList[nextIndex].id;
       });
-    }, 8000);
+    }, 12000);
     return () => clearInterval(interval);
-  }, [categoryList]); // ✅ No more ESLint warning
+  }, [categoryList]);
 
   const activeCategory = categoryList.find(
     (cat) => cat.id === activeCategoryId
@@ -127,7 +124,7 @@ export function ProductsPreview({ categories }: { categories: Categories }) {
                     transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-4 h-full flex flex-col"
                   >
-                    <div className="flex-grow space-y-5">
+                    <div>
                       <h3
                         className="text-xl lg:text-3xl xl:text-4xl font-bold font-display my-3"
                         dangerouslySetInnerHTML={{

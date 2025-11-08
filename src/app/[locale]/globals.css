@@ -120,7 +120,7 @@ html {
 
 @media (prefers-reduced-motion: no-preference) {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth !important;
   }
 }
 

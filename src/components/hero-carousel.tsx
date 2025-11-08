@@ -68,7 +68,7 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
       } else {
         nextSlide();
       }
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, api, current, count, nextSlide]);
@@ -182,9 +182,9 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
                           asChild
                           variant="outline"
                           size="lg"
-                          className="btn-outline"
+                          className="btn-outline !transition-colors !duration-[0.35s] !ease-in-out"
                         >
-                          <Link href={"/about"} prefetch>
+                          <Link href={`/products`} prefetch>
                             {t("readMore")}
                           </Link>
                         </Button>

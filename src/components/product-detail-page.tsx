@@ -13,7 +13,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Zap, Shield, Award } from "lucide-react";
+import { Zap, Shield, Award, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { ProductDetailsApiResponse } from "@/app/types/productApiTypes";
@@ -243,9 +243,38 @@ export function ProductDetailPage({
                   src={productImages[currentImageIndex] || "/placeholder.svg"}
                   alt={productData.name}
                   fill
-                  className="object-contain lg:object-cover"
+                  className="object-fill lg:object-fill"
                 />
+
+                {/* Left Arrow */}
+                {productImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={() =>
+                        setCurrentImageIndex((prev) =>
+                          prev === 0 ? productImages.length - 1 : prev - 1
+                        )
+                      }
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+
+                    {/* Right Arrow */}
+                    <button
+                      onClick={() =>
+                        setCurrentImageIndex((prev) =>
+                          prev === productImages.length - 1 ? 0 : prev + 1
+                        )
+                      }
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
               </div>
+
               {/* Thumbnail Gallery */}
               {productImages.length > 1 && (
                 <div className="flex gap-2 overflow-x-auto">
@@ -257,7 +286,7 @@ export function ProductDetailPage({
                       className={cn(
                         "relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-[3px] transition-all bg-secondary/5",
                         index === currentImageIndex
-                          ? "border-brand-primary"
+                          ? "border-[#d61414]"
                           : "border-transparent hover:border-brand-primary"
                       )}
                       suppressHydrationWarning
@@ -266,7 +295,7 @@ export function ProductDetailPage({
                         src={image || "/placeholder.svg"}
                         alt={`${productData.name} ${index + 1}`}
                         fill
-                        className="object-contain lg:object-cover"
+                        className="object-cover lg:object-cover"
                       />
                     </button>
                   ))}
@@ -275,20 +304,20 @@ export function ProductDetailPage({
             </div>
 
             {/* Product Info */}
-            <div className="space-y-6">
+            <div className="flex flex-col gap-6">
               <div>
                 {productData.category_name && (
-                  <Badge className="mb-4 p-2 text-sm">
+                  <Badge className="mb-6 p-2 text-sm">
                     {productData.category_name}
                   </Badge>
                 )}
-                <h1 className="text-3xl lg:text-4xl font-bold font-display mb-3 bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
+                <h1 className="text-3xl lg:text-4xl font-bold font-display bg-gradient-to-b from-brand-accent-light to-brand-quaternary bg-clip-text text-transparent !leading-[1.25]">
                   {productData.name}
                 </h1>
               </div>
 
               {/* Features */}
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 gap-8">
                 {features.map((feature, index) => (
                   <div
                     key={index}
