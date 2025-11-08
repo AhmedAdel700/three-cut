@@ -20,8 +20,6 @@ export function ParallaxSection({
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
-    // Optimize scroll listener performance
-    layoutEffect: false,
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", `${speed * 100}%`], {

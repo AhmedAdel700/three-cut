@@ -10,7 +10,7 @@ import {
   CarouselItem,
   CarouselApi,
 } from "@/components/ui/carousel";
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useState, useRef } from "react";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,15 +19,17 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
   const isRTL = locale === "ar";
   const [api, setApi] = useState<CarouselApi>();
   const t = useTranslations("home");
+  const sectionRef = useRef(null);
 
-  // Optimize scroll listener - only track when component is visible
-  const { scrollY } = useScroll({
-    layoutEffect: false,
+  // Optimize scroll listener - scope to section element
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
   });
   const scale = useTransform(
-    scrollY, 
-    [0, 300, 600], 
-    [1, 0.98, 0.96],
+    scrollYProgress, 
+    [0, 1], 
+    [1, 0.96],
     { clamp: true }
   );
 
@@ -39,7 +41,7 @@ export function PartnerCarousel({ partnersData }: { partnersData?: any }) {
   }, [api]);
 
   return (
-    <motion.section className="pt-12" style={{ scale }}>
+    <motion.section ref={sectionRef} className="pt-12" style={{ scale }}>
       <div className="container mx-auto px-4 lg:px-6">
         {/* ---------- Header ---------- */}
         <motion.div
