@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Link } from "@/navigations";
 import { ContactPageResponse } from "@/app/types/contactApiTypes";
 import { sendContactData } from "@/app/api/contactService";
+import { LeafletMap } from "@/components/LeafletMap";
 
 const noFocus =
   "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0";
@@ -304,13 +305,10 @@ export function ContactPage({
 
               <CardContent className="!p-0">
                 <div className="relative h-[28rem]">
-                  <iframe
-                    title={t("mapTitle")}
-                    src={`${info.map_embed}`}
-                    className="absolute inset-0 w-full h-full border-0"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    allowFullScreen
+                  <LeafletMap
+                    lat={30.051083}
+                    lng={31.3495}
+                    address="Three Cuts CNC Machines"
                   />
                 </div>
 
