@@ -65,8 +65,10 @@
   body {
     color: var(--color-light-gray);
     background:
-      /* red gradient at bottom */
-      linear-gradient(180deg, var(--color-red-dark));
+      /* red gradient at bottom */ linear-gradient(
+      180deg,
+      var(--color-red-dark)
+    );
     min-height: 100vh;
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
     /* Optimize scrolling performance */
@@ -74,7 +76,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
-  
+
   /* Optimize scroll performance */
   html {
     scroll-padding-top: 80px;
@@ -111,42 +113,36 @@
     @apply scale-105 shadow-2xl;
   } */
 
-.section-bg,
-.dark-section-bg {
-  background:
-    /* dark overlay on top */
-    linear-gradient(135deg,
-      rgba(0, 0, 0, 0.85) 0%,
-      rgba(31, 35, 39, 0.9) 25%,
-      rgba(48, 53, 59, 0.8) 50%,
-      rgba(31, 35, 39, 0.9) 75%,
-      rgba(0, 0, 0, 0.85) 100%),
-    /* red gradient at bottom */
-    linear-gradient(180deg, var(--color-red-dark));
-  background-blend-mode: normal;
-  /* Reduced backdrop-filter for better performance */
-  backdrop-filter: blur(4px);
-  /* Optimize rendering */
-  will-change: background;
-}
+  .section-bg,
+  .dark-section-bg {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(31, 35, 39, 0.9) 25%,
+        rgba(48, 53, 59, 0.8) 50%,
+        rgba(31, 35, 39, 0.9) 75%,
+        rgba(0, 0, 0, 0.85) 100%
+      ),
+      linear-gradient(180deg, var(--color-red-dark));
 
-/* Removed scroll-behavior for better performance */
-/* Smooth scrolling can be handled via JavaScript if needed */
+    background-blend-mode: normal;
+    background-attachment: fixed;
+  }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--color-red-dark);
-}
+  ::-webkit-scrollbar-track {
+    background: var(--color-red-dark);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--color-black);
-  border-radius: 6px;
-}
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-black);
+    border-radius: 6px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-dark-gray-dark);
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark-gray-dark);
+  }
 }

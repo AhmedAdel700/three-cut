@@ -306,7 +306,7 @@ export function ContactPage({
                 <div className="relative h-[28rem]">
                   <iframe
                     title={t("mapTitle")}
-                    src={info.map_embed}
+                    src={`${info.map_embed}`}
                     className="absolute inset-0 w-full h-full border-0"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
