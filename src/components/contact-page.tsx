@@ -275,7 +275,7 @@ export function ContactPage({
                             >
                               {detail}
                               {info.action.startsWith("http") && (
-                                <ExternalLink className="h-3 w-3 ml-1 inline" />
+                                <ExternalLink className="h-3 w-3 ms-1 inline" />
                               )}
                             </Link>
                           ) : (
