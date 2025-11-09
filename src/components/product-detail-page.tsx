@@ -243,7 +243,7 @@ export function ProductDetailPage({
                   src={productImages[currentImageIndex] || "/placeholder.svg"}
                   alt={productData.name}
                   fill
-                  className="object-fill lg:object-fill"
+                  className="object-contain lg:object-cover"
                 />
 
                 {/* Left Arrow */}
