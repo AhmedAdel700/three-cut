@@ -165,13 +165,6 @@ export function ProductDetailPage({
     return /^https?:\/\//.test(url) || url.startsWith("/");
   };
 
-  // Create images array from product data with validation
-  const productImages = [
-    productData.image,
-    ...(productData.alt_image ? [productData.alt_image] : []),
-    ...(productData.images?.map((img) => img.image) || []),
-  ].filter((img) => img && isValidImageUrl(img));
-
   const features = [
     {
       icon: Zap,
