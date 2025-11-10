@@ -1,3 +1,4 @@
+/* -------------------- Main Response -------------------- */
 export interface ProductDetailsApiResponse {
   seo: SeoItem[];
   success: boolean;
@@ -15,23 +16,18 @@ export interface SeoItem {
   "@type"?: string;
   name?: string;
   description?: string;
-  image?: string;
   url?: string;
-  brand?: {
+  logo?: {
     "@type"?: string;
-    name?: string;
-  };
-  offers?: {
-    "@type"?: string;
-    price?: string;
-    priceCurrency?: string;
-    availability?: string;
     url?: string;
   };
-  aggregateRating?: {
+  image?: string;
+  sameAs?: string[];
+  contactPoint?: {
     "@type"?: string;
-    ratingValue?: string;
-    reviewCount?: string;
+    telephone?: string;
+    contactType?: string;
+    availableLanguage?: string[];
   };
 
   // Meta tags
@@ -67,40 +63,45 @@ export interface ProductData {
   short_desc: string;
   long_desc: string;
   image: string;
+  pdf: string | null;
+  youtube_link: string | null;
   alt_image: string | null;
   icon: string;
   alt_icon: string | null;
-  category_id: number | null;
+  category_id: number | string | null;
   category_name: string | null;
   slug: string;
   images: ProductImage[];
   tabs: ProductTab[];
 }
 
+/* -------------------- Images -------------------- */
 export interface ProductImage {
   image: string;
 }
 
+/* -------------------- Tabs -------------------- */
 export interface ProductTab {
   id: number;
   title: string;
   short_description: string | null;
   long_description: string | null;
-  image: string;
+  image: string | null;
   alt_image: string | null;
-  icon: string;
+  icon: string | null;
   alt_icon: string | null;
   benefits: ProductBenefit[];
 }
 
+/* -------------------- Benefits -------------------- */
 export interface ProductBenefit {
   id: number;
   title: string;
   short_description: string | null;
   long_description: string | null;
-  image: string;
+  image: string | null;
   alt_image: string | null;
-  icon: string;
+  icon: string | null;
   alt_icon: string | null;
-  benefits: ProductBenefit[]; // Recursive (nested)
+  benefits: ProductBenefit[]; // Recursive nesting allowed
 }

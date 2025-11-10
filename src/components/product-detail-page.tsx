@@ -208,6 +208,17 @@ export function ProductDetailPage({
           },
         ];
 
+  const getYoutubeEmbedUrl = (url: string) => {
+    if (!url) return "";
+
+    // If already in embed format, return as is
+    if (url.includes("youtube.com/embed")) return url;
+
+    // Extract video ID from youtu.be or youtube.com/watch?v=...
+    const match = url.match(/(?:youtu\.be\/|v=)([\w-]+)/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : "";
+  };
+
   return (
     <div className="min-h-fit section-bg">
       <section className="pt-32">
@@ -367,11 +378,38 @@ export function ProductDetailPage({
                     {tab.title}
                   </Button>
                 ))}
+
+                {/* Video Tab */}
+                {productData.youtube_link && (
+                  <Button
+                    variant={activeTab === tabs.length ? "default" : "ghost"}
+                    onClick={() => setActiveTab(tabs.length)}
+                    className={cn(
+                      "rounded-2xl whitespace-nowrap mb-2 sm:mb-0",
+                      activeTab === tabs.length &&
+                        "bg-gradient-to-r from-brand-secondary to-brand-accent-red text-brand-neutral-white text-xs sm:text-sm lg:text-base"
+                    )}
+                  >
+                    {t("Video")}
+                  </Button>
+                )}
+
+                {/* Download PDF Button */}
+                {productData.pdf && (
+                  <a
+                    href={productData.pdf}
+                    download
+                    target="_blank"
+                    className="rounded-2xl mb-2 sm:mb-0 bg-gray-200 text-gray-800 hover:bg-gray-300 inline-block"
+                  >
+                    <Button className="w-full">{t("Download PDF")}</Button>
+                  </a>
+                )}
               </div>
             </CardHeader>
 
             <CardContent>
-              {tabs[activeTab] && (
+              {activeTab < tabs.length && tabs[activeTab] && (
                 <div className="prose prose-gray dark:prose-invert max-w-none">
                   {/* Tab Image */}
                   {tabs[activeTab].image &&
@@ -457,22 +495,20 @@ export function ProductDetailPage({
                         </div>
                       </div>
                     )}
+                </div>
+              )}
 
-                  {/* Video Embed - Only show if no content in tab */}
-                  {!tabs[activeTab].long_description &&
-                    !tabs[activeTab].short_description &&
-                    tabs[activeTab].id === -1 && (
-                      <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
-                        <iframe
-                          className="absolute top-0 left-0 w-full h-full"
-                          src="https://www.youtube.com/embed/R29G3hUiZnU?autoplay=0&rel=0"
-                          title="YouTube video"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                    )}
+              {/* Video Tab Content */}
+              {activeTab === tabs.length && productData.youtube_link && (
+                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full"
+                    src={getYoutubeEmbedUrl(productData.youtube_link)}
+                    title="Product Video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
               )}
             </CardContent>
