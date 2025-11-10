@@ -219,6 +219,21 @@ export function ProductDetailPage({
     return match ? `https://www.youtube.com/embed/${match[1]}` : "";
   };
 
+  // Create images array with title
+  const productImagesWithTitles = [
+    {
+      url: productData.image,
+      title: productData.name,
+    },
+    ...(productData.alt_image
+      ? [{ url: productData.alt_image, title: productData.name }]
+      : []),
+    ...(productData.images?.map((img) => ({
+      url: img.image,
+      title: img.title || productData.name,
+    })) || []),
+  ].filter((img) => img.url && isValidImageUrl(img.url));
+
   return (
     <div className="min-h-fit section-bg">
       <section className="pt-32">
@@ -249,21 +264,31 @@ export function ProductDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             {/* Image Gallery */}
             <div className="space-y-4">
-              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden bg-secondary/5">
+              <div className="relative h-52 lg:h-[400px] rounded-2xl overflow-hidden bg-secondary/5">
                 <Image
-                  src={productImages[currentImageIndex] || "/placeholder.svg"}
-                  alt={productData.name}
+                  src={
+                    productImagesWithTitles[currentImageIndex].url ||
+                    "/placeholder.svg"
+                  }
+                  alt={productImagesWithTitles[currentImageIndex].title}
                   fill
-                  className="object-contain"
+                  className="object-contain lg:object-cover"
                 />
 
+                {/* Image Title Overlay */}
+                <div className="absolute bottom-0 left-0 w-full bg-black/50 text-white text-sm sm:text-base lg:text-lg text-center py-2">
+                  {productImagesWithTitles[currentImageIndex].title}
+                </div>
+
                 {/* Left Arrow */}
-                {productImages.length > 1 && (
+                {productImagesWithTitles.length > 1 && (
                   <>
                     <button
                       onClick={() =>
                         setCurrentImageIndex((prev) =>
-                          prev === 0 ? productImages.length - 1 : prev - 1
+                          prev === 0
+                            ? productImagesWithTitles.length - 1
+                            : prev - 1
                         )
                       }
                       className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition"
@@ -275,7 +300,9 @@ export function ProductDetailPage({
                     <button
                       onClick={() =>
                         setCurrentImageIndex((prev) =>
-                          prev === productImages.length - 1 ? 0 : prev + 1
+                          prev === productImagesWithTitles.length - 1
+                            ? 0
+                            : prev + 1
                         )
                       }
                       className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/80 hover:bg-black text-white flex items-center justify-center transition"
@@ -287,9 +314,9 @@ export function ProductDetailPage({
               </div>
 
               {/* Thumbnail Gallery */}
-              {productImages.length > 1 && (
+              {productImagesWithTitles.length > 1 && (
                 <div className="flex gap-2 overflow-x-auto">
-                  {productImages.map((image, index) => (
+                  {productImagesWithTitles.map((img, index) => (
                     <button
                       key={index}
                       type="button"
@@ -303,8 +330,8 @@ export function ProductDetailPage({
                       suppressHydrationWarning
                     >
                       <Image
-                        src={image || "/placeholder.svg"}
-                        alt={`${productData.name} ${index + 1}`}
+                        src={img.url || "/placeholder.svg"}
+                        alt={img.title}
                         fill
                         className="object-cover lg:object-cover"
                       />

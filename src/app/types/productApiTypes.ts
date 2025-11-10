@@ -78,6 +78,7 @@ export interface ProductData {
 /* -------------------- Images -------------------- */
 export interface ProductImage {
   image: string;
+  title: string;
 }
 
 /* -------------------- Tabs -------------------- */
