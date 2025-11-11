@@ -438,7 +438,6 @@ export function ProductDetailPage({
                     <div
                       className={cn(
                         tabs[activeTab].long_description?.includes("<table") &&
-                          // ✅ keep only your table styling here
                           "w-full overflow-x-auto " +
                             "[&_table]:w-full [&_table]:border-collapse [&_table]:mt-1 [&_table]:rounded-none [&_table]:overflow-hidden px-2 " +
                             "[&_table]:border [&_table]:border-white " +
@@ -515,15 +514,31 @@ export function ProductDetailPage({
 
               {/* Video Tab Content */}
               {activeTab === tabs.length && productData.youtube_link && (
-                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden rounded-lg shadow-md mt-6">
-                  <iframe
-                    className="absolute top-0 left-0 w-full h-full"
-                    src={getYoutubeEmbedUrl(productData.youtube_link)}
-                    title="Product Video"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                <div className="flex flex-col lg:flex-row gap-6 mt-6">
+                  {/* Video Description - 50% on large screens */}
+                  {productData.video_desc && (
+                    <div className="w-full lg:w-1/2">
+                      <div className="prose prose-sm sm:prose max-w-none">
+                        <p className="text-gray-700 whitespace-pre-wrap">
+                          {productData.video_desc}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Video Player - 50% on large screens */}
+                  <div className="w-full lg:w-1/2">
+                    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[400px] xl:h-[500px] overflow-hidden rounded-lg shadow-md">
+                      <iframe
+                        className="absolute top-0 left-0 w-full h-full"
+                        src={getYoutubeEmbedUrl(productData.youtube_link)}
+                        title="Product Video"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
             </CardContent>

@@ -65,6 +65,7 @@ export interface ProductData {
   image: string;
   pdf: string | null;
   youtube_link: string | null;
+  video_desc: string | null;
   alt_image: string | null;
   icon: string;
   alt_icon: string | null;
