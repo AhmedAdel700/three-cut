@@ -385,7 +385,7 @@ export function ProductDetailPage({
           {/* Detailed Information Tabs */}
           <Card className="pb-10">
             <CardHeader className="!px-0">
-              <div className="flex flex-wrap items-center justify-start border-b border-border/50 pb-4 ps-4 sm:gap-3">
+              <div className="flex flex-wrap items-center justify-start border-b border-border/50 pb-4 ps-1 sm:ps-4 sm:gap-3">
                 {tabs.map((tab, index) => (
                   <Button
                     key={tab.id}
@@ -422,7 +422,7 @@ export function ProductDetailPage({
                     href={productData.pdf}
                     download
                     target="_blank"
-                    className="rounded-2xl mb-2 sm:mb-0 bg-gray-200 text-gray-800 hover:bg-gray-300 inline-block"
+                    className="rounded-2xl ms-3 mb-2 sm:mb-0 bg-gray-200 text-gray-800 hover:bg-gray-300 inline-block"
                   >
                     <Button className="w-full">{t("Download PDF")}</Button>
                   </a>
@@ -530,8 +530,8 @@ export function ProductDetailPage({
                   )}
 
                   {/* Video Player - 50% on large screens */}
-                  <div className="w-full lg:w-1/2">
-                    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[400px] xl:h-[500px] overflow-hidden rounded-lg shadow-md">
+                  <div className="w-full lg:w-1/2 border border-white/50 rounded-md">
+                    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[400px] xl:h-[500px] overflow-hidden rounded-md shadow-md">
                       <iframe
                         className="absolute top-0 left-0 w-full h-full"
                         src={getYoutubeEmbedUrl(productData.youtube_link)}
