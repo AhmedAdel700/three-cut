@@ -518,10 +518,13 @@ export function ProductDetailPage({
                   {/* Video Description - 50% on large screens */}
                   {productData.video_desc && (
                     <div className="w-full lg:w-1/2">
-                      <div className="prose prose-sm sm:prose max-w-none">
-                        <p className="text-gray-700 whitespace-pre-wrap">
-                          {productData.video_desc}
-                        </p>
+                      <div>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: productData.video_desc,
+                          }}
+                          suppressHydrationWarning
+                        />
                       </div>
                     </div>
                   )}
