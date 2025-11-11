@@ -28,6 +28,8 @@ export function ProductDetailPage({
   const t = useTranslations("products");
   const productData = product.data.product.data;
 
+  console.log(productData);
+
   // Clean HTML content and ensure proper table structure
   const cleanTableHTML = (html: string) => {
     if (!html) return html;
@@ -430,26 +432,13 @@ export function ProductDetailPage({
 
             <CardContent>
               {activeTab < tabs.length && tabs[activeTab] && (
-                <div className="prose prose-gray dark:prose-invert max-w-none">
-                  {/* Tab Image */}
-                  {tabs[activeTab].image &&
-                    isValidImageUrl(tabs[activeTab].image) && (
-                      <div className="relative w-full h-[300px] sm:h-[400px] rounded-lg overflow-hidden mb-6">
-                        <Image
-                          src={tabs[activeTab].image}
-                          alt={tabs[activeTab].title}
-                          fill
-                          className="object-contain lg:object-cover"
-                        />
-                      </div>
-                    )}
-
+                <div>
                   {/* Long Description */}
                   {tabs[activeTab].long_description && (
                     <div
                       className={cn(
-                        "text-muted-foreground leading-relaxed",
                         tabs[activeTab].long_description?.includes("<table") &&
+                          // ✅ keep only your table styling here
                           "w-full overflow-x-auto " +
                             "[&_table]:w-full [&_table]:border-collapse [&_table]:mt-1 [&_table]:rounded-none [&_table]:overflow-hidden px-2 " +
                             "[&_table]:border [&_table]:border-white " +
@@ -458,6 +447,12 @@ export function ProductDetailPage({
                             "[&_thead]:bg-white/10 " +
                             "[&_tbody_tr]:bg-transparent [&_tbody_tr:hover]:bg-white/10 [&_tbody_tr]:transition-colors"
                       )}
+                      style={{
+                        all: "revert",
+                        display: "block",
+                        fontFamily: "inherit",
+                        color: "inherit",
+                      }}
                       dangerouslySetInnerHTML={{
                         __html:
                           typeof window !== "undefined"
