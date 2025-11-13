@@ -74,12 +74,22 @@ export function Footer({
 
   // Dynamic contact info
   const contactInfo = [
-    ...(settings?.whatsapp
+    ...(settings?.phone
       ? [
           {
             icon: Phone,
-            label: settings.whatsapp,
-            href: `https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`,
+            label: settings.phone,
+            // href: `https://wa.me/${settings.phone.replace(/[^0-9]/g, "")}`,
+            href: `tel:${settings.phone.replace(/[^0-9]/g, "")}`,
+          },
+        ]
+      : []),
+    ...(settings?.phone2
+      ? [
+          {
+            icon: Phone,
+            label: settings.phone2,
+            href: `tel:${settings.phone2.replace(/[^0-9]/g, "")}`,
           },
         ]
       : []),

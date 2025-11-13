@@ -24,6 +24,8 @@ export interface Setting {
   pinterest?: string;
   telegram?: string;
   map?: string;
+  phone?: string;
+  phone2?: string;
   google_analytics_id?: string;
   google_tag_manager_id?: string;
 }

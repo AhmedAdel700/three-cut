@@ -75,8 +75,8 @@ export function ContactPage({
     {
       icon: Phone,
       title: t("phone"),
-      details: [info.phone].filter(Boolean),
-      action: `tel:${info.phone}`,
+      details: [info?.phone, info?.phone2].filter(Boolean),
+      action: (detail: string) => `tel:${detail}`,
     },
     {
       icon: Mail,
@@ -254,36 +254,37 @@ export function ContactPage({
                       <h3 className="font-semibold text-brand-neutral-white mb-2">
                         {info.title}
                       </h3>
-                      {info.details.map((detail, j) => (
-                        <p
-                          key={j}
-                          className="text-sm text-brand-neutral-light/80 mb-1"
-                        >
-                          {info.action ? (
-                            <Link
-                              href={info.action}
-                              className="hover:text-brand-accent-light transition-colors"
-                              target={
-                                info.action.startsWith("http")
-                                  ? "_blank"
-                                  : undefined
-                              }
-                              rel={
-                                info.action.startsWith("http")
-                                  ? "noopener noreferrer"
-                                  : undefined
-                              }
-                            >
-                              {detail}
-                              {info.action.startsWith("http") && (
-                                <ExternalLink className="h-3 w-3 ms-1 inline" />
-                              )}
-                            </Link>
-                          ) : (
-                            detail
-                          )}
-                        </p>
-                      ))}
+                      {info.details.map((detail, j) => {
+                        const href =
+                          typeof info.action === "function"
+                            ? info.action(detail)
+                            : info.action;
+                        return (
+                          <p
+                            key={j}
+                            className="text-sm text-brand-neutral-light/80 mb-1"
+                          >
+                            {href ? (
+                              <Link
+                                href={href}
+                                className="hover:text-brand-accent-light transition-colors"
+                                target={
+                                  detail.startsWith("http") ? "_blank" : undefined
+                                }
+                                rel={
+                                  detail.startsWith("http")
+                                    ? "noopener noreferrer"
+                                    : undefined
+                                }
+                              >
+                                {detail}
+                              </Link>
+                            ) : (
+                              detail
+                            )}
+                          </p>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}

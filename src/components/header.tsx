@@ -149,15 +149,26 @@ export function Header({
         <div className="border-t border-white/20 w-full mt-2 mb-6"></div>
 
         <div className="flex flex-col gap-4">
-          {setting?.whatsapp && (
+          {setting?.phone && (
             <Link
-              href={`tel:${setting.whatsapp}`}
+              href={`tel:${setting.phone}`}
               className="flex items-center gap-4 text-white/90 hover:text-white/80"
             >
               <Phone className="w-5 h-5" />
-              <span dir="ltr">{setting.whatsapp}</span>
+              <span dir="ltr">{setting.phone}</span>
             </Link>
           )}
+
+          {setting?.phone2 && (
+            <Link
+              href={`tel:${setting.phone2}`}
+              className="flex items-center gap-4 text-white/90 hover:text-white/80"
+            >
+              <Phone className="w-5 h-5" />
+              <span dir="ltr">{setting.phone2}</span>
+            </Link>
+          )}
+
           {setting?.email && (
             <Link
               href={`mailto:${setting.email}`}
