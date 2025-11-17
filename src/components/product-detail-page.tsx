@@ -427,7 +427,7 @@ export function ProductDetailPage({
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button className="w-full justify-between rounded-2xl bg-gray-200 text-gray-800 hover:bg-gray-300">
-                          {t("Select a PDF")}
+                          {t("Download Specification")}
                           <ChevronDown className="w-4 h-4" />
                         </Button>
                       </DropdownMenuTrigger>
