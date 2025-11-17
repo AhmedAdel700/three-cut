@@ -3,19 +3,27 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocale } from "next-intl";
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { Link } from "@/navigations";
 import { PhoneCall, MessageCircle, X } from "lucide-react";
 import whatsAppIcon from "@/app/assets/whatsApp.png";
 import Image from "next/image";
+import { PhonesResponse, PhoneItem } from "@/app/types/phoneApiTypes";
 
-export default function CallToAction() {
+export default function CallToAction({
+  phonesData,
+}: {
+  phonesData: PhonesResponse;
+}) {
   const locale = useLocale();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const toggleExpanded = () => setIsExpanded(!isExpanded);
+
+  // extract phones safely
+  const phones = phonesData?.data?.phones || [];
+
+  // helper cleaners
+  const cleanNumber = (num: string) => num.replace(/[^0-9]/g, "");
 
   return (
     <motion.div
@@ -26,7 +34,7 @@ export default function CallToAction() {
         locale === "en" ? "left-5" : "right-5"
       } bottom-5 flex flex-col gap-3 z-[100]`}
     >
-      {/* Contact buttons container */}
+      {/* Expanded contact buttons */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -36,54 +44,58 @@ export default function CallToAction() {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="flex flex-col gap-3"
           >
-            {/* WhatsApp Button */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0, x: locale === "en" ? -20 : 20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0, x: locale === "en" ? -20 : 20 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              <button className="ms-1 w-12 h-12 rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm">
-                <Link
-                  href="https://wa.me/201234567890"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Chat on WhatsApp"
-                  className="flex items-center justify-center w-full h-full !p-0"
-                >
-                  <Image
-                    src={whatsAppIcon}
-                    alt="WhatsApp Icon"
-                    width={24}
-                    height={24}
-                    className="w-6 h-6 object-contain"
-                  />
-                </Link>
-              </button>
-            </motion.div>
-
-            {/* Phone Button */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0, x: locale === "en" ? -20 : 20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0, x: locale === "en" ? -20 : 20 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              <button className="ms-1 w-12 h-12 rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm">
-                <Link
-                  href="tel:+201234567890"
-                  aria-label="Call us"
-                  className="flex items-center justify-center w-full h-full !p-0"
-                >
-                  <PhoneCall size={24} className="w-5 h-5" />
-                </Link>
-              </button>
-            </motion.div>
+            {/* Loop all phones from API */}
+            {phones.map((item: PhoneItem, idx: number) => (
+              <motion.div
+                key={item.id}
+                initial={{
+                  opacity: 0,
+                  scale: 0,
+                  x: locale === "en" ? -20 : 20,
+                }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{
+                  opacity: 0,
+                  scale: 0,
+                  x: locale === "en" ? -20 : 20,
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeOut",
+                  delay: idx * 0.05,
+                }}
+              >
+                <button className="ms-1 w-12 h-12 rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm">
+                  <Link
+                    href={
+                      item.type === "whatsapp"
+                        ? `https://wa.me/${cleanNumber(item.phone)}`
+                        : `tel:${cleanNumber(item.phone)}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-full h-full !p-0"
+                  >
+                    {item.type === "whatsapp" ? (
+                      <Image
+                        src={whatsAppIcon}
+                        alt="WhatsApp Icon"
+                        width={24}
+                        height={24}
+                        className="w-6 h-6 object-contain"
+                      />
+                    ) : (
+                      <PhoneCall size={24} className="w-5 h-5" />
+                    )}
+                  </Link>
+                </button>
+              </motion.div>
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main toggle button */}
+      {/* Main Floating Button */}
       <motion.div
         initial={{ scale: 1 }}
         whileHover={{ scale: 1.1, transition: { duration: 0.2 } }}
@@ -92,9 +104,6 @@ export default function CallToAction() {
         <button
           onClick={toggleExpanded}
           className="w-14 h-14 flex justify-center items-center rounded-full bg-gradient-to-br from-brand-primary via-brand-secondary to-brand-tertiary hover:from-brand-secondary hover:via-brand-tertiary hover:to-brand-primary text-brand-neutral-white shadow-2xl hover:shadow-brand-primary/25 transition-all duration-300 border-0 backdrop-blur-sm"
-          aria-label={
-            isExpanded ? "Close contact options" : "Open contact options"
-          }
         >
           <motion.div
             animate={{ rotate: isExpanded ? 45 : 0 }}
@@ -104,7 +113,6 @@ export default function CallToAction() {
               <X size={36} className="w-7 h-7" />
             ) : (
               <MessageCircle size={32} className="w-6 h-6" />
-
             )}
           </motion.div>
         </button>

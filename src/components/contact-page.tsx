@@ -16,18 +16,24 @@ import { Link } from "@/navigations";
 import { ContactPageResponse } from "@/app/types/contactApiTypes";
 import { sendContactData } from "@/app/api/contactService";
 import { LeafletMap } from "@/components/LeafletMap";
+import { PhoneItem, PhonesResponse } from "@/app/types/phoneApiTypes";
+import whatsApp from "@/app/assets/whatsApp.png";
+import Image from "next/image";
 
 const noFocus =
   "focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0";
 
 export function ContactPage({
   contactData,
+  phonesData,
 }: {
   contactData: ContactPageResponse;
+  phonesData: PhonesResponse;
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const t = useTranslations("contact");
   const locale = useLocale();
+
   const contactFormSchema = z.object({
     name: z.string().min(2, t("Name must be at least 2 characters")),
     email: z.string().email(t("Please enter a valid email address")),
@@ -47,7 +53,6 @@ export function ContactPage({
     setIsSubmitting(true);
     try {
       const res = await sendContactData(data, locale);
-
       if (!res.success) throw new Error(res.message);
 
       toast.success(t("toast.successTitle"), {
@@ -73,22 +78,24 @@ export function ContactPage({
 
   const contactInfo = [
     {
-      icon: Phone,
       title: t("phone"),
-      details: [info?.phone, info?.phone2].filter(Boolean),
-      action: (detail: string) => `tel:${detail}`,
+      items: phonesData?.data?.phones || [],
+      action: (item: PhoneItem) =>
+        item.type === "phone"
+          ? `tel:${item.phone}`
+          : `https://wa.me/${item.phone}`,
     },
     {
       icon: Mail,
       title: t("email"),
-      details: [info.email],
-      action: `mailto:${info.email}`,
+      items: [{ id: 0, phone: info.email, type: "email" }],
+      action: (item: PhoneItem) => `mailto:${item.phone}`,
     },
     {
       icon: MapPin,
       title: t("address"),
-      details: [info.address],
-      action: info.map_link,
+      items: [{ id: 0, phone: info.address, type: "address" }],
+      action: () => info.map_link,
     },
   ];
 
@@ -245,49 +252,66 @@ export function ContactPage({
               </CardHeader>
 
               <CardContent className="space-y-6 pt-6">
-                {contactInfo.map((info, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-tertiary to-brand-accent-red flex items-center justify-center">
-                      <info.icon className="h-6 w-6 text-brand-neutral-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-brand-neutral-white mb-2">
-                        {info.title}
-                      </h3>
-                      {info.details.map((detail, j) => {
-                        const href =
-                          typeof info.action === "function"
-                            ? info.action(detail)
-                            : info.action;
-                        return (
-                          <p
-                            key={j}
-                            className="text-sm text-brand-neutral-light/80 mb-1"
-                          >
-                            {href ? (
+                {contactInfo.map((infoSection, i) => {
+                  const firstItem = infoSection.items[0];
+
+                  // Main icon only
+                  const MainIcon =
+                    firstItem?.type === "whatsapp" ? (
+                      <Image
+                        src={whatsApp}
+                        width={24}
+                        height={24}
+                        alt="WhatsApp"
+                        className="w-6 h-6"
+                      />
+                    ) : firstItem?.type === "phone" ? (
+                      <Phone className="h-6 w-6 text-brand-neutral-white" />
+                    ) : infoSection.icon ? (
+                      <infoSection.icon className="h-6 w-6 text-brand-neutral-white" />
+                    ) : null;
+
+                  return (
+                    <div key={i} className="flex items-start gap-4">
+                      {/* Main icon */}
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-tertiary to-brand-accent-red flex items-center justify-center">
+                        {MainIcon}
+                      </div>
+
+                      {/* Title + Details */}
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-brand-neutral-white mb-2">
+                          {infoSection.title}
+                        </h3>
+
+                        {infoSection.items.map((item, j) => {
+                          const href = infoSection.action(item);
+                          return (
+                            <p
+                              key={j}
+                              className="text-sm text-brand-neutral-light/80 mb-1"
+                            >
                               <Link
                                 href={href}
                                 className="hover:text-brand-accent-light transition-colors"
                                 target={
-                                  detail.startsWith("http") ? "_blank" : undefined
+                                  href.startsWith("http") ? "_blank" : undefined
                                 }
                                 rel={
-                                  detail.startsWith("http")
+                                  href.startsWith("http")
                                     ? "noopener noreferrer"
                                     : undefined
                                 }
                               >
-                                {detail}
+                                {item.phone}
                               </Link>
-                            ) : (
-                              detail
-                            )}
-                          </p>
-                        );
-                      })}
+                            </p>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </CardContent>
             </Card>
           </div>

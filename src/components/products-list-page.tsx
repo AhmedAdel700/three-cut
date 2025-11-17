@@ -16,11 +16,15 @@ import { Filter, Grid, List, ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { ProductsApiResponse } from "@/app/types/productsApiTypes";
+import { PhonesResponse } from "@/app/types/phoneApiTypes";
+import CallToAction from "./CallToAction";
 
 export function ProductsListPage({
   productsData,
+  phonesData,
 }: {
   productsData: ProductsApiResponse;
+  phonesData: PhonesResponse;
 }) {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -44,6 +48,7 @@ export function ProductsListPage({
     <div className="min-h-fit">
       {/* Hero Section */}
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
+        <CallToAction phonesData={phonesData} />
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"

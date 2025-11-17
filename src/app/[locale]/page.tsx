@@ -7,6 +7,7 @@ import { ContactTeaser } from "@/components/contact-teaser";
 import { FloatingActionButton } from "@/components/ui/floating-action-button";
 import { fetchHomeData } from "../api/homeService";
 import { Metadata } from "next";
+import { fetchPhonesData } from "../api/phoneService";
 
 export async function generateMetadata({
   params,
@@ -58,10 +59,13 @@ export default async function Home({
 }) {
   const { locale } = await params;
   const homeData = await fetchHomeData(locale);
-  console.log(homeData);
+  const phonesData = await fetchPhonesData(locale);
   return (
     <>
-      <HeroCarousel heroData={homeData.data.sliders.data} />
+      <HeroCarousel
+        heroData={homeData.data.sliders.data}
+        phonesData={phonesData}
+      />
       <AboutSection
         aboutData={homeData.data.about.data}
         aboutStructsData={homeData.data.about_structs.data}

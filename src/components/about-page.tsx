@@ -9,8 +9,15 @@ import { useTranslations } from "next-intl";
 import CallToAction from "./CallToAction";
 import Image from "next/image";
 import { AboutPageResponse } from "@/app/types/aboutApiTypes";
+import { PhonesResponse } from "@/app/types/phoneApiTypes";
 
-export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
+export function AboutPage({
+  aboutData,
+  phonesData,
+}: {
+  aboutData: AboutPageResponse;
+  phonesData: PhonesResponse;
+}) {
   const t = useTranslations("about");
 
   const about = aboutData?.data?.about?.data;
@@ -18,7 +25,7 @@ export function AboutPage({ aboutData }: { aboutData: AboutPageResponse }) {
 
   return (
     <div className="min-h-screen border-b">
-      <CallToAction />
+      <CallToAction phonesData={phonesData} />
 
       {/* Hero Section */}
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">

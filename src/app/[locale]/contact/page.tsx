@@ -1,4 +1,5 @@
 import { fetchContactData } from "@/app/api/contactService";
+import { fetchPhonesData } from "@/app/api/phoneService";
 import ContactPage from "@/components/contact-page";
 import { Metadata } from "next";
 
@@ -52,5 +53,6 @@ export default async function Contact({
 }) {
   const { locale } = await params;
   const contactData = await fetchContactData(locale);
-  return <ContactPage contactData={contactData} />;
+  const phonesData = await fetchPhonesData(locale);
+  return <ContactPage contactData={contactData} phonesData={phonesData} />;
 }

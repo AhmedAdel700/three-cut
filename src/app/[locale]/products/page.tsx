@@ -1,3 +1,4 @@
+import { fetchPhonesData } from "@/app/api/phoneService";
 import { fetchProductsData } from "@/app/api/productService";
 import { ProductsListPage } from "@/components/products-list-page";
 import { Metadata } from "next";
@@ -50,5 +51,8 @@ export default async function ProductsPage({
 }) {
   const { locale } = await params;
   const productsData = await fetchProductsData(locale);
-  return <ProductsListPage productsData={productsData} />;
+  const phonesData = await fetchPhonesData(locale);
+  return (
+    <ProductsListPage productsData={productsData} phonesData={phonesData} />
+  );
 }

@@ -15,8 +15,15 @@ import {
 } from "@/components/ui/carousel";
 import CallToAction from "./CallToAction";
 import { Slider } from "@/app/types/homeApiTypes";
+import { PhonesResponse } from "@/app/types/phoneApiTypes";
 
-export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
+export function HeroCarousel({
+  heroData,
+  phonesData,
+}: {
+  heroData: Slider[];
+  phonesData: PhonesResponse;
+}) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -90,7 +97,7 @@ export function HeroCarousel({ heroData }: { heroData: Slider[] }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <CallToAction />
+      <CallToAction phonesData={phonesData} />
 
       {/* Background Pattern Overlay */}
       <div className="absolute inset-0 opacity-5">

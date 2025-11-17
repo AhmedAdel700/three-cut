@@ -1,4 +1,5 @@
 import { fetchAboutData } from "@/app/api/aboutService";
+import { fetchPhonesData } from "@/app/api/phoneService";
 import { AboutPage } from "@/components/about-page";
 import { Metadata } from "next";
 
@@ -52,7 +53,8 @@ export default async function About({
 }) {
   const { locale } = await params;
   const aboutData = await fetchAboutData(locale);
+  const phonesData = await fetchPhonesData(locale);
   {
-    return <AboutPage aboutData={aboutData} />;
+    return <AboutPage aboutData={aboutData} phonesData={phonesData}/>;
   }
 }

@@ -19,6 +19,8 @@ import { useTranslations } from "next-intl";
 import logo from "@/app/assets/logo.png";
 import { motion } from "framer-motion";
 import { SettingsApiResponse } from "@/app/types/appApiTypes";
+import { PhonesResponse } from "@/app/types/phoneApiTypes";
+import whatsApp from "@/app/assets/whatsApp.png";
 
 // X Logo Component
 const XLogo = ({
@@ -41,8 +43,10 @@ const XLogo = ({
 
 export function Footer({
   appsettingsData,
+  phonesData,
 }: {
   appsettingsData: SettingsApiResponse;
+  phonesData: PhonesResponse;
 }) {
   const currentYear = new Date().getFullYear();
   const t = useTranslations("footer");
@@ -55,44 +59,21 @@ export function Footer({
     { href: "/contact", label: t("Contact") },
   ];
 
-  // Helper function to convert Google Maps embed URL to regular URL
   const getMapUrl = (mapUrl: string) => {
-    // If it's an embed URL, extract the location and create a regular Google Maps URL
     if (mapUrl.includes("maps/embed")) {
-      // Try to extract coordinates or place ID
       const pbMatch = mapUrl.match(/!1d([-\d.]+)!2d([-\d.]+)/);
       if (pbMatch) {
         const lng = pbMatch[1];
         const lat = pbMatch[2];
         return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
       }
-      // If we can't parse it, just return the embed URL (will open in new tab)
       return mapUrl;
     }
     return mapUrl;
   };
 
-  // Dynamic contact info
+  // Settings phones, emails, location
   const contactInfo = [
-    ...(settings?.phone
-      ? [
-          {
-            icon: Phone,
-            label: settings.phone,
-            // href: `https://wa.me/${settings.phone.replace(/[^0-9]/g, "")}`,
-            href: `tel:${settings.phone.replace(/[^0-9]/g, "")}`,
-          },
-        ]
-      : []),
-    ...(settings?.phone2
-      ? [
-          {
-            icon: Phone,
-            label: settings.phone2,
-            href: `tel:${settings.phone2.replace(/[^0-9]/g, "")}`,
-          },
-        ]
-      : []),
     ...(settings?.email
       ? [
           {
@@ -113,7 +94,6 @@ export function Footer({
       : []),
   ];
 
-  // Dynamic social links with icons
   const socialLinks = [
     ...(settings?.facebook
       ? [{ icon: Facebook, href: settings.facebook, label: t("Facebook") }]
@@ -144,7 +124,6 @@ export function Footer({
       : []),
   ];
 
-  const brandDescription = settings?.description;
   const logoImage = settings?.logo || logo;
 
   return (
@@ -168,16 +147,6 @@ export function Footer({
               />
             </motion.div>
           </Link>
-
-          {/* <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-brand-neutral-white/80 text-sm leading-relaxed max-w-3xl"
-          >
-            {brandDescription}
-          </motion.p> */}
         </div>
       </div>
 
@@ -195,6 +164,7 @@ export function Footer({
             >
               {t("Quick Links")}
             </motion.h3>
+
             <ul className="flex items-center gap-3">
               {quickLinks.map((link, idx) => (
                 <motion.li
@@ -231,22 +201,9 @@ export function Footer({
                       rel="noopener noreferrer"
                       aria-label={social.label}
                       title={social.label}
-                      className="
-                    group
-                    w-10 h-10
-                    rounded-full
-                    border border-white/15
-                    bg-white/5
-                    backdrop-blur
-                    flex items-center justify-center
-                    transition
-                    hover:bg-white/15 hover:border-white/25
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
-                    text-brand-neutral-white/80 hover:text-brand-accent-light
-                  "
+                      className="group w-10 h-10 rounded-full border border-white/15 bg-white/5 backdrop-blur flex items-center justify-center transition hover:bg-white/15 hover:border-white/25 text-brand-neutral-white/80 hover:text-brand-accent-light"
                     >
-                      <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-                      <span className="sr-only">{social.label}</span>
+                      <social.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                     </Link>
                   </motion.div>
                 ))}
@@ -255,12 +212,12 @@ export function Footer({
           </div>
 
           {/* Divider */}
-          {contactInfo.length > 0 && (
+          {(contactInfo.length > 0 || phonesData?.data?.phones?.length > 0) && (
             <div className="hidden sm:block sm:w-[1px] bg-white/40"></div>
           )}
 
           {/* Contact Info */}
-          {contactInfo.length > 0 && (
+          {(contactInfo.length > 0 || phonesData?.data?.phones?.length > 0) && (
             <div className="min-w-0 flex flex-col items-center sm:items-start">
               <motion.h3
                 initial={{ opacity: 0 }}
@@ -271,7 +228,9 @@ export function Footer({
               >
                 {t("Get in touch")}
               </motion.h3>
+
               <ul className="flex flex-col gap-4 items-center sm:items-start">
+                {/* Settings contact info */}
                 {contactInfo.map((info, idx) => (
                   <motion.li
                     key={info.label}
@@ -287,13 +246,50 @@ export function Footer({
                         info.icon === MapPin ? "noopener noreferrer" : undefined
                       }
                       className="group flex items-center gap-3 text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
-                      title={info.label}
                     >
-                      <info.icon className="h-4 w-4 text-brand-accent-red transition-transform group-hover:scale-110" />
-                      <span className="break-words">{info.label}</span>
+                      <info.icon className="h-4 w-4 text-brand-accent-red" />
+                      <span>{info.label}</span>
                     </Link>
                   </motion.li>
                 ))}
+
+                {/* Phones from API */}
+                <div className="flex flex-wrap items-center gap-4">
+                  {phonesData?.data?.phones?.map((item, idx) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      transition={{ duration: 0.3, delay: idx * 0.05 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                    >
+                      <Link
+                        href={
+                          item.type === "phone"
+                            ? `tel:${item.phone.replace(/[^0-9]/g, "")}`
+                            : `https://wa.me/${item.phone.replace(
+                                /[^0-9]/g,
+                                ""
+                              )}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-3 text-brand-neutral-white/80 hover:text-brand-accent-light transition-colors text-sm"
+                      >
+                        {item.type === "phone" ? (
+                          <Phone className="h-4 w-4 text-brand-accent-red" />
+                        ) : (
+                          <Image
+                            src={whatsApp}
+                            alt="WhatsApp"
+                            className="h-4 w-4"
+                          />
+                        )}
+                        <span>{item.phone}</span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
               </ul>
             </div>
           )}

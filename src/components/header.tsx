@@ -26,11 +26,15 @@ import { usePathname, useRouter } from "@/navigations";
 import { motion } from "framer-motion";
 import XLogo from "@/app/assets/x-logo.svg";
 import { SettingsApiResponse } from "@/app/types/appApiTypes";
+import { PhonesResponse } from "@/app/types/phoneApiTypes";
+import whatsApp from "@/app/assets/whatsApp.png";
 
 export function Header({
   appsettingsData,
+  phonesData,
 }: {
   appsettingsData: SettingsApiResponse;
+  phonesData: PhonesResponse;
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -62,7 +66,6 @@ export function Header({
   const navItems = [
     { href: "/", label: t("Home") },
     { href: "/about", label: t("About") },
-    // { href: "/services", label: t("Services") },
     { href: "/products", label: t("Products") },
     { href: "/contact", label: t("Contact") },
   ];
@@ -70,7 +73,6 @@ export function Header({
   const otherLangLabel = locale === "en" ? t("Arabic") : t("English");
   const drawerSide = locale === "ar" ? "left" : "right";
 
-  // Dynamic settings
   const setting = appsettingsData?.data?.setting;
 
   const DrawerMenu = () => (
@@ -94,6 +96,7 @@ export function Header({
       >
         <DrawerTitle className="sr-only">{t("Navigation Menu")}</DrawerTitle>
 
+        {/* LOGO + CLOSE */}
         <div>
           <div className="flex justify-between items-center">
             <Link
@@ -109,12 +112,14 @@ export function Header({
                 height={250}
               />
             </Link>
+
             <X
               className="h-6 w-6 text-white cursor-pointer -mt-6"
               onClick={() => setIsDrawerOpen(false)}
             />
           </div>
 
+          {/* NAVIGATION */}
           <nav className="flex flex-col gap-2">
             {navItems.map((item) => (
               <Link
@@ -133,6 +138,7 @@ export function Header({
             ))}
           </nav>
 
+          {/* LANGUAGE SWITCHER (mobile) */}
           <button
             onClick={() => {
               goOtherLocale();
@@ -148,27 +154,29 @@ export function Header({
 
         <div className="border-t border-white/20 w-full mt-2 mb-6"></div>
 
+        {/* CONTACT SECTION */}
         <div className="flex flex-col gap-4">
-          {setting?.phone && (
+          {/* Phones from API (Vertical List) */}
+          {phonesData?.data?.phones?.map((item) => (
             <Link
-              href={`tel:${setting.phone}`}
+              key={item.id}
+              href={
+                item.type === "phone"
+                  ? `tel:${item.phone.replace(/[^0-9]/g, "")}`
+                  : `https://wa.me/${item.phone.replace(/[^0-9]/g, "")}`
+              }
               className="flex items-center gap-4 text-white/90 hover:text-white/80"
             >
-              <Phone className="w-5 h-5" />
-              <span dir="ltr">{setting.phone}</span>
+              {item.type === "phone" ? (
+                <Phone className="w-5 h-5" />
+              ) : (
+                <Image src={whatsApp} alt="WhatsApp" className="w-5 h-5" />
+              )}
+              <span dir="ltr">{item.phone}</span>
             </Link>
-          )}
+          ))}
 
-          {setting?.phone2 && (
-            <Link
-              href={`tel:${setting.phone2}`}
-              className="flex items-center gap-4 text-white/90 hover:text-white/80"
-            >
-              <Phone className="w-5 h-5" />
-              <span dir="ltr">{setting.phone2}</span>
-            </Link>
-          )}
-
+          {/* Email */}
           {setting?.email && (
             <Link
               href={`mailto:${setting.email}`}
@@ -181,12 +189,12 @@ export function Header({
 
           <div className="border-t border-white/20 w-full mt-2 mb-4"></div>
 
+          {/* SOCIALS */}
           <div className="flex gap-4">
             {setting?.facebook && (
               <Link
                 href={setting.facebook}
                 target="_blank"
-                rel="noopener noreferrer"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5 hover:text-white/80" />
@@ -196,7 +204,6 @@ export function Header({
               <Link
                 href={setting.instagram}
                 target="_blank"
-                rel="noopener noreferrer"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5 hover:text-white/80" />
@@ -206,19 +213,13 @@ export function Header({
               <Link
                 href={setting.linkedin}
                 target="_blank"
-                rel="noopener noreferrer"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5 hover:text-white/80" />
               </Link>
             )}
             {setting?.twitter && (
-              <Link
-                href={setting.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X"
-              >
+              <Link href={setting.twitter} target="_blank" aria-label="X">
                 <Image
                   src={XLogo}
                   alt="X Logo"

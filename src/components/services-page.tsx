@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { Link } from "@/navigations";
 import { useTranslations } from "next-intl";
-import CallToAction from "./CallToAction";
+// import CallToAction from "./CallToAction";
 import { ServicesApiResponse } from "@/app/types/servicesApiTypes";
 import Image from "next/image";
 
@@ -36,7 +36,7 @@ export function ServicesPage({
   return (
     <div className="min-h-screen border-b">
       {/* Hero Section */}
-      <CallToAction />
+      {/* <CallToAction /> */}
       <section className="py-16 lg:py-24 text-brand-neutral-white relative overflow-hidden section-bg">
         <div className="absolute inset-0 opacity-10">
           <div
