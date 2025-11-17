@@ -17,6 +17,13 @@ import { Zap, Shield, Award, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { ProductDetailsApiResponse } from "@/app/types/productApiTypes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 export function ProductDetailPage({
   product,
@@ -414,23 +421,27 @@ export function ProductDetailPage({
                   </Button>
                 )}
 
-                {/* Render multiple PDFs */}
+                {/* PDF Dropdown using ShadCN */}
                 {productData.pdfs && productData.pdfs.length > 0 && (
-                  <div className="flex flex-wrap gap-3 mt-2">
-                    {productData.pdfs.map((pdf) => (
-                      <a
-                        key={pdf.id}
-                        href={pdf.pdf}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block"
-                      >
-                        <Button className="rounded-2xl bg-gray-200 text-gray-800 hover:bg-gray-300">
-                          {pdf.name}
+                  <div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button className="w-full justify-between rounded-2xl bg-gray-200 text-gray-800 hover:bg-gray-300">
+                          {t("Select a PDF")}
+                          <ChevronDown className="w-4 h-4" />
                         </Button>
-                      </a>
-                    ))}
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-full">
+                        {productData.pdfs.map((pdf) => (
+                          <DropdownMenuItem
+                            key={pdf.id}
+                            onClick={() => window.open(pdf.pdf, "_blank")}
+                          >
+                            {pdf.name}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 )}
               </div>
