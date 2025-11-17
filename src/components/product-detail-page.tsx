@@ -28,8 +28,6 @@ export function ProductDetailPage({
   const t = useTranslations("products");
   const productData = product.data.product.data;
 
-  console.log(productData);
-
   // Clean HTML content and ensure proper table structure
   const cleanTableHTML = (html: string) => {
     if (!html) return html;
@@ -416,16 +414,24 @@ export function ProductDetailPage({
                   </Button>
                 )}
 
-                {/* Download PDF Button */}
-                {productData.pdf && (
-                  <a
-                    href={productData.pdf}
-                    download
-                    target="_blank"
-                    className="rounded-2xl ms-3 mb-2 sm:mb-0 bg-gray-200 text-gray-800 hover:bg-gray-300 inline-block"
-                  >
-                    <Button className="w-full">{t("Download PDF")}</Button>
-                  </a>
+                {/* Render multiple PDFs */}
+                {productData.pdfs && productData.pdfs.length > 0 && (
+                  <div className="flex flex-wrap gap-3 mt-2">
+                    {productData.pdfs.map((pdf) => (
+                      <a
+                        key={pdf.id}
+                        href={pdf.pdf}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block"
+                      >
+                        <Button className="rounded-2xl bg-gray-200 text-gray-800 hover:bg-gray-300">
+                          {pdf.name}
+                        </Button>
+                      </a>
+                    ))}
+                  </div>
                 )}
               </div>
             </CardHeader>

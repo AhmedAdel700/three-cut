@@ -63,7 +63,11 @@ export interface ProductData {
   short_desc: string;
   long_desc: string;
   image: string;
-  pdf: string | null;
+  pdfs: {
+    id: number;
+    name: string;
+    pdf: string;
+  }[];
   youtube_link: string | null;
   video_desc: string | null;
   alt_image: string | null;
