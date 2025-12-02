@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,9 @@ export function ProductDetailPage({
   const [activeTab, setActiveTab] = useState(0);
   const t = useTranslations("products");
   const productData = product.data.product.data;
+  const descRef = useRef<HTMLDivElement>(null);
+  const [showFullDesc, setShowFullDesc] = useState(false);
+  const MAX_HEIGHT = 125; // px, adjust as needed
 
   // Clean HTML content and ensure proper table structure
   const cleanTableHTML = (html: string) => {
@@ -236,7 +239,7 @@ export function ProductDetailPage({
 
   return (
     <div className="min-h-fit section-bg">
-      <section className="pt-32">
+      <section className="pt-32" ref={descRef}>
         <div className="container mx-auto px-4 lg:px-6 flex justify-center sm:justify-start">
           <Breadcrumb>
             <BreadcrumbList>
@@ -356,7 +359,7 @@ export function ProductDetailPage({
 
               {/* Features */}
               <div className="grid grid-cols-1 gap-8">
-                {features.map((feature, index) => (
+                {/* {features.map((feature, index) => (
                   <div
                     key={index}
                     className="flex items-start gap-3 p-4 rounded-xl bg-card/50"
@@ -371,7 +374,60 @@ export function ProductDetailPage({
                       </p>
                     </div>
                   </div>
-                ))}
+                ))} */}
+
+                {/* Render long description like tabs */}
+                <div className="relative">
+                  <div
+                    className={cn(
+                      productData.long_desc?.includes("<table") &&
+                        "w-full overflow-x-auto " +
+                          "[&_table]:w-full [&_table]:border-collapse [&_table]:mt-1 [&_table]:rounded-none [&_table]:overflow-hidden px-2 " +
+                          "[&_table]:border [&_table]:border-white " +
+                          "[&_td]:border [&_td]:border-white/15 [&_td]:p-4 [&_td]:text-sm [&_td]:align-middle [&_td]:text-white " +
+                          "[&_th]:border [&_th]:border-white/15 [&_th]:p-4 [&_th]:text-sm [&_th]:font-bold [&_th]:align-middle [&_th]:text-white " +
+                          "[&_thead]:bg-white/10 " +
+                          "[&_tbody_tr]:bg-transparent [&_tbody_tr:hover]:bg-white/10 [&_tbody_tr]:transition-colors"
+                    )}
+                    style={{
+                      all: "revert",
+                      display: "block",
+                      fontFamily: "inherit",
+                      color: "inherit",
+                      maxHeight: showFullDesc ? "none" : `${MAX_HEIGHT}px`,
+                      overflow: "hidden",
+                      transition: "max-height 0.3s ease",
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        typeof window !== "undefined"
+                          ? cleanTableHTML(productData.long_desc!)
+                          : productData.long_desc!,
+                    }}
+                    suppressHydrationWarning
+                  />
+
+                  {/* Read More / Show Less Button */}
+                  {productData.long_desc &&
+                    productData.long_desc.length > 500 && (
+                      <div className="mt-2 text-right">
+                        <button
+                          onClick={() => {
+                            if (showFullDesc && descRef.current) {
+                              descRef.current.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                              });
+                            }
+                            setShowFullDesc(!showFullDesc);
+                          }}
+                          className="text-sm lg:text-base font-medium text-red-600 hover:underline"
+                        >
+                          {showFullDesc ? t("showLess") : t("readMore")}
+                        </button>
+                      </div>
+                    )}
+                </div>
               </div>
 
               <div>
