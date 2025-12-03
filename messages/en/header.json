@@ -18,5 +18,6 @@
   "Name must be at least 2 characters": "Name must be at least 2 characters",
   "Please enter a valid email address": "Please enter a valid email address",
   "Please enter a valid phone number": "Please enter a valid phone number",
-  "Message must be at least 10 characters": "Message must be at least 10 characters"
+  "Message must be at least 10 characters": "Message must be at least 10 characters",
+  "Blogs": "Blogs"
 }

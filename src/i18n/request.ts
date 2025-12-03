@@ -11,6 +11,7 @@ const namespaces = [
   "contact",
   "products",
   "services",
+  "blogs",
 ] as const;
 
 export default getRequestConfig(async () => {
