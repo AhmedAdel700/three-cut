@@ -8,6 +8,7 @@ import { FloatingActionButton } from "@/components/ui/floating-action-button";
 import { fetchHomeData } from "../api/homeService";
 import { Metadata } from "next";
 import { fetchPhonesData } from "../api/phoneService";
+import BlogSection from "@/components/blogs-section";
 
 export async function generateMetadata({
   params,
@@ -74,6 +75,7 @@ export default async function Home({
       {/* <ServicesSection servicesData={homeData.data.services} /> */}
       <ProductsPreview categories={homeData.data.categories} />
       {/* <SamplesGallery projects={homeData.data.projects} /> */}
+      <BlogSection />
       <ContactTeaser contact={homeData.data.contact} />
       <FloatingActionButton />
     </>
